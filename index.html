@@ -1,0 +1,1934 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>关大师 菜谱搭配平台</title>
+  <style>
+    :root {
+      --orange: #ff6a1a;
+      --orange-dark: #e85d14;
+      --orange-soft: #fff3e9;
+      --line: #eadfce;
+      --text: #3d352d;
+      --muted: #8b837b;
+      --bg: #fff8ef;
+      --teal: #48a89a;
+      --green: #a6c526;
+      --blue: #5185ad;
+      --yellow: #f0c535;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-width: 1180px;
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+        "Microsoft YaHei", Arial, sans-serif;
+      background:
+        radial-gradient(circle at 78% 3%, rgba(255, 192, 73, .28), transparent 18%),
+        linear-gradient(90deg, #fff 0, #fff 250px, var(--bg) 250px, #fffaf4 100%);
+    }
+
+    body.loading-active {
+      overflow: hidden;
+    }
+
+    .loading-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      background: #fff1dc url("images/bg.png") center / cover no-repeat;
+      transition: opacity .35s ease, visibility .35s ease;
+    }
+
+    .loading-screen.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .enter-area {
+      width: min(42vw, 560px);
+      min-width: 430px;
+      margin-left: 7vw;
+      padding-top: 36vh;
+      display: flex;
+      justify-content: center;
+    }
+
+    .enter-btn {
+      position: relative;
+      min-width: 250px;
+      height: 62px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      border: 1px solid rgba(255, 255, 255, .8);
+      border-radius: 999px;
+      color: #fff;
+      background:
+        radial-gradient(ellipse at 50% 5%, rgba(255, 231, 116, .68), rgba(255, 231, 116, 0) 42%),
+        linear-gradient(180deg, #ffa629 0%, #ff8615 44%, #f7660c 100%);
+      box-shadow:
+        inset 0 2px 7px rgba(255, 230, 105, .68),
+        inset 0 -3px 7px rgba(173, 59, 0, .3),
+        0 0 0 6px rgba(255, 213, 85, .2),
+        0 0 22px rgba(255, 216, 89, .48),
+        0 7px 0 rgba(224, 88, 9, .16),
+        0 14px 25px rgba(204, 75, 4, .2);
+      font-size: 23px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      cursor: pointer;
+      transition: transform .2s ease, box-shadow .2s ease, filter .2s ease;
+    }
+
+    .enter-btn::before {
+      content: "";
+      position: absolute;
+      inset: -8px -11px;
+      border: 1px solid rgba(255, 195, 45, .62);
+      border-radius: 999px;
+      box-shadow: 0 0 18px rgba(255, 218, 95, .45);
+      pointer-events: none;
+    }
+
+    .enter-btn::after {
+      content: "";
+      width: 13px;
+      height: 13px;
+      border-top: 3px solid currentColor;
+      border-right: 3px solid currentColor;
+      transform: rotate(45deg);
+    }
+
+    .enter-btn:hover,
+    .enter-btn:focus-visible {
+      transform: translateY(-2px);
+      filter: brightness(1.04);
+      box-shadow:
+        inset 0 2px 7px rgba(255, 230, 105, .76),
+        inset 0 -3px 7px rgba(173, 59, 0, .24),
+        0 0 0 6px rgba(255, 213, 85, .25),
+        0 0 26px rgba(255, 216, 89, .58),
+        0 7px 0 rgba(224, 88, 9, .14),
+        0 16px 28px rgba(204, 75, 4, .28);
+      outline: 0;
+    }
+
+    .enter-btn:active {
+      transform: translateY(0);
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 26px 0 20px;
+      color: #fff;
+      background: linear-gradient(90deg, #ff5d17, #ff6e1c 60%, #ff7b21);
+      box-shadow: 0 2px 6px rgba(160, 78, 20, .35);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 0;
+    }
+
+    .chef-icon {
+      width: 28px;
+      height: 28px;
+      position: relative;
+      display: inline-block;
+    }
+
+    .chef-icon::before {
+      content: "";
+      position: absolute;
+      left: 2px;
+      top: 4px;
+      width: 24px;
+      height: 15px;
+      border-radius: 13px 13px 8px 8px;
+      background: #fff;
+      box-shadow: -7px 1px 0 -1px #fff, 7px 1px 0 -1px #fff;
+    }
+
+    .chef-icon::after {
+      content: "";
+      position: absolute;
+      left: 6px;
+      top: 18px;
+      width: 16px;
+      height: 8px;
+      border-radius: 2px;
+      background: #fff;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      color: #fff;
+      font-weight: 600;
+    }
+
+    .top-icon {
+      position: relative;
+      width: 28px;
+      height: 28px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255, 255, 255, .9);
+      opacity: .92;
+      transition: color .18s ease, opacity .18s ease, transform .18s ease;
+    }
+
+    .top-icon:hover {
+      opacity: 1;
+      transform: translateY(-1px);
+    }
+
+    .top-icon.service::before {
+      content: "";
+      position: absolute;
+      inset: 2px 0;
+      background: currentColor;
+      -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26.09 23.84'%3E%3Cpath fill='none' stroke='black' stroke-width='1.8' stroke-miterlimit='10' d='M4.43,15.75v-7.28c0-4.4,3.57-7.97,7.97-7.97h1.29c4.4,0,7.97,3.57,7.97,7.97v6.63c0,4.55-3.69,8.24-8.24,8.24h-.37'/%3E%3Cpath fill='none' stroke='black' stroke-width='1.8' stroke-miterlimit='10' d='M4.15,15.24c-2.02,0-3.65-1.63-3.65-3.65s1.63-3.65,3.65-3.65'/%3E%3Cpath fill='none' stroke='black' stroke-width='1.8' stroke-miterlimit='10' d='M21.94,7.94c2.02,0,3.65,1.63,3.65,3.65s-1.63,3.65-3.65,3.65'/%3E%3Cpath fill='none' stroke='black' stroke-width='1.8' stroke-miterlimit='10' d='M9.89,12.64v.71c0,1.74,1.41,3.15,3.15,3.15h0c1.74,0,3.15-1.41,3.15-3.15v-.71'/%3E%3C/svg%3E") center / contain no-repeat;
+      mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26.09 23.84'%3E%3Cpath fill='none' stroke='black' stroke-width='1.8' stroke-miterlimit='10' d='M4.43,15.75v-7.28c0-4.4,3.57-7.97,7.97-7.97h1.29c4.4,0,7.97,3.57,7.97,7.97v6.63c0,4.55-3.69,8.24-8.24,8.24h-.37'/%3E%3Cpath fill='none' stroke='black' stroke-width='1.8' stroke-miterlimit='10' d='M4.15,15.24c-2.02,0-3.65-1.63-3.65-3.65s1.63-3.65,3.65-3.65'/%3E%3Cpath fill='none' stroke='black' stroke-width='1.8' stroke-miterlimit='10' d='M21.94,7.94c2.02,0,3.65,1.63,3.65,3.65s-1.63,3.65-3.65,3.65'/%3E%3Cpath fill='none' stroke='black' stroke-width='1.8' stroke-miterlimit='10' d='M9.89,12.64v.71c0,1.74,1.41,3.15,3.15,3.15h0c1.74,0,3.15-1.41,3.15-3.15v-.71'/%3E%3C/svg%3E") center / contain no-repeat;
+    }
+
+    .top-icon.service:hover {
+      color: #ffe2a3;
+    }
+
+    .top-icon.message::before {
+      content: "";
+      position: absolute;
+      inset: 1px 3px;
+      background: currentColor;
+      -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 24.8'%3E%3Cpath fill='none' stroke='black' stroke-width='1.8' stroke-miterlimit='10' d='M.76,20.62l.32-.26c1.27-1.04,1.01-2.59,1.01-4.24v-5.09c0-3.94,3.19-7.13,7.13-7.13h1.4c3.94,0,7.13,3.19,7.13,7.13v5.91c0,1.41.55,2.77,1.52,3.78h0c.43.45.12,1.2-.51,1.2-4.01-.03-13.19-.08-17.58-.05-.67,0-.96-.83-.45-1.26Z'/%3E%3Cpath fill='none' stroke='black' stroke-width='1.8' stroke-miterlimit='10' d='M10,.5h0c.97,0,1.76.79,1.76,1.76v1.62h-3.53v-1.62c0-.97.79-1.76,1.76-1.76Z'/%3E%3Cline x1='6.75' y1='24.3' x2='13.95' y2='24.3' stroke='black' stroke-width='1.8' stroke-miterlimit='10'/%3E%3C/svg%3E") center / contain no-repeat;
+      mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 24.8'%3E%3Cpath fill='none' stroke='black' stroke-width='1.8' stroke-miterlimit='10' d='M.76,20.62l.32-.26c1.27-1.04,1.01-2.59,1.01-4.24v-5.09c0-3.94,3.19-7.13,7.13-7.13h1.4c3.94,0,7.13,3.19,7.13,7.13v5.91c0,1.41.55,2.77,1.52,3.78h0c.43.45.12,1.2-.51,1.2-4.01-.03-13.19-.08-17.58-.05-.67,0-.96-.83-.45-1.26Z'/%3E%3Cpath fill='none' stroke='black' stroke-width='1.8' stroke-miterlimit='10' d='M10,.5h0c.97,0,1.76.79,1.76,1.76v1.62h-3.53v-1.62c0-.97.79-1.76,1.76-1.76Z'/%3E%3Cline x1='6.75' y1='24.3' x2='13.95' y2='24.3' stroke='black' stroke-width='1.8' stroke-miterlimit='10'/%3E%3C/svg%3E") center / contain no-repeat;
+    }
+
+    .top-icon.message:hover {
+      color: #ffe2a3;
+    }
+
+    .avatar-img {
+      width: 28px;
+      height: 28px;
+      display: block;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .visitor {
+      color: rgba(255, 255, 255, .94);
+      font-weight: 700;
+    }
+
+    .login {
+      height: 32px;
+      padding: 0 14px;
+      border: 1px solid rgba(255, 255, 255, .52);
+      border-radius: 5px;
+      color: #fff;
+      background: rgba(255, 255, 255, .16);
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .login:hover {
+      background: rgba(255, 255, 255, .26);
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 270px 1fr;
+      min-height: calc(100vh - 68px);
+    }
+
+    .sidebar {
+      position: relative;
+      padding-top: 24px;
+      background: rgba(255, 255, 255, .88);
+      border-right: 1px solid #f1e7d8;
+    }
+
+    .menu-title,
+    .menu-item {
+      display: flex;
+      align-items: center;
+      height: 40px;
+      padding: 0 24px;
+      color: #4c4640;
+      font-weight: 700;
+    }
+
+    .menu-title {
+      margin-bottom: 6px;
+      cursor: pointer;
+    }
+
+    .menu-group {
+      margin-bottom: 10px;
+    }
+
+    .menu-children {
+      display: block;
+    }
+
+    .menu-group.collapsed .menu-children {
+      display: none;
+    }
+
+    .menu-icon {
+      width: 20px;
+      height: 19px;
+      margin-right: 12px;
+      color: #ff9b24;
+      background: currentColor;
+      flex: 0 0 20px;
+    }
+
+    .menu-icon.book {
+      -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 19.64 18.4'%3E%3Cpath fill='none' stroke='black' stroke-width='1.9' stroke-miterlimit='10' d='M15.26.5h3.88v14.87h-2.43c-2.78,0-5.04.05-6.28,2.53h-1l-.08-.16c-1.22-2.55-3.3-2.18-6.12-2.18H.5V.5h4.18c2.15,0,4.11,1.26,4.99,3.23l.53.05.34-.58c.98-1.67,2.78-2.7,4.72-2.7Z'/%3E%3Cline x1='9.82' y1='5.74' x2='9.82' y2='15.76' stroke='black' stroke-width='1.9' stroke-miterlimit='10'/%3E%3C/svg%3E") center / contain no-repeat;
+      mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 19.64 18.4'%3E%3Cpath fill='none' stroke='black' stroke-width='1.9' stroke-miterlimit='10' d='M15.26.5h3.88v14.87h-2.43c-2.78,0-5.04.05-6.28,2.53h-1l-.08-.16c-1.22-2.55-3.3-2.18-6.12-2.18H.5V.5h4.18c2.15,0,4.11,1.26,4.99,3.23l.53.05.34-.58c.98-1.67,2.78-2.7,4.72-2.7Z'/%3E%3Cline x1='9.82' y1='5.74' x2='9.82' y2='15.76' stroke='black' stroke-width='1.9' stroke-miterlimit='10'/%3E%3C/svg%3E") center / contain no-repeat;
+    }
+
+    .menu-icon.dish {
+      -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 17.95 17.28'%3E%3Cpath fill='none' stroke='black' stroke-width='1.9' stroke-miterlimit='10' d='M.5.5v4.04c0,2.4,1.95,4.35,4.35,4.35h0c2.4,0,4.35-1.95,4.35-4.35V.5'/%3E%3Cline x1='4.85' y1='.5' x2='4.85' y2='17.28' stroke='black' stroke-width='1.9' stroke-miterlimit='10'/%3E%3Cellipse cx='14.5' cy='4.39' rx='2.95' ry='3.89' fill='none' stroke='black' stroke-width='1.9' stroke-miterlimit='10'/%3E%3Cline x1='14.5' y1='17.28' x2='14.5' y2='8.27' stroke='black' stroke-width='1.9' stroke-miterlimit='10'/%3E%3C/svg%3E") center / contain no-repeat;
+      mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 17.95 17.28'%3E%3Cpath fill='none' stroke='black' stroke-width='1.9' stroke-miterlimit='10' d='M.5.5v4.04c0,2.4,1.95,4.35,4.35,4.35h0c2.4,0,4.35-1.95,4.35-4.35V.5'/%3E%3Cline x1='4.85' y1='.5' x2='4.85' y2='17.28' stroke='black' stroke-width='1.9' stroke-miterlimit='10'/%3E%3Cellipse cx='14.5' cy='4.39' rx='2.95' ry='3.89' fill='none' stroke='black' stroke-width='1.9' stroke-miterlimit='10'/%3E%3Cline x1='14.5' y1='17.28' x2='14.5' y2='8.27' stroke='black' stroke-width='1.9' stroke-miterlimit='10'/%3E%3C/svg%3E") center / contain no-repeat;
+    }
+
+    .menu-icon.account {
+      -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16.32 17.04'%3E%3Ccircle cx='8.16' cy='5.44' r='4.94' fill='none' stroke='black' stroke-width='1.9' stroke-miterlimit='10'/%3E%3Cpath fill='none' stroke='black' stroke-width='1.9' stroke-miterlimit='10' d='M.5,17.04c0-4.23,3.43-6.66,7.66-6.66s7.66,2.43,7.66,6.66'/%3E%3C/svg%3E") center / contain no-repeat;
+      mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16.32 17.04'%3E%3Ccircle cx='8.16' cy='5.44' r='4.94' fill='none' stroke='black' stroke-width='1.9' stroke-miterlimit='10'/%3E%3Cpath fill='none' stroke='black' stroke-width='1.9' stroke-miterlimit='10' d='M.5,17.04c0-4.23,3.43-6.66,7.66-6.66s7.66,2.43,7.66,6.66'/%3E%3C/svg%3E") center / contain no-repeat;
+    }
+
+    .menu-group.collapsed .menu-icon {
+      color: #d3ccc3;
+    }
+
+    .menu-svg-icon {
+      width: 20px;
+      height: 19px;
+      margin-right: 12px;
+      color: #ff9b24;
+      flex: 0 0 20px;
+    }
+
+    .menu-svg-icon path,
+    .menu-svg-icon line,
+    .menu-svg-icon ellipse {
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.7;
+      stroke-miterlimit: 10;
+    }
+
+    .menu-group.collapsed .menu-svg-icon {
+      color: #d3ccc3;
+    }
+
+    .menu-item {
+      height: 36px;
+      padding-left: 48px;
+      color: #8a827a;
+      font-size: 14px;
+    }
+
+    .chev {
+      margin-left: auto;
+      width: 12px;
+      height: 12px;
+      border-top: 2px solid #9c9690;
+      border-right: 2px solid #9c9690;
+      transform: rotate(-45deg);
+    }
+
+    .chev.down {
+      transform: rotate(135deg);
+    }
+
+    .menu-group.collapsed .chev {
+      transform: rotate(45deg);
+    }
+
+    .menu-item.active {
+      height: 39px;
+      margin: 0 0 4px 0;
+      padding-left: 48px;
+      color: #fff;
+      background: linear-gradient(90deg, #ff8a36, #ff7627);
+      box-shadow: inset -1px 0 0 rgba(132, 72, 22, .15);
+    }
+
+    main {
+      padding: 28px 22px 40px 20px;
+      background:
+        linear-gradient(90deg, rgba(255, 255, 255, .92), rgba(255, 250, 244, .88)),
+        repeating-linear-gradient(-40deg, transparent 0 22px, rgba(237, 191, 105, .06) 22px 23px);
+    }
+
+    .page-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 40px;
+      padding: 0 20px;
+      font-size: 20px;
+      font-weight: 800;
+    }
+
+    .view-switcher {
+      --view-index: 0;
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 0;
+      height: 36px;
+      padding: 2px;
+      border: 1px solid #ead8c2;
+      border-radius: 5px;
+      background: #fffaf2;
+      font-size: 14px;
+      box-shadow: inset 0 1px 4px rgba(105, 76, 43, .08);
+    }
+
+    .view-switcher::before {
+      content: "";
+      position: absolute;
+      left: 2px;
+      top: 2px;
+      width: 78px;
+      height: 30px;
+      border-radius: 4px;
+      background: var(--orange);
+      box-shadow: 0 2px 6px rgba(219, 91, 19, .24);
+      transform: translateX(calc(var(--view-index) * 78px));
+      transition: transform .22s ease;
+    }
+
+    .view-btn {
+      position: relative;
+      z-index: 1;
+      width: 78px;
+      height: 30px;
+      border: 0;
+      border-radius: 5px;
+      color: #8c6b50;
+      background: transparent;
+      font-weight: 800;
+      cursor: pointer;
+      transition: color .18s ease;
+    }
+
+    .view-btn.active {
+      color: #fff;
+    }
+
+    .panel {
+      margin-top: 12px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: rgba(255, 255, 255, .86);
+      box-shadow: 0 2px 10px rgba(177, 132, 78, .08);
+    }
+
+    .is-week .day-view {
+      display: none;
+    }
+
+    .week-view {
+      display: none;
+    }
+
+    .is-week .week-view {
+      display: block;
+    }
+
+    .toolbar {
+      display: grid;
+      grid-template-columns: auto 280px 1fr auto 85px 95px;
+      align-items: center;
+      gap: 18px;
+      padding: 16px 20px;
+      font-weight: 700;
+    }
+
+    .input {
+      height: 35px;
+      padding: 0 12px;
+      border: 1px solid #ded5c7;
+      border-radius: 4px;
+      color: #68625d;
+      background: #fff;
+      box-shadow: inset 0 1px 3px rgba(84, 60, 38, .05);
+    }
+
+    .input.small {
+      width: 86px;
+      text-align: center;
+    }
+
+    input.input,
+    select.input {
+      font: inherit;
+      font-weight: 700;
+      outline: 0;
+    }
+
+    select.input {
+      appearance: none;
+      cursor: pointer;
+      background:
+        linear-gradient(45deg, transparent 50%, #c47b37 50%) right 17px center / 6px 6px no-repeat,
+        linear-gradient(135deg, #c47b37 50%, transparent 50%) right 11px center / 6px 6px no-repeat,
+        #fff;
+      padding-right: 34px;
+    }
+
+    input.input:focus,
+    select.input:focus {
+      border-color: #f08a3a;
+      box-shadow: 0 0 0 3px rgba(240, 138, 58, .14);
+    }
+
+    .ai-btn,
+    .ghost-btn {
+      height: 35px;
+      border: 1px solid #ead8c2;
+      border-radius: 4px;
+      color: #c47b37;
+      background: linear-gradient(#fff, #fff8ef);
+      font-weight: 800;
+      cursor: pointer;
+      transition: border-color .18s ease, background .18s ease, box-shadow .18s ease, color .18s ease;
+    }
+
+    .ai-btn:hover,
+    .ai-btn:focus-visible,
+    .ghost-btn:hover,
+    .ghost-btn:focus-visible {
+      border-color: #f08a3a;
+      color: #fff;
+      background: linear-gradient(#ff8a38, #ff6a1a);
+      box-shadow: 0 2px 8px rgba(226, 88, 12, .24);
+      outline: 0;
+    }
+
+    .editor {
+      padding: 24px 20px 18px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      margin-bottom: 24px;
+      color: #4d443c;
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .editing-meta {
+      color: var(--orange);
+    }
+
+    .editing-icon {
+      width: 24px;
+      height: 26px;
+      color: #ff9b24;
+      flex: 0 0 24px;
+    }
+
+    .editing-icon path,
+    .editing-icon line {
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-miterlimit: 10;
+    }
+
+    .tabs-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .tabs {
+      --active-index: 1;
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(3, 74px);
+      gap: 0;
+      height: 37px;
+      padding: 2px;
+      border: 1px solid #eadfce;
+      border-radius: 5px;
+      background: #fffaf2;
+      box-shadow: inset 0 1px 4px rgba(105, 76, 43, .08);
+    }
+
+    .tabs::before {
+      content: "";
+      position: absolute;
+      left: 2px;
+      top: 2px;
+      width: 74px;
+      height: 31px;
+      border-radius: 4px;
+      background: var(--orange);
+      box-shadow: 0 2px 6px rgba(219, 91, 19, .24);
+      transform: translateX(calc(var(--active-index) * 74px));
+      transition: transform .24s ease;
+    }
+
+    .tab {
+      position: relative;
+      z-index: 1;
+      width: 74px;
+      height: 31px;
+      border: 0;
+      border-radius: 4px;
+      color: #655c53;
+      background: transparent;
+      font-weight: 800;
+      cursor: pointer;
+      transition: color .2s ease;
+    }
+
+    .tab.active {
+      color: #fff;
+    }
+
+    .action-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .action-row .ghost-btn {
+      width: 116px;
+    }
+
+    .menu-work {
+      display: grid;
+      grid-template-columns: 1fr 162px;
+      gap: 14px;
+    }
+
+    .courses {
+      border-right: 1px solid #eee7dc;
+    }
+
+    .course-row {
+      --course-accent: #f08a3a;
+      --course-accent-strong: #d86d22;
+      --course-accent-soft: rgba(234, 113, 34, .16);
+      --course-accent-tint: #fff5ea;
+      display: grid;
+      grid-template-columns: 72px 1fr;
+      min-height: 126px;
+      border-bottom: 1px solid #eee7dc;
+    }
+
+    .course-row.side-row,
+    .course-row:has(.course-label.side) {
+      --course-accent: #48a89a;
+      --course-accent-strong: #318d84;
+      --course-accent-soft: rgba(72, 168, 154, .18);
+      --course-accent-tint: #edf9f6;
+    }
+
+    .course-row.veg-row,
+    .course-row:has(.course-label.veg) {
+      --course-accent: #a6c526;
+      --course-accent-strong: #7d9c16;
+      --course-accent-soft: rgba(166, 197, 38, .2);
+      --course-accent-tint: #f5fae8;
+    }
+
+    .course-row.staple-row,
+    .course-row:has(.course-label.staple) {
+      --course-accent: #ff7b24;
+      --course-accent-strong: #d96216;
+      --course-accent-soft: rgba(255, 123, 36, .18);
+      --course-accent-tint: #fff2e7;
+    }
+
+    .course-row.cold-row,
+    .course-row:has(.course-label.cold) {
+      --course-accent: #5185ad;
+      --course-accent-strong: #3b6f97;
+      --course-accent-soft: rgba(81, 133, 173, .18);
+      --course-accent-tint: #eef6fb;
+    }
+
+    .course-row.soup-row,
+    .course-row:has(.course-label.soup) {
+      --course-accent: #f0c535;
+      --course-accent-strong: #c69b13;
+      --course-accent-soft: rgba(240, 197, 53, .24);
+      --course-accent-tint: #fff9df;
+    }
+
+    .course-row:last-child {
+      border-bottom: 0;
+    }
+
+    .course-label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 72px;
+      margin: 0 18px 10px 0;
+      color: #fff;
+      font-size: 18px;
+      font-weight: 800;
+      line-height: 1.8;
+      writing-mode: vertical-rl;
+      letter-spacing: 2px;
+      border-radius: 3px;
+    }
+
+    .course-label.main {
+      background: linear-gradient(#ec6035, #f26f3c);
+    }
+
+    .course-label.side {
+      background: linear-gradient(#56b6a8, #3c9f99);
+    }
+
+    .course-label.veg {
+      background: var(--green);
+    }
+
+    .course-label.staple {
+      background: linear-gradient(#ff883b, #ff7929);
+    }
+
+    .course-label.cold {
+      background: var(--blue);
+    }
+
+    .course-label.soup {
+      background: var(--yellow);
+    }
+
+    .dish-area {
+      padding: 30px 12px 10px 18px;
+    }
+
+    .dish-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 9px;
+    }
+
+    .dish {
+      height: 31px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 8px;
+      border: 1px solid #dcd7cd;
+      border-radius: 5px;
+      color: #77716a;
+      background: linear-gradient(#fff, #fffdf9);
+      box-shadow: 0 1px 4px rgba(90, 62, 35, .08);
+      cursor: pointer;
+      transition: border-color .18s ease, box-shadow .18s ease, color .18s ease;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .dish:hover,
+    .dish:focus-visible {
+      border-color: var(--course-accent);
+      color: var(--course-accent-strong);
+      box-shadow: 0 2px 8px var(--course-accent-soft);
+      outline: 0;
+    }
+
+    .dish.selected {
+      border-color: var(--course-accent);
+      color: var(--course-accent-strong);
+      background: var(--course-accent-tint);
+      font-weight: 800;
+    }
+
+    .add {
+      width: 100%;
+      height: 31px;
+      border: 1px solid currentColor;
+      border-radius: 5px;
+      color: var(--course-accent-strong);
+      background: #fffdf8;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .soup-area .add {
+      width: 160px;
+    }
+
+    .soup-area {
+      display: flex;
+      gap: 12px;
+    }
+
+    .nutrition {
+      border-left: 1px solid #efe6da;
+      background: rgba(255, 255, 255, .72);
+    }
+
+    .nutrition h3 {
+      margin: 16px 0 10px;
+      text-align: center;
+      font-size: 18px;
+    }
+
+    .nutri-item {
+      padding: 12px 14px 13px;
+      border-top: 1px solid #eee7dc;
+    }
+
+    .nutri-item strong {
+      display: block;
+      margin-top: 4px;
+      font-size: 22px;
+    }
+
+    .bar {
+      height: 6px;
+      margin-top: 11px;
+      border-radius: 8px;
+      background: #dedede;
+      overflow: hidden;
+    }
+
+    .bar span {
+      display: block;
+      height: 100%;
+      width: var(--w);
+      border-radius: inherit;
+      background: linear-gradient(90deg, #ff9b25, #ff6c10);
+    }
+
+    .stats {
+      padding: 26px 20px 20px;
+    }
+
+    .stats-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+      color: #4d443c;
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .stats-icon {
+      width: 24px;
+      height: 24px;
+      color: #ff9b24;
+      flex: 0 0 24px;
+    }
+
+    .stats-icon path {
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-miterlimit: 10;
+    }
+
+    .stat-fields {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 26px;
+      align-items: center;
+      min-height: 44px;
+      padding: 6px 16px;
+      border: 1px solid #eee2d3;
+      border-radius: 6px;
+      font-size: 13px;
+    }
+
+    .stat-fields span {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+    }
+
+    .tiny {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 94px;
+      height: 26px;
+      padding: 0 10px;
+      border: 1px solid #e5d8c9;
+      border-radius: 4px;
+      background: #fffaf2;
+    }
+
+    .empty-stat {
+      color: #a79a8c;
+      font-weight: 700;
+    }
+
+    .week-view {
+      padding: 22px 20px 24px;
+    }
+
+    .week-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      color: #4d443c;
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .week-range {
+      color: #8a7564;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .week-list {
+      display: grid;
+      gap: 18px;
+    }
+
+    .week-day-card {
+      border: 1px solid #eadfce;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #fffdf9;
+      box-shadow: 0 2px 10px rgba(177, 132, 78, .08);
+    }
+
+    .week-day-bar {
+      height: 44px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      padding: 0 18px;
+      color: #a75d26;
+      background: linear-gradient(90deg, #fff4e8, #ffe9d3);
+      border-bottom: 1px solid #efd8bd;
+      font-size: 18px;
+      font-weight: 900;
+    }
+
+    .week-date {
+      font-size: 17px;
+      font-weight: 800;
+    }
+
+    .week-meals {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      padding: 16px;
+      background: #fffaf4;
+    }
+
+    .week-meal-card {
+      --meal-accent: #ffb000;
+      min-height: 150px;
+      padding: 14px 14px 12px;
+      border: 1px solid #eadfce;
+      border-left: 5px solid var(--meal-accent);
+      border-radius: 7px;
+      background: rgba(255, 255, 255, .92);
+      box-shadow: inset 0 1px 2px rgba(110, 75, 42, .04);
+    }
+
+    .week-meal-card.lunch {
+      --meal-accent: #48a89a;
+    }
+
+    .week-meal-card.dinner {
+      --meal-accent: #3597dc;
+    }
+
+    .week-meal-title {
+      margin-bottom: 16px;
+      color: #59524b;
+      font-size: 18px;
+      font-weight: 900;
+      line-height: 1.2;
+    }
+
+    .week-meal-title span {
+      display: block;
+      margin-top: 3px;
+      color: #8a827a;
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .week-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+
+    .week-tag {
+      --tag-color: #ff7b24;
+      --tag-strong: #d96216;
+      --tag-bg: #fff2e7;
+      display: inline-flex;
+      align-items: center;
+      height: 24px;
+      padding: 0 9px;
+      border: 1px solid var(--tag-color);
+      border-radius: 5px;
+      color: var(--tag-strong);
+      background: var(--tag-bg);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .tag-main {
+      --tag-color: #f08a3a;
+      --tag-strong: #d86d22;
+      --tag-bg: #fff5ea;
+    }
+
+    .tag-side {
+      --tag-color: #48a89a;
+      --tag-strong: #318d84;
+      --tag-bg: #edf9f6;
+    }
+
+    .tag-veg {
+      --tag-color: #a6c526;
+      --tag-strong: #7d9c16;
+      --tag-bg: #f5fae8;
+    }
+
+    .tag-staple {
+      --tag-color: #ff7b24;
+      --tag-strong: #d96216;
+      --tag-bg: #fff2e7;
+    }
+
+    .tag-cold {
+      --tag-color: #5185ad;
+      --tag-strong: #3b6f97;
+      --tag-bg: #eef6fb;
+    }
+
+    .tag-soup {
+      --tag-color: #f0c535;
+      --tag-strong: #c69b13;
+      --tag-bg: #fff9df;
+    }
+
+    @media (max-width: 1180px) {
+      .week-meals {
+        grid-template-columns: 1fr;
+      }
+
+      .week-meal-card {
+        min-height: 118px;
+      }
+    }
+
+    .tables {
+      display: grid;
+      grid-template-columns: 2.2fr 1fr;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+      border: 1px solid #e7dfd1;
+      background: rgba(255, 255, 255, .92);
+      font-size: 13px;
+    }
+
+    th {
+      height: 29px;
+      text-align: center;
+      vertical-align: middle;
+      padding: 0 12px;
+      color: #7a5b3f;
+      background: #fff4e8;
+      border-right: 1px solid #eadfce;
+      border-bottom: 1px solid #eadfce;
+    }
+
+    .season th {
+      color: #7a5b3f;
+      background: #fff4e8;
+    }
+
+    td {
+      height: 28px;
+      text-align: center;
+      vertical-align: middle;
+      padding: 0 12px;
+      border-bottom: 1px solid #ece6dc;
+      color: #6b6259;
+    }
+
+    .dish-picker {
+      --picker-accent: #ff7b24;
+      --picker-accent-strong: #d96216;
+      --picker-accent-soft: rgba(255, 123, 36, .16);
+      position: fixed;
+      inset: 0;
+      z-index: 20;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 28px;
+      background: rgba(61, 43, 29, .28);
+    }
+
+    .dish-picker.open {
+      display: flex;
+    }
+
+    .picker-dialog {
+      width: 560px;
+      border: 1px solid var(--picker-accent);
+      border-radius: 8px;
+      background: #fffdf9;
+      box-shadow: 0 18px 44px var(--picker-accent-soft);
+      overflow: hidden;
+    }
+
+    .picker-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 54px;
+      padding: 0 18px 0 22px;
+      color: var(--picker-accent-strong);
+      background: linear-gradient(90deg, rgba(255, 255, 255, .96), var(--picker-accent-soft));
+      border-bottom: 1px solid #efdfcd;
+      font-weight: 800;
+    }
+
+    .picker-close {
+      width: 30px;
+      height: 30px;
+      border: 1px solid var(--picker-accent);
+      border-radius: 4px;
+      color: var(--picker-accent-strong);
+      background: #fffaf3;
+      font-size: 18px;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .picker-body {
+      display: grid;
+      grid-template-columns: 150px 1fr;
+      min-height: 290px;
+    }
+
+    .meat-list {
+      padding: 0 14px 14px;
+      border-right: 1px solid #efe5d8;
+      background: linear-gradient(#fffdf9, var(--picker-accent-soft));
+    }
+
+    .picker-group-title {
+      padding: 14px 14px 8px;
+      border-right: 1px solid #efe5d8;
+      color: var(--picker-accent-strong);
+      background: #fffdf9;
+      font-weight: 800;
+    }
+
+    .meat-btn {
+      width: 100%;
+      height: 38px;
+      margin-bottom: 10px;
+      border: 1px solid #ead8c2;
+      border-radius: 5px;
+      color: #665b51;
+      background: #fff;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .meat-btn.active {
+      color: #fff;
+      border-color: var(--picker-accent);
+      background: var(--picker-accent);
+      box-shadow: 0 2px 6px var(--picker-accent-soft);
+    }
+
+    .dish-list {
+      padding: 18px;
+    }
+
+    .picker-search {
+      height: 36px;
+      width: 100%;
+      margin-bottom: 12px;
+      padding: 0 12px;
+      border: 1px solid #e1d7ca;
+      border-radius: 5px;
+      color: #514942;
+      background: #fff;
+      font: inherit;
+      font-weight: 700;
+      outline: 0;
+    }
+
+    .picker-search:focus {
+      border-color: var(--picker-accent);
+      box-shadow: 0 0 0 3px var(--picker-accent-soft);
+    }
+
+    .dish-list-title {
+      margin-bottom: 14px;
+      color: var(--picker-accent-strong);
+      font-weight: 800;
+    }
+
+    .recipe-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .recipe-btn {
+      height: 42px;
+      border: 1px solid #e1d7ca;
+      border-radius: 5px;
+      color: #514942;
+      background: linear-gradient(#fff, #fffaf3);
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .recipe-btn:hover,
+    .recipe-btn:focus-visible {
+      border-color: var(--picker-accent);
+      color: var(--picker-accent-strong);
+      outline: 0;
+    }
+  </style>
+</head>
+<body class="loading-active">
+  <section class="loading-screen" id="loadingScreen" aria-label="关大师菜谱搭配平台进入页">
+    <div class="enter-area">
+      <button class="enter-btn" id="enterSite" type="button">点击进入</button>
+    </div>
+  </section>
+
+  <header class="topbar">
+    <div class="brand">
+      <span>“关大师” 菜谱搭配平台</span>
+    </div>
+    <div class="top-actions">
+      <span class="top-icon service" aria-label="客服微信" title="客服微信"></span>
+      <span class="top-icon message" aria-label="消息提醒" title="消息提醒"></span>
+      <img class="avatar-img" src="images/person.png" alt="用户头像" title="用户头像">
+      <span class="visitor">游客</span>
+      <button class="login" type="button">登陆</button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="menu-group">
+        <div class="menu-title"><span class="menu-icon book" aria-hidden="true"></span>菜谱搭配<span class="chev down"></span></div>
+        <div class="menu-children">
+          <div class="menu-item active">搭配菜谱</div>
+          <div class="menu-item">我的搭配</div>
+        </div>
+      </div>
+      <div class="menu-group collapsed">
+        <div class="menu-title">
+          <svg class="menu-svg-icon" aria-hidden="true" viewBox="0 0 17.95 17.28">
+            <path d="M.5.5v4.04c0,2.4,1.95,4.35,4.35,4.35h0c2.4,0,4.35-1.95,4.35-4.35V.5"/>
+            <line x1="4.85" y1=".5" x2="4.85" y2="17.28"/>
+            <ellipse cx="14.5" cy="4.39" rx="2.95" ry="3.89"/>
+            <line x1="14.5" y1="17.28" x2="14.5" y2="8.27"/>
+          </svg>
+          我的菜品<span class="chev down"></span>
+        </div>
+        <div class="menu-children">
+          <div class="menu-item">菜品设计</div>
+          <div class="menu-item">我的菜品</div>
+        </div>
+      </div>
+      <div class="menu-group collapsed">
+        <div class="menu-title"><span class="menu-icon account" aria-hidden="true"></span>我的帐户<span class="chev down"></span></div>
+        <div class="menu-children">
+          <div class="menu-item">帐户管理</div>
+          <div class="menu-item">收得套餐</div>
+          <div class="menu-item">发票管理</div>
+        </div>
+      </div>
+    </aside>
+
+    <main>
+      <div class="page-title">
+        <span>菜谱搭配 / 搭配菜谱</span>
+        <div class="view-switcher" id="viewSwitcher" role="tablist" aria-label="视图切换">
+          <button class="view-btn active" type="button" role="tab" aria-selected="true" data-view="day">日视图</button>
+          <button class="view-btn" type="button" role="tab" aria-selected="false" data-view="week">周视图</button>
+        </div>
+      </div>
+
+      <section class="panel toolbar">
+        <span>选择日期：</span>
+        <select class="input" id="dateSelect" aria-label="选择日期">
+          <option value="2026/5/14" selected>▦　2026-05-14</option>
+          <option value="2026/5/15">▦　2026-05-15</option>
+          <option value="2026/5/16">▦　2026-05-16</option>
+          <option value="2026/5/17">▦　2026-05-17</option>
+          <option value="2026/5/18">▦　2026-05-18</option>
+          <option value="2026/5/19">▦　2026-05-19</option>
+          <option value="2026/5/20">▦　2026-05-20</option>
+        </select>
+        <span></span>
+        <span>就餐人数</span>
+        <input class="input small" type="number" min="1" value="100" aria-label="就餐人数">
+        <button class="ai-btn" type="button">AI推荐</button>
+      </section>
+
+      <section class="panel editor day-view">
+        <div class="section-head">
+          <svg class="editing-icon" aria-hidden="true" viewBox="0 0 18.11 19.56">
+            <path d="M11.13,1.44H2.12c-.9,0-1.62.73-1.62,1.62v14.37c0,.9.73,1.62,1.62,1.62h12.4c.9,0,1.62-.73,1.62-1.62V6.25"/>
+            <line x1="17.61" y1=".5" x2="11.73" y2="6.38"/>
+            <line x1="3.25" y1="6.28" x2="8.81" y2="6.28"/>
+            <line x1="3.25" y1="10.25" x2="12.66" y2="10.25"/>
+          </svg>
+          <span>正在编辑： <b class="editing-meta" id="editDate">2026/5/14</b>&nbsp;&nbsp;<b class="editing-meta" id="mealName">中餐</b></span>
+        </div>
+
+        <div class="tabs-actions">
+          <div class="tabs" id="mealTabs" role="tablist" aria-label="餐次选择">
+            <button class="tab" type="button" role="tab" aria-selected="false" data-meal="早餐">早餐</button>
+            <button class="tab active" type="button" role="tab" aria-selected="true" data-meal="中餐">中餐</button>
+            <button class="tab" type="button" role="tab" aria-selected="false" data-meal="晚餐">晚餐</button>
+          </div>
+          <div class="action-row">
+            <button class="ghost-btn" type="button">保存</button>
+            <button class="ghost-btn" type="button" id="resetMenu">重置</button>
+          </div>
+        </div>
+
+        <div class="menu-work">
+          <div class="courses">
+            <div class="course-row main-row">
+              <div class="course-label main">主荤</div>
+              <div class="dish-area">
+                <div class="dish-grid">
+                  <div class="dish" tabindex="0">菜品1</div><div class="dish" tabindex="0">菜品2</div><div class="dish" tabindex="0">菜品3</div><div class="dish" tabindex="0">菜品4</div>
+                  <button class="add" type="button">+添加菜品</button>
+                </div>
+              </div>
+            </div>
+            <div class="course-row side-row">
+              <div class="course-label side">副荤</div>
+              <div class="dish-area">
+                <div class="dish-grid">
+                  <div class="dish" tabindex="0">菜品1</div><div class="dish" tabindex="0">菜品2</div><div class="dish" tabindex="0">菜品3</div><div class="dish" tabindex="0">菜品4</div>
+                  <button class="add" type="button">+添加菜品</button>
+                </div>
+              </div>
+            </div>
+            <div class="course-row veg-row">
+              <div class="course-label veg">素菜</div>
+              <div class="dish-area">
+                <div class="dish-grid">
+                  <div class="dish" tabindex="0">菜品1</div><div class="dish" tabindex="0">菜品2</div><div class="dish" tabindex="0">菜品3</div><div class="dish" tabindex="0">菜品4</div>
+                  <button class="add" type="button">+添加菜品</button>
+                </div>
+              </div>
+            </div>
+            <div class="course-row staple-row">
+              <div class="course-label staple">主食</div>
+              <div class="dish-area">
+                <div class="dish-grid">
+                  <div class="dish" tabindex="0">菜品1</div><div class="dish" tabindex="0">菜品2</div><div class="dish" tabindex="0">菜品3</div><div class="dish" tabindex="0">菜品4</div>
+                  <button class="add" type="button">+添加菜品</button>
+                </div>
+              </div>
+            </div>
+            <div class="course-row cold-row">
+              <div class="course-label cold">凉菜</div>
+              <div class="dish-area">
+                <div class="dish-grid">
+                  <div class="dish" tabindex="0">菜品1</div><div class="dish" tabindex="0">菜品2</div><div class="dish" tabindex="0">菜品3</div><div class="dish" tabindex="0">菜品4</div>
+                  <button class="add" type="button">+添加菜品</button>
+                </div>
+              </div>
+            </div>
+            <div class="course-row soup-row">
+              <div class="course-label soup">粥汤</div>
+              <div class="dish-area">
+                <div class="soup-area">
+                  <div class="dish" style="width:160px" tabindex="0">菜品1</div>
+                  <button class="add" type="button">+添加菜品</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <aside class="nutrition">
+            <h3>当天营养含量</h3>
+            <div class="nutri-item">能量<strong>3118.1kcal</strong><div class="bar"><span style="--w:96%"></span></div></div>
+            <div class="nutri-item">蛋白质<strong>99.4g</strong><div class="bar"><span style="--w:18%"></span></div></div>
+            <div class="nutri-item">脂肪<strong>8g</strong><div class="bar"><span style="--w:8%"></span></div></div>
+            <div class="nutri-item">碳水化合物<strong>672.9g</strong><div class="bar"><span style="--w:38%"></span></div></div>
+            <div class="nutri-item">钙<strong>218.9mg</strong><div class="bar"><span style="--w:42%"></span></div></div>
+            <div class="nutri-item">铁<strong>20.8mg</strong><div class="bar"><span style="--w:99%"></span></div></div>
+            <div class="nutri-item">锌<strong>15.3mg</strong><div class="bar"><span style="--w:100%"></span></div></div>
+            <div class="nutri-item">钠<strong>19.2mg</strong><div class="bar"><span style="--w:12%"></span></div></div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="panel stats day-view">
+        <div class="stats-title">
+          <svg class="stats-icon" aria-hidden="true" viewBox="0 0 20.62 20.42">
+            <path d="M1.57,10.65c0,5.12,4.15,9.28,9.28,9.28s9.28-4.15,9.28-9.28S15.97,1.37,10.85,1.37v9.28H1.57Z"/>
+            <path d="M.5,8.12C.5,3.91,3.91.5,8.12.5v7.62H.5Z"/>
+          </svg>
+          菜谱食材用量统计
+        </div>
+        <div class="stat-fields" id="ingredientStats">
+          <span>食材总量：<b class="tiny">0</b> g</span>
+          <span class="empty-stat">暂无已添加菜品</span>
+        </div>
+
+        <div class="tables">
+          <table>
+            <thead><tr><th>食材名称</th><th>原料</th><th>净量</th></tr></thead>
+            <tbody>
+              <tr><td>大米</td><td>711.00</td><td>711.00</td></tr>
+              <tr><td>红豆</td><td>200.00</td><td>200.00</td></tr>
+              <tr><td>鲜豆</td><td>200.00</td><td>200.00</td></tr>
+              <tr><td>莲子</td><td>100.00</td><td>100.00</td></tr>
+              <tr><td>红豆</td><td>200.00</td><td>200.00</td></tr>
+              <tr><td>绿豆</td><td>200.00</td><td>200.00</td></tr>
+              <tr><td>空心菜</td><td>200.00</td><td>200.00</td></tr>
+              <tr><td>绿豆</td><td>200.00</td><td>200.00</td></tr>
+              <tr><td>红豆</td><td>200.00</td><td>200.00</td></tr>
+              <tr><td>绿豆</td><td>200.00</td><td>200.00</td></tr>
+              <tr><td>红豆</td><td>200.00</td><td>200.00</td></tr>
+              <tr><td>绿豆</td><td>200.00</td><td>200.00</td></tr>
+              <tr><td>总数</td><td>200.00</td><td>200.00</td></tr>
+            </tbody>
+          </table>
+          <table class="season">
+            <thead><tr><th>调料</th></tr></thead>
+            <tbody>
+              <tr><td>盐</td></tr>
+              <tr><td>白糖</td></tr>
+              <tr><td>桂圆、薏米、清水</td></tr>
+              <tr><td>调料</td></tr>
+              <tr><td>白糖</td></tr>
+              <tr><td>桂圆、薏米、清水</td></tr>
+              <tr><td></td></tr>
+              <tr><td></td></tr>
+              <tr><td></td></tr>
+              <tr><td></td></tr>
+              <tr><td></td></tr>
+              <tr><td></td></tr>
+              <tr><td></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel week-view" id="weekView" aria-label="周视图">
+        <div class="week-head">
+          <span>7天菜谱总览</span>
+          <span class="week-range">2026-05-14 至 2026-05-20</span>
+        </div>
+        <div class="week-list">
+          <div class="week-day-card">
+            <div class="week-day-bar"><span>周四</span><span class="week-date">2026/5/14</span></div>
+            <div class="week-meals">
+              <div class="week-meal-card breakfast"><div class="week-meal-title">BREAKFAST<span>早餐</span></div><div class="week-tags"><span class="week-tag tag-soup">小米粥</span><span class="week-tag tag-staple">馒头</span><span class="week-tag tag-veg">拌黄瓜</span></div></div>
+              <div class="week-meal-card lunch"><div class="week-meal-title">LUNCH<span>中餐</span></div><div class="week-tags"><span class="week-tag tag-main">红烧肉</span><span class="week-tag tag-side">青椒肉丝</span><span class="week-tag tag-veg">清炒空心菜</span><span class="week-tag tag-staple">白米饭</span></div></div>
+              <div class="week-meal-card dinner"><div class="week-meal-title">DINNER<span>晚餐</span></div><div class="week-tags"><span class="week-tag tag-main">香菇滑鸡</span><span class="week-tag tag-veg">冬瓜烧豆腐</span><span class="week-tag tag-soup">紫菜豆腐汤</span></div></div>
+            </div>
+          </div>
+
+          <div class="week-day-card">
+            <div class="week-day-bar"><span>周五</span><span class="week-date">2026/5/15</span></div>
+            <div class="week-meals">
+              <div class="week-meal-card breakfast"><div class="week-meal-title">BREAKFAST<span>早餐</span></div><div class="week-tags"><span class="week-tag tag-soup">八宝粥</span><span class="week-tag tag-staple">花卷</span><span class="week-tag tag-veg">白灼生菜</span></div></div>
+              <div class="week-meal-card lunch"><div class="week-meal-title">LUNCH<span>中餐</span></div><div class="week-tags"><span class="week-tag tag-main">番茄牛腩</span><span class="week-tag tag-side">西芹虾仁</span><span class="week-tag tag-veg">家常豆腐</span><span class="week-tag tag-staple">杂粮饭</span></div></div>
+              <div class="week-meal-card dinner"><div class="week-meal-title">DINNER<span>晚餐</span></div><div class="week-tags"><span class="week-tag tag-main">水煮鱼片</span><span class="week-tag tag-veg">杏鲍菇炒青椒</span><span class="week-tag tag-soup">番茄蛋花汤</span></div></div>
+            </div>
+          </div>
+
+          <div class="week-day-card">
+            <div class="week-day-bar"><span>周六</span><span class="week-date">2026/5/16</span></div>
+            <div class="week-meals">
+              <div class="week-meal-card breakfast"><div class="week-meal-title">BREAKFAST<span>早餐</span></div><div class="week-tags"><span class="week-tag tag-soup">南瓜粥</span><span class="week-tag tag-staple">素包子</span><span class="week-tag tag-cold">凉拌木耳</span></div></div>
+              <div class="week-meal-card lunch"><div class="week-meal-title">LUNCH<span>中餐</span></div><div class="week-tags"><span class="week-tag tag-main">宫保鸡丁</span><span class="week-tag tag-side">木耳肉片</span><span class="week-tag tag-veg">红烧茄子</span><span class="week-tag tag-staple">南瓜饭</span></div></div>
+              <div class="week-meal-card dinner"><div class="week-meal-title">DINNER<span>晚餐</span></div><div class="week-tags"><span class="week-tag tag-main">回锅肉</span><span class="week-tag tag-veg">蒜蓉丝瓜</span><span class="week-tag tag-soup">冬瓜汤</span></div></div>
+            </div>
+          </div>
+
+          <div class="week-day-card">
+            <div class="week-day-bar"><span>周日</span><span class="week-date">2026/5/17</span></div>
+            <div class="week-meals">
+              <div class="week-meal-card breakfast"><div class="week-meal-title">BREAKFAST<span>早餐</span></div><div class="week-tags"><span class="week-tag tag-soup">银耳羹</span><span class="week-tag tag-staple">玉米棒</span><span class="week-tag tag-veg">清炒小白菜</span></div></div>
+              <div class="week-meal-card lunch"><div class="week-meal-title">LUNCH<span>中餐</span></div><div class="week-tags"><span class="week-tag tag-main">清蒸鱼</span><span class="week-tag tag-side">冬瓜虾仁</span><span class="week-tag tag-veg">清炒山药</span><span class="week-tag tag-staple">玉米饭</span></div></div>
+              <div class="week-meal-card dinner"><div class="week-meal-title">DINNER<span>晚餐</span></div><div class="week-tags"><span class="week-tag tag-main">黑椒牛柳</span><span class="week-tag tag-veg">腐竹烧木耳</span><span class="week-tag tag-soup">小米粥</span></div></div>
+            </div>
+          </div>
+
+          <div class="week-day-card">
+            <div class="week-day-bar"><span>周一</span><span class="week-date">2026/5/18</span></div>
+            <div class="week-meals">
+              <div class="week-meal-card breakfast"><div class="week-meal-title">BREAKFAST<span>早餐</span></div><div class="week-tags"><span class="week-tag tag-soup">绿豆汤</span><span class="week-tag tag-staple">紫薯</span><span class="week-tag tag-cold">酸辣藕片</span></div></div>
+              <div class="week-meal-card lunch"><div class="week-meal-title">LUNCH<span>中餐</span></div><div class="week-tags"><span class="week-tag tag-main">土豆炖牛肉</span><span class="week-tag tag-side">香菇鸡丁</span><span class="week-tag tag-veg">酸辣土豆丝</span><span class="week-tag tag-staple">白米饭</span></div></div>
+              <div class="week-meal-card dinner"><div class="week-meal-title">DINNER<span>晚餐</span></div><div class="week-tags"><span class="week-tag tag-main">照烧鸡排</span><span class="week-tag tag-veg">清炒西葫芦</span><span class="week-tag tag-soup">菌菇汤</span></div></div>
+            </div>
+          </div>
+
+          <div class="week-day-card">
+            <div class="week-day-bar"><span>周二</span><span class="week-date">2026/5/19</span></div>
+            <div class="week-meals">
+              <div class="week-meal-card breakfast"><div class="week-meal-title">BREAKFAST<span>早餐</span></div><div class="week-tags"><span class="week-tag tag-soup">红豆汤</span><span class="week-tag tag-staple">杂粮饭团</span><span class="week-tag tag-veg">香干芹菜</span></div></div>
+              <div class="week-meal-card lunch"><div class="week-meal-title">LUNCH<span>中餐</span></div><div class="week-tags"><span class="week-tag tag-main">黄焖鸡</span><span class="week-tag tag-side">芹菜牛肉丝</span><span class="week-tag tag-veg">双菇扒菜心</span><span class="week-tag tag-staple">杂粮饭</span></div></div>
+              <div class="week-meal-card dinner"><div class="week-meal-title">DINNER<span>晚餐</span></div><div class="week-tags"><span class="week-tag tag-main">油焖大虾</span><span class="week-tag tag-veg">木耳炒山药</span><span class="week-tag tag-soup">南瓜粥</span></div></div>
+            </div>
+          </div>
+
+          <div class="week-day-card">
+            <div class="week-day-bar"><span>周三</span><span class="week-date">2026/5/20</span></div>
+            <div class="week-meals">
+              <div class="week-meal-card breakfast"><div class="week-meal-title">BREAKFAST<span>早餐</span></div><div class="week-tags"><span class="week-tag tag-soup">菌菇汤</span><span class="week-tag tag-staple">葱油饼</span><span class="week-tag tag-veg">蒜蓉油麦菜</span></div></div>
+              <div class="week-meal-card lunch"><div class="week-meal-title">LUNCH<span>中餐</span></div><div class="week-tags"><span class="week-tag tag-main">酸菜鱼</span><span class="week-tag tag-side">豆角肉末</span><span class="week-tag tag-veg">莲藕炒荷兰豆</span><span class="week-tag tag-staple">花卷</span></div></div>
+              <div class="week-meal-card dinner"><div class="week-meal-title">DINNER<span>晚餐</span></div><div class="week-tags"><span class="week-tag tag-main">红焖羊肉</span><span class="week-tag tag-veg">香菇菜心</span><span class="week-tag tag-soup">银耳羹</span></div></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="dish-picker" id="dishPicker" aria-hidden="true">
+    <div class="picker-dialog" role="dialog" aria-modal="true" aria-labelledby="pickerTitle">
+      <div class="picker-head">
+        <span id="pickerTitle">选择肉类与肉菜</span>
+        <button class="picker-close" type="button" id="pickerClose" aria-label="关闭">×</button>
+      </div>
+      <div class="picker-body">
+        <div>
+          <div class="picker-group-title" id="groupTitle">肉类</div>
+          <div class="meat-list" id="meatList"></div>
+        </div>
+        <div class="dish-list">
+          <input class="picker-search" id="dishSearch" type="search" placeholder="搜索菜品" aria-label="搜索菜品">
+          <div class="dish-list-title" id="recipeTitle">先选择一种肉类</div>
+          <div class="recipe-grid" id="recipeGrid"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const loadingScreen = document.querySelector("#loadingScreen");
+    const enterSite = document.querySelector("#enterSite");
+    const mealTabs = document.querySelector("#mealTabs");
+    const mealName = document.querySelector("#mealName");
+    const mainContent = document.querySelector("main");
+    const viewSwitcher = document.querySelector("#viewSwitcher");
+    const viewButtons = Array.from(viewSwitcher.querySelectorAll(".view-btn"));
+    const dateSelect = document.querySelector("#dateSelect");
+    const editDate = document.querySelector("#editDate");
+    const tabs = Array.from(mealTabs.querySelectorAll(".tab"));
+    const pickerMenus = {
+      main: {
+        title: "选择肉类与肉菜",
+        groupLabel: "肉类",
+        itemLabel: "肉菜",
+        groups: {
+          猪肉: ["红烧肉", "鱼香肉丝", "糖醋里脊", "蒜苔炒肉", "回锅肉", "木须肉"],
+          牛肉: ["土豆炖牛肉", "黑椒牛柳", "番茄牛腩", "青椒牛肉", "孜然牛肉", "芹菜炒牛肉"],
+          鸡肉: ["宫保鸡丁", "黄焖鸡", "香菇滑鸡", "辣子鸡", "照烧鸡排", "土豆烧鸡"],
+          鱼虾: ["清蒸鱼", "酸菜鱼", "水煮鱼片", "油焖大虾", "虾仁滑蛋", "椒盐虾"],
+          羊肉: ["葱爆羊肉", "孜然羊肉", "萝卜炖羊肉", "红焖羊肉", "羊肉手抓饭", "清炖羊肉"],
+          鸭肉: ["啤酒鸭", "酱鸭", "土豆焖鸭", "冬瓜老鸭汤", "子姜鸭", "烤鸭片"]
+        }
+      },
+      side: {
+        title: "选择副荤搭配",
+        groupLabel: "少量肉类",
+        itemLabel: "肉少菜多菜品",
+        groups: {
+          猪肉: ["青椒肉丝", "芹菜炒肉丝", "木耳肉片", "莴笋炒肉", "豆角肉末", "蒜苗肉丝"],
+          牛肉: ["芹菜牛肉丝", "青瓜牛柳", "洋葱牛肉", "番茄牛肉片", "杏鲍菇牛肉粒", "彩椒牛肉"],
+          鸡肉: ["香菇鸡丁", "黄瓜鸡片", "西兰花鸡胸", "荷兰豆鸡丁", "土豆鸡丁", "胡萝卜鸡丝"],
+          鱼虾: ["西芹虾仁", "冬瓜虾仁", "丝瓜鱼片", "韭菜炒虾仁", "番茄鱼片", "豆腐鱼丁"]
+        }
+      },
+      veg: {
+        title: "选择素菜",
+        groupLabel: "蔬菜种类",
+        itemLabel: "纯素菜",
+        groups: {
+          叶菜类: ["清炒小白菜", "蒜蓉油麦菜", "白灼生菜", "上汤菠菜", "香菇菜心", "清炒空心菜"],
+          瓜茄类: ["清炒西葫芦", "蒜蓉丝瓜", "番茄炒蛋替代版", "红烧茄子", "凉拌黄瓜", "冬瓜烧豆腐"],
+          根茎类: ["酸辣土豆丝", "胡萝卜炒木耳", "清炒山药", "莲藕炒荷兰豆", "红烧萝卜", "芋头焖南瓜"],
+          菌菇类: ["蚝油香菇", "杏鲍菇炒青椒", "金针菇拌黄瓜", "平菇炒白菜", "双菇扒菜心", "木耳炒山药"],
+          豆制品: ["家常豆腐", "麻婆豆腐素版", "香干芹菜", "腐竹烧木耳", "豆皮炒青椒", "千张结烧冬瓜"]
+        }
+      },
+      staple: {
+        title: "选择主食",
+        groupLabel: "主食类型",
+        itemLabel: "主食",
+        groups: {
+          米饭: ["白米饭", "杂粮饭", "南瓜饭", "玉米饭"],
+          面点: ["馒头", "花卷", "葱油饼", "素包子"],
+          粗粮: ["蒸红薯", "玉米棒", "紫薯", "山药段"]
+        }
+      },
+      cold: {
+        title: "选择凉菜",
+        groupLabel: "凉菜类型",
+        itemLabel: "凉菜",
+        groups: {
+          清爽类: ["凉拌黄瓜", "凉拌木耳", "炝拌海带丝", "拍黄瓜"],
+          豆制品: ["凉拌豆皮", "皮蛋豆腐", "香干拌芹菜", "凉拌腐竹"],
+          开胃类: ["酸辣藕片", "凉拌莴笋", "糖醋萝卜", "老醋花生"]
+        }
+      },
+      soup: {
+        title: "选择粥汤",
+        groupLabel: "粥汤类型",
+        itemLabel: "粥汤",
+        groups: {
+          粥: ["八宝粥", "小米粥", "南瓜粥", "皮蛋瘦肉粥"],
+          汤: ["番茄蛋花汤", "紫菜豆腐汤", "冬瓜汤", "菌菇汤"],
+          甜汤: ["银耳羹", "红豆汤", "绿豆汤", "酒酿圆子"]
+        }
+      }
+    };
+    const dishPicker = document.querySelector("#dishPicker");
+    const pickerClose = document.querySelector("#pickerClose");
+    const groupTitle = document.querySelector("#groupTitle");
+    const meatList = document.querySelector("#meatList");
+    const dishSearch = document.querySelector("#dishSearch");
+    const recipeTitle = document.querySelector("#recipeTitle");
+    const recipeGrid = document.querySelector("#recipeGrid");
+    const ingredientStats = document.querySelector("#ingredientStats");
+    const dishIngredientWeights = {
+      红烧肉: 520,
+      鱼香肉丝: 430,
+      糖醋里脊: 460,
+      青椒肉丝: 360,
+      芹菜炒肉丝: 340,
+      木耳肉片: 330,
+      清炒小白菜: 280,
+      蒜蓉油麦菜: 260,
+      白灼生菜: 240,
+      酸辣土豆丝: 300,
+      家常豆腐: 350,
+      八宝粥: 650,
+      小米粥: 520
+    };
+    const personalRecipes = ["招牌红烧肉", "自制卤牛肉", "私房番茄牛腩", "家常蒜蓉青菜", "低油麻婆豆腐", "妈妈牌八宝粥"];
+    let activeDish = null;
+    let activePickerMenu = pickerMenus.main;
+    let activeGroup = "";
+
+    tabs.forEach((tab, index) => {
+      tab.addEventListener("click", () => {
+        mealTabs.style.setProperty("--active-index", index);
+        mealName.textContent = tab.dataset.meal;
+        tabs.forEach((item) => {
+          const active = item === tab;
+          item.classList.toggle("active", active);
+          item.setAttribute("aria-selected", String(active));
+        });
+      });
+    });
+
+    dateSelect.addEventListener("change", () => {
+      editDate.textContent = dateSelect.value;
+    });
+
+    viewButtons.forEach((button, index) => {
+      button.addEventListener("click", () => {
+        const weekMode = button.dataset.view === "week";
+        viewSwitcher.style.setProperty("--view-index", index);
+        mainContent.classList.toggle("is-week", weekMode);
+        viewButtons.forEach((item) => {
+          const active = item === button;
+          item.classList.toggle("active", active);
+          item.setAttribute("aria-selected", String(active));
+        });
+      });
+    });
+
+    function getCourseType(dish) {
+      const row = dish.closest(".course-row");
+      if (row.classList.contains("side-row")) return "side";
+      if (row.classList.contains("veg-row")) return "veg";
+      if (row.classList.contains("staple-row")) return "staple";
+      if (row.classList.contains("cold-row")) return "cold";
+      if (row.classList.contains("soup-row")) return "soup";
+      return "main";
+    }
+
+    function syncPickerColor(dish) {
+      const row = dish.closest(".course-row");
+      const style = getComputedStyle(row);
+      dishPicker.style.setProperty("--picker-accent", style.getPropertyValue("--course-accent").trim());
+      dishPicker.style.setProperty("--picker-accent-strong", style.getPropertyValue("--course-accent-strong").trim());
+      dishPicker.style.setProperty("--picker-accent-soft", style.getPropertyValue("--course-accent-soft").trim());
+    }
+
+    function renderGroupOptions(activeGroup) {
+      meatList.innerHTML = "";
+      [...Object.keys(activePickerMenu.groups), "个人菜品"].forEach((group) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = `meat-btn${group === activeGroup ? " active" : ""}`;
+        button.textContent = group;
+        button.addEventListener("click", () => {
+          renderGroupOptions(group);
+          renderRecipeOptions(group);
+        });
+        meatList.appendChild(button);
+      });
+    }
+
+    function renderRecipeOptions(group) {
+      activeGroup = group;
+      dishSearch.value = "";
+      const recipes = getRecipesByGroup(group);
+      recipeTitle.textContent = group === "个人菜品" ? "选择个人菜品" : `选择${group}${activePickerMenu.itemLabel}`;
+      renderRecipeButtons(recipes, group);
+    }
+
+    function getRecipesByGroup(group) {
+      return group === "个人菜品" ? personalRecipes : activePickerMenu.groups[group];
+    }
+
+    function getAllSearchableRecipes() {
+      return [
+        ...Object.values(activePickerMenu.groups).flat(),
+        ...personalRecipes
+      ];
+    }
+
+    function renderRecipeButtons(recipes, groupLabel) {
+      recipeGrid.innerHTML = "";
+      if (!recipes.length) {
+        const empty = document.createElement("div");
+        empty.className = "empty-stat";
+        empty.textContent = "没有找到匹配菜品";
+        recipeGrid.appendChild(empty);
+        return;
+      }
+      recipes.forEach((recipe) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "recipe-btn";
+        button.textContent = recipe;
+        button.addEventListener("click", () => {
+          if (activeDish) {
+            activeDish.textContent = recipe;
+            activeDish.classList.add("selected");
+            activeDish.title = `${groupLabel} - ${recipe}`;
+            activeDish.dataset.recipe = recipe;
+            updateIngredientStats();
+          }
+          closeDishPicker();
+        });
+        recipeGrid.appendChild(button);
+      });
+    }
+
+    dishSearch.addEventListener("input", () => {
+      const keyword = dishSearch.value.trim();
+      if (!keyword) {
+        const recipes = getRecipesByGroup(activeGroup);
+        recipeTitle.textContent = activeGroup === "个人菜品" ? "选择个人菜品" : `选择${activeGroup}${activePickerMenu.itemLabel}`;
+        renderRecipeButtons(recipes, activeGroup);
+        return;
+      }
+
+      const results = getAllSearchableRecipes().filter((recipe) => recipe.includes(keyword));
+      recipeTitle.textContent = `搜索结果：${keyword}`;
+      renderRecipeButtons(results, "搜索结果");
+    });
+
+    function openDishPicker(dish) {
+      activeDish = dish;
+      activePickerMenu = pickerMenus[getCourseType(dish)];
+      document.querySelector("#pickerTitle").textContent = activePickerMenu.title;
+      groupTitle.textContent = activePickerMenu.groupLabel;
+      syncPickerColor(dish);
+      const firstGroup = Object.keys(activePickerMenu.groups)[0];
+      renderGroupOptions(firstGroup);
+      renderRecipeOptions(firstGroup);
+      dishSearch.value = "";
+      dishPicker.classList.add("open");
+      dishPicker.setAttribute("aria-hidden", "false");
+    }
+
+    function closeDishPicker() {
+      dishPicker.classList.remove("open");
+      dishPicker.setAttribute("aria-hidden", "true");
+      activeDish = null;
+    }
+
+    function getDishWeight(recipe, index) {
+      return dishIngredientWeights[recipe] || 280 + (index % 4) * 35;
+    }
+
+    function updateIngredientStats() {
+      const selectedDishes = Array.from(document.querySelectorAll(".dish.selected"));
+      const selectedStats = selectedDishes.map((dish, index) => {
+        const recipe = dish.dataset.recipe || dish.textContent.trim();
+        return {
+          recipe,
+          weight: getDishWeight(recipe, index)
+        };
+      });
+      const totalWeight = selectedStats.reduce((sum, item) => sum + item.weight, 0);
+      ingredientStats.innerHTML = `<span>食材总量：<b class="tiny">${totalWeight.toFixed(0)}</b> g</span>`;
+
+      if (!selectedStats.length) {
+        const empty = document.createElement("span");
+        empty.className = "empty-stat";
+        empty.textContent = "暂无已添加菜品";
+        ingredientStats.appendChild(empty);
+        return;
+      }
+
+      selectedStats.forEach((item) => {
+        const stat = document.createElement("span");
+        stat.innerHTML = `${item.recipe}：<b class="tiny">${item.weight.toFixed(1)}</b> g`;
+        ingredientStats.appendChild(stat);
+      });
+    }
+
+    document.querySelectorAll(".dish").forEach((dish) => {
+      attachDishPicker(dish);
+    });
+
+    enterSite.addEventListener("click", () => {
+      window.location.href = "page01.html";
+    });
+
+    function attachDishPicker(dish) {
+      dish.addEventListener("click", () => openDishPicker(dish));
+      dish.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          openDishPicker(dish);
+        }
+      });
+    }
+
+    function createPlaceholderDish(index, isSoup = false) {
+      const dish = document.createElement("div");
+      dish.className = "dish";
+      dish.tabIndex = 0;
+      dish.textContent = `菜品${index}`;
+      delete dish.dataset.recipe;
+      if (isSoup) {
+        dish.style.width = "160px";
+      }
+      attachDishPicker(dish);
+      return dish;
+    }
+
+    function resetDishArea(area) {
+      const container = area.querySelector(".dish-grid, .soup-area");
+      const button = container.querySelector(".add");
+      const isSoup = container.classList.contains("soup-area");
+      const initialCount = isSoup ? 1 : 4;
+
+      container.querySelectorAll(".dish").forEach((dish) => dish.remove());
+      for (let index = 1; index <= initialCount; index += 1) {
+        container.insertBefore(createPlaceholderDish(index, isSoup), button);
+      }
+    }
+
+    document.querySelectorAll(".add").forEach((button) => {
+      button.addEventListener("click", () => {
+        const area = button.closest(".dish-area");
+        const container = button.parentElement;
+        const dishCount = area.querySelectorAll(".dish").length;
+        const dish = createPlaceholderDish(dishCount + 1, container.classList.contains("soup-area"));
+        container.insertBefore(dish, button);
+      });
+    });
+
+    document.querySelectorAll(".menu-title").forEach((title) => {
+      title.addEventListener("click", () => {
+        title.closest(".menu-group").classList.toggle("collapsed");
+      });
+    });
+
+    document.querySelector("#resetMenu").addEventListener("click", () => {
+      closeDishPicker();
+      document.querySelectorAll(".dish-area").forEach(resetDishArea);
+      updateIngredientStats();
+    });
+
+    pickerClose.addEventListener("click", closeDishPicker);
+    dishPicker.addEventListener("click", (event) => {
+      if (event.target === dishPicker) {
+        closeDishPicker();
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && dishPicker.classList.contains("open")) {
+        closeDishPicker();
+      }
+    });
+  </script>
+</body>
+</html>
