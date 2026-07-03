@@ -258,7 +258,6 @@
     .menu-item {
       height: 36px;
       padding-left: 48px;
-      text-decoration: none;
       color: #8a827a;
       font-size: 14px;
     }
@@ -1018,31 +1017,29 @@
       --picker-accent: #ff7b24;
       --picker-accent-strong: #d96216;
       --picker-accent-soft: rgba(255, 123, 36, .16);
-      position: fixed;
-      inset: 0;
+      position: absolute;
       z-index: 20;
       display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 28px;
-      background: rgba(61, 43, 29, .28);
+      width: min(720px, calc(100vw - 36px));
+      padding: 0;
+      background: transparent;
     }
 
     .dish-picker.open {
-      display: flex;
+      display: block;
     }
 
     .picker-dialog {
-      width: min(720px, calc(100vw - 36px));
+      width: 100%;
       border: 1px solid var(--picker-accent);
-      border-radius: 8px;
+      border-radius: 6px;
       background: #fffdf9;
-      box-shadow: 0 18px 44px var(--picker-accent-soft);
+      box-shadow: 0 12px 30px rgba(128, 75, 22, .16), 0 0 0 3px var(--picker-accent-soft);
       overflow: hidden;
     }
 
     .picker-head {
-      display: flex;
+      display: none;
       align-items: center;
       justify-content: space-between;
       height: 54px;
@@ -1188,7 +1185,7 @@
         <div class="menu-title"><span class="menu-icon book" aria-hidden="true"></span>菜谱搭配<span class="chev down"></span></div>
         <div class="menu-children">
           <div class="menu-item active">搭配菜谱</div>
-          <a class="menu-item" href="page04.html">我的搭配</a>
+          <div class="menu-item">我的搭配</div>
         </div>
       </div>
       <div class="menu-group collapsed">
@@ -1464,7 +1461,7 @@
   </div>
 
   <div class="dish-picker" id="dishPicker" aria-hidden="true">
-    <div class="picker-dialog" role="dialog" aria-modal="true" aria-labelledby="pickerTitle">
+    <div class="picker-dialog" role="listbox" aria-labelledby="pickerTitle">
       <div class="picker-head">
         <span id="pickerTitle">选择肉类与肉菜</span>
         <button class="picker-close" type="button" id="pickerClose" aria-label="关闭">×</button>
@@ -1723,6 +1720,7 @@
       dishSearch.value = "";
       dishPicker.classList.add("open");
       dishPicker.setAttribute("aria-hidden", "false");
+      positionDishPicker(dish);
       dishSearch.focus();
     }
 
@@ -1730,6 +1728,16 @@
       dishPicker.classList.remove("open");
       dishPicker.setAttribute("aria-hidden", "true");
       activeDish = null;
+    }
+
+    function positionDishPicker(dish) {
+      const rect = dish.getBoundingClientRect();
+      const pickerWidth = dishPicker.offsetWidth || Math.min(720, window.innerWidth - 36);
+      const pageLeft = window.scrollX + rect.left;
+      const maxLeft = window.scrollX + window.innerWidth - pickerWidth - 18;
+      const left = Math.max(window.scrollX + 12, Math.min(pageLeft, maxLeft));
+      dishPicker.style.left = `${left}px`;
+      dishPicker.style.top = `${window.scrollY + rect.bottom + 8}px`;
     }
 
     function getDishWeight(recipe, index) {
@@ -1826,8 +1834,18 @@
 
     pickerClose.addEventListener("click", closeDishPicker);
     dishPicker.addEventListener("click", (event) => {
-      if (event.target === dishPicker) {
-        closeDishPicker();
+      event.stopPropagation();
+    });
+
+    document.addEventListener("click", (event) => {
+      if (!dishPicker.classList.contains("open")) return;
+      if (event.target.closest(".dish-picker") || event.target.closest(".dish")) return;
+      closeDishPicker();
+    });
+
+    window.addEventListener("resize", () => {
+      if (dishPicker.classList.contains("open") && activeDish) {
+        positionDishPicker(activeDish);
       }
     });
 

@@ -1,0 +1,839 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>关大师 菜谱搭配平台 - 我的搭配</title>
+  <style>
+    :root {
+      --orange: #ff6a1a;
+      --orange-deep: #f25b17;
+      --orange-soft: #fff3e7;
+      --line: #ffc79b;
+      --text: #443a34;
+      --muted: #7d736c;
+      --bg: #fffaf5;
+      --teal: #8ec7be;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-width: 1180px;
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+        "Microsoft YaHei", Arial, sans-serif;
+      background:
+        radial-gradient(circle at 70% 5%, rgba(255, 195, 97, .24), transparent 20%),
+        linear-gradient(90deg, #fff 0, #fff 250px, #fffaf5 250px, #fffdf9 100%);
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 26px 0 20px;
+      color: #fff;
+      background: linear-gradient(90deg, #ff5d17, #ff6e1c 60%, #ff7b21);
+      box-shadow: 0 2px 6px rgba(160, 78, 20, .35);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 0;
+    }
+
+    .chef-icon {
+      width: 28px;
+      height: 28px;
+      position: relative;
+      display: inline-block;
+    }
+
+    .chef-icon::before {
+      content: "";
+      position: absolute;
+      left: 2px;
+      top: 4px;
+      width: 24px;
+      height: 15px;
+      border-radius: 13px 13px 8px 8px;
+      background: #fff;
+      box-shadow: -7px 1px 0 -1px #fff, 7px 1px 0 -1px #fff;
+    }
+
+    .chef-icon::after {
+      content: "";
+      position: absolute;
+      left: 6px;
+      top: 18px;
+      width: 16px;
+      height: 8px;
+      border-radius: 2px;
+      background: #fff;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      color: #fff;
+      font-weight: 600;
+    }
+
+    .top-icon {
+      position: relative;
+      width: 28px;
+      height: 28px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255, 255, 255, .9);
+      opacity: .92;
+      transition: color .18s ease, opacity .18s ease, transform .18s ease;
+    }
+
+    .top-icon:hover {
+      opacity: 1;
+      transform: translateY(-1px);
+    }
+
+    .top-icon.service::before {
+      content: "";
+      position: absolute;
+      inset: 2px 0;
+      background: currentColor;
+      -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26.09 23.84'%3E%3Cpath fill='none' stroke='black' stroke-width='1.8' stroke-miterlimit='10' d='M4.43,15.75v-7.28c0-4.4,3.57-7.97,7.97-7.97h1.29c4.4,0,7.97,3.57,7.97,7.97v6.63c0,4.55-3.69,8.24-8.24,8.24h-.37'/%3E%3Cpath fill='none' stroke='black' stroke-width='1.8' stroke-miterlimit='10' d='M4.15,15.24c-2.02,0-3.65-1.63-3.65-3.65s1.63-3.65,3.65-3.65'/%3E%3Cpath fill='none' stroke='black' stroke-width='1.8' stroke-miterlimit='10' d='M21.94,7.94c2.02,0,3.65,1.63,3.65,3.65s-1.63,3.65-3.65,3.65'/%3E%3Cpath fill='none' stroke='black' stroke-width='1.8' stroke-miterlimit='10' d='M9.89,12.64v.71c0,1.74,1.41,3.15,3.15,3.15h0c1.74,0,3.15-1.41,3.15-3.15v-.71'/%3E%3C/svg%3E") center / contain no-repeat;
+      mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26.09 23.84'%3E%3Cpath fill='none' stroke='black' stroke-width='1.8' stroke-miterlimit='10' d='M4.43,15.75v-7.28c0-4.4,3.57-7.97,7.97-7.97h1.29c4.4,0,7.97,3.57,7.97,7.97v6.63c0,4.55-3.69,8.24-8.24,8.24h-.37'/%3E%3Cpath fill='none' stroke='black' stroke-width='1.8' stroke-miterlimit='10' d='M4.15,15.24c-2.02,0-3.65-1.63-3.65-3.65s1.63-3.65,3.65-3.65'/%3E%3Cpath fill='none' stroke='black' stroke-width='1.8' stroke-miterlimit='10' d='M21.94,7.94c2.02,0,3.65,1.63,3.65,3.65s-1.63,3.65-3.65,3.65'/%3E%3Cpath fill='none' stroke='black' stroke-width='1.8' stroke-miterlimit='10' d='M9.89,12.64v.71c0,1.74,1.41,3.15,3.15,3.15h0c1.74,0,3.15-1.41,3.15-3.15v-.71'/%3E%3C/svg%3E") center / contain no-repeat;
+    }
+
+    .top-icon.service:hover {
+      color: #ffe2a3;
+    }
+
+    .top-icon.message::before {
+      content: "";
+      position: absolute;
+      inset: 1px 3px;
+      background: currentColor;
+      -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 24.8'%3E%3Cpath fill='none' stroke='black' stroke-width='1.8' stroke-miterlimit='10' d='M.76,20.62l.32-.26c1.27-1.04,1.01-2.59,1.01-4.24v-5.09c0-3.94,3.19-7.13,7.13-7.13h1.4c3.94,0,7.13,3.19,7.13,7.13v5.91c0,1.41.55,2.77,1.52,3.78h0c.43.45.12,1.2-.51,1.2-4.01-.03-13.19-.08-17.58-.05-.67,0-.96-.83-.45-1.26Z'/%3E%3Cpath fill='none' stroke='black' stroke-width='1.8' stroke-miterlimit='10' d='M10,.5h0c.97,0,1.76.79,1.76,1.76v1.62h-3.53v-1.62c0-.97.79-1.76,1.76-1.76Z'/%3E%3Cline x1='6.75' y1='24.3' x2='13.95' y2='24.3' stroke='black' stroke-width='1.8' stroke-miterlimit='10'/%3E%3C/svg%3E") center / contain no-repeat;
+      mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 24.8'%3E%3Cpath fill='none' stroke='black' stroke-width='1.8' stroke-miterlimit='10' d='M.76,20.62l.32-.26c1.27-1.04,1.01-2.59,1.01-4.24v-5.09c0-3.94,3.19-7.13,7.13-7.13h1.4c3.94,0,7.13,3.19,7.13,7.13v5.91c0,1.41.55,2.77,1.52,3.78h0c.43.45.12,1.2-.51,1.2-4.01-.03-13.19-.08-17.58-.05-.67,0-.96-.83-.45-1.26Z'/%3E%3Cpath fill='none' stroke='black' stroke-width='1.8' stroke-miterlimit='10' d='M10,.5h0c.97,0,1.76.79,1.76,1.76v1.62h-3.53v-1.62c0-.97.79-1.76,1.76-1.76Z'/%3E%3Cline x1='6.75' y1='24.3' x2='13.95' y2='24.3' stroke='black' stroke-width='1.8' stroke-miterlimit='10'/%3E%3C/svg%3E") center / contain no-repeat;
+    }
+
+    .top-icon.message:hover {
+      color: #ffe2a3;
+    }
+
+    .avatar-img {
+      width: 28px;
+      height: 28px;
+      display: block;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .visitor {
+      color: rgba(255, 255, 255, .94);
+      font-weight: 700;
+    }
+
+    .login {
+      height: 32px;
+      padding: 0 14px;
+      border: 1px solid rgba(255, 255, 255, .52);
+      border-radius: 5px;
+      color: #fff;
+      background: rgba(255, 255, 255, .16);
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .login:hover {
+      background: rgba(255, 255, 255, .26);
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 270px 1fr;
+      min-height: calc(100vh - 68px);
+    }
+
+    .sidebar {
+      position: relative;
+      padding-top: 24px;
+      background: rgba(255, 255, 255, .9);
+      border-right: 1px solid #f1e7d8;
+    }
+
+    .menu-title,
+    .menu-item {
+      display: flex;
+      align-items: center;
+      height: 40px;
+      padding: 0 24px;
+      color: #4c4640;
+      font-weight: 800;
+    }
+
+    .menu-group {
+      margin-bottom: 10px;
+    }
+
+    .menu-title {
+      margin-bottom: 6px;
+      cursor: pointer;
+    }
+
+    .menu-children {
+      display: block;
+    }
+
+    .menu-group.collapsed .menu-children {
+      display: none;
+    }
+
+    .menu-icon {
+      width: 20px;
+      height: 19px;
+      margin-right: 12px;
+      color: #ff9b24;
+      background: currentColor;
+      flex: 0 0 20px;
+    }
+
+    .menu-icon.book {
+      -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 19.64 18.4'%3E%3Cpath fill='none' stroke='black' stroke-width='1.9' stroke-miterlimit='10' d='M15.26.5h3.88v14.87h-2.43c-2.78,0-5.04.05-6.28,2.53h-1l-.08-.16c-1.22-2.55-3.3-2.18-6.12-2.18H.5V.5h4.18c2.15,0,4.11,1.26,4.99,3.23l.53.05.34-.58c.98-1.67,2.78-2.7,4.72-2.7Z'/%3E%3Cline x1='9.82' y1='5.74' x2='9.82' y2='15.76' stroke='black' stroke-width='1.9' stroke-miterlimit='10'/%3E%3C/svg%3E") center / contain no-repeat;
+      mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 19.64 18.4'%3E%3Cpath fill='none' stroke='black' stroke-width='1.9' stroke-miterlimit='10' d='M15.26.5h3.88v14.87h-2.43c-2.78,0-5.04.05-6.28,2.53h-1l-.08-.16c-1.22-2.55-3.3-2.18-6.12-2.18H.5V.5h4.18c2.15,0,4.11,1.26,4.99,3.23l.53.05.34-.58c.98-1.67,2.78-2.7,4.72-2.7Z'/%3E%3Cline x1='9.82' y1='5.74' x2='9.82' y2='15.76' stroke='black' stroke-width='1.9' stroke-miterlimit='10'/%3E%3C/svg%3E") center / contain no-repeat;
+    }
+
+    .menu-icon.dish {
+      -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 17.95 17.28'%3E%3Cpath fill='none' stroke='black' stroke-width='1.9' stroke-miterlimit='10' d='M.5.5v4.04c0,2.4,1.95,4.35,4.35,4.35h0c2.4,0,4.35-1.95,4.35-4.35V.5'/%3E%3Cline x1='4.85' y1='.5' x2='4.85' y2='17.28' stroke='black' stroke-width='1.9' stroke-miterlimit='10'/%3E%3Cellipse cx='14.5' cy='4.39' rx='2.95' ry='3.89' fill='none' stroke='black' stroke-width='1.9' stroke-miterlimit='10'/%3E%3Cline x1='14.5' y1='17.28' x2='14.5' y2='8.27' stroke='black' stroke-width='1.9' stroke-miterlimit='10'/%3E%3C/svg%3E") center / contain no-repeat;
+      mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 17.95 17.28'%3E%3Cpath fill='none' stroke='black' stroke-width='1.9' stroke-miterlimit='10' d='M.5.5v4.04c0,2.4,1.95,4.35,4.35,4.35h0c2.4,0,4.35-1.95,4.35-4.35V.5'/%3E%3Cline x1='4.85' y1='.5' x2='4.85' y2='17.28' stroke='black' stroke-width='1.9' stroke-miterlimit='10'/%3E%3Cellipse cx='14.5' cy='4.39' rx='2.95' ry='3.89' fill='none' stroke='black' stroke-width='1.9' stroke-miterlimit='10'/%3E%3Cline x1='14.5' y1='17.28' x2='14.5' y2='8.27' stroke='black' stroke-width='1.9' stroke-miterlimit='10'/%3E%3C/svg%3E") center / contain no-repeat;
+    }
+
+    .menu-icon.account {
+      -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16.32 17.04'%3E%3Ccircle cx='8.16' cy='5.44' r='4.94' fill='none' stroke='black' stroke-width='1.9' stroke-miterlimit='10'/%3E%3Cpath fill='none' stroke='black' stroke-width='1.9' stroke-miterlimit='10' d='M.5,17.04c0-4.23,3.43-6.66,7.66-6.66s7.66,2.43,7.66,6.66'/%3E%3C/svg%3E") center / contain no-repeat;
+      mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16.32 17.04'%3E%3Ccircle cx='8.16' cy='5.44' r='4.94' fill='none' stroke='black' stroke-width='1.9' stroke-miterlimit='10'/%3E%3Cpath fill='none' stroke='black' stroke-width='1.9' stroke-miterlimit='10' d='M.5,17.04c0-4.23,3.43-6.66,7.66-6.66s7.66,2.43,7.66,6.66'/%3E%3C/svg%3E") center / contain no-repeat;
+    }
+
+    .menu-group.collapsed .menu-icon {
+      color: #d3ccc3;
+    }
+
+    .menu-item {
+      height: 39px;
+      padding-left: 48px;
+      color: #8a827a;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .menu-item.active {
+      color: #fff;
+      background: linear-gradient(90deg, #ff8a36, #ff7627);
+    }
+
+    .chev {
+      margin-left: auto;
+      width: 12px;
+      height: 12px;
+      border-top: 2px solid #9c9690;
+      border-right: 2px solid #9c9690;
+      transform: rotate(-45deg);
+    }
+
+    .chev.down {
+      transform: rotate(135deg);
+    }
+
+    .menu-group.collapsed .chev {
+      transform: rotate(45deg);
+    }
+
+    main {
+      padding: 28px 18px 42px 18px;
+      background:
+        linear-gradient(90deg, rgba(255, 255, 255, .96), rgba(255, 250, 245, .9)),
+        repeating-linear-gradient(-42deg, transparent 0 22px, rgba(237, 191, 105, .055) 22px 23px);
+    }
+
+    .page-title {
+      height: 42px;
+      display: flex;
+      align-items: center;
+      padding: 0 22px;
+      font-size: 20px;
+      font-weight: 900;
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, .9);
+      box-shadow: 0 3px 12px rgba(177, 132, 78, .12);
+    }
+
+    .search-panel {
+      min-height: 74px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 8px 0 10px;
+      padding: 14px 22px;
+      font-weight: 800;
+    }
+
+    .search-controls,
+    .reference-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .search-controls {
+      flex: 1 1 470px;
+    }
+
+    .reference-actions {
+      flex: 0 1 auto;
+      margin-left: auto;
+    }
+
+    .date-input {
+      width: 150px;
+      height: 36px;
+      padding: 0 12px;
+      border: 1px solid #ffb57a;
+      border-radius: 5px;
+      color: #554942;
+      background: #fffdf9;
+      font: inherit;
+      outline: 0;
+    }
+
+    .date-input:focus {
+      border-color: var(--orange);
+      box-shadow: 0 0 0 3px rgba(255, 106, 26, .12);
+    }
+
+    .search-spacer {
+      flex: 1;
+    }
+
+    .days-count {
+      font-size: 16px;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 10px;
+    }
+
+    .tab {
+      min-width: 108px;
+      height: 38px;
+      border: 1px solid #f7bd91;
+      border-radius: 5px;
+      color: #594a40;
+      background: #fff6ed;
+      font: inherit;
+      font-size: 12px;
+      font-weight: 900;
+      cursor: pointer;
+      transition: border-color .18s ease, background .18s ease, color .18s ease, box-shadow .18s ease;
+    }
+
+    .tab:hover,
+    .tab:focus-visible {
+      color: #fff;
+      border-color: var(--orange);
+      background: linear-gradient(#ff9340, #ff761f);
+      box-shadow: 0 2px 8px rgba(226, 88, 12, .18);
+      outline: 0;
+    }
+
+    .tab.active {
+      color: #fff;
+      background: linear-gradient(#ff872f, #ff711f);
+      border-color: var(--orange);
+    }
+
+    .reference-body {
+      margin-bottom: 8px;
+      padding: 12px 20px 20px;
+    }
+
+    .reference-body.hidden {
+      display: none;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .guide-title {
+      margin: 0 0 8px;
+      color: #3f3832;
+      font-size: 20px;
+      font-weight: 900;
+    }
+
+    .guide-source {
+      margin: 0 0 14px;
+      color: #6f6861;
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .guide-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      font-size: 13px;
+    }
+
+    .guide-table th,
+    .guide-table td {
+      height: 28px;
+      padding: 0 10px;
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      text-align: center;
+      color: #5d554e;
+    }
+
+    .guide-table th:first-child,
+    .guide-table td:first-child {
+      width: 120px;
+      text-align: center;
+    }
+
+    .guide-table th {
+      color: #6b4b37;
+      background: #fff1e5;
+      font-weight: 900;
+    }
+
+    .guide-table tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .guide-table th:last-child,
+    .guide-table td:last-child {
+      border-right: 0;
+    }
+
+    .guide-notes {
+      margin-top: 22px;
+      color: #4f4842;
+      font-size: 14px;
+      line-height: 1.9;
+      font-weight: 800;
+    }
+
+    .guide-notes h3 {
+      margin: 0 0 12px;
+      color: #665f58;
+      font-size: 15px;
+    }
+
+    .guide-notes p {
+      margin: 0;
+    }
+
+    .intake-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .intake-list.hidden {
+      display: none;
+    }
+
+    .intake-row {
+      display: grid;
+      grid-template-columns: 170px 1fr;
+      border: 1px solid #ffcaa0;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, .86);
+      box-shadow: 0 3px 10px rgba(196, 113, 48, .12);
+      overflow: hidden;
+    }
+
+    .intake-row header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      min-height: 96px;
+      padding: 12px;
+      border-right: 1px solid #ffd4b2;
+      background: #fff7ef;
+      font-size: 13px;
+      font-weight: 900;
+      text-align: center;
+    }
+
+    .day-total {
+      color: #ff6a1a;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .intake-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      padding: 12px;
+    }
+
+    .intake-item {
+      min-height: 56px;
+      padding: 8px 10px;
+      border: 1px solid #ffd4b2;
+      border-radius: 5px;
+      background: #fffdf9;
+      color: #665d55;
+      line-height: 1.35;
+    }
+
+    .intake-item strong {
+      display: inline-block;
+      margin-right: 8px;
+      color: #60473a;
+      font-weight: 900;
+    }
+
+    .intake-item span {
+      display: block;
+      margin-top: 4px;
+      color: #81746b;
+      overflow-wrap: anywhere;
+    }
+
+    .empty-range {
+      grid-column: 1 / -1;
+      min-height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px dashed #ffcaa0;
+      border-radius: 8px;
+      color: #9b8a7d;
+      background: rgba(255, 255, 255, .72);
+      font-weight: 800;
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span>“关大师” 菜谱搭配平台</span>
+    </div>
+    <div class="top-actions">
+      <span class="top-icon service" aria-label="客服微信" title="客服微信"></span>
+      <span class="top-icon message" aria-label="消息提醒" title="消息提醒"></span>
+      <img class="avatar-img" src="images/person.png" alt="用户头像" title="用户头像">
+      <span class="visitor">游客</span>
+      <button class="login" type="button">登陆</button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="menu-group">
+        <div class="menu-title"><span class="menu-icon book" aria-hidden="true"></span>菜谱搭配<span class="chev down"></span></div>
+        <div class="menu-children">
+          <a class="menu-item" href="page01.html">搭配菜谱</a>
+          <div class="menu-item active">我的搭配</div>
+        </div>
+      </div>
+      <div class="menu-group collapsed">
+        <div class="menu-title"><span class="menu-icon dish" aria-hidden="true"></span>我的菜品<span class="chev down"></span></div>
+        <div class="menu-children">
+          <a class="menu-item" href="page05.html">菜品设计</a>
+          <a class="menu-item" href="page06.html">我的菜品</a>
+        </div>
+      </div>
+      <div class="menu-group collapsed">
+        <div class="menu-title"><span class="menu-icon account" aria-hidden="true"></span>我的帐户<span class="chev down"></span></div>
+        <div class="menu-children">
+          <a class="menu-item" href="page07.html">帐户管理</a>
+          <a class="menu-item" href="page08.html">收费套餐</a>
+          <a class="menu-item" href="page09.html">发票管理</a>
+        </div>
+      </div>
+
+    </aside>
+
+    <main>
+      <div class="page-title">菜谱搭配 / 我的搭配</div>
+
+      <section class="panel search-panel">
+        <div class="search-controls">
+          <span>我的搭配菜谱搜索：</span>
+          <input class="date-input" id="startDate" type="date" value="2026-06-23" aria-label="开始日期">
+          <input class="date-input" id="endDate" type="date" value="2026-06-29" aria-label="结束日期">
+          <strong class="days-count">共<span id="daysTotal">7</span>天</strong>
+        </div>
+        <div class="reference-actions">
+          <div class="tabs" role="tablist" aria-label="内容切换">
+            <button class="tab active" type="button" data-view="intake">食材摄入汇总</button>
+            <button class="tab" type="button" data-view="guide1">营养餐用餐指引1</button>
+            <button class="tab" type="button" data-view="guide2">营养餐用餐指引2</button>
+            <button class="tab" type="button" data-view="summary">推荐组合汇总</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel reference-body hidden" id="referenceBody">
+        <div class="guide-title" id="guideTitle">营养餐用餐指引</div>
+        <p class="guide-source" id="guideSource">（根据《中国居民膳食指南2022》）</p>
+        <table class="guide-table">
+          <thead id="guideHead"></thead>
+          <tbody id="guideRows"></tbody>
+        </table>
+        <div class="guide-notes" id="guideNotes"></div>
+      </section>
+
+      <section class="intake-list" id="recipeCards" aria-label="时间段菜谱食材摄入"></section>
+    </main>
+  </div>
+
+  <script>
+    const startDate = document.querySelector("#startDate");
+    const endDate = document.querySelector("#endDate");
+    const daysTotal = document.querySelector("#daysTotal");
+    const recipeCards = document.querySelector("#recipeCards");
+    const referenceBody = document.querySelector("#referenceBody");
+    const guideTitle = document.querySelector("#guideTitle");
+    const guideSource = document.querySelector("#guideSource");
+    const guideHead = document.querySelector("#guideHead");
+    const guideRows = document.querySelector("#guideRows");
+    const guideNotes = document.querySelector("#guideNotes");
+    const viewTabs = Array.from(document.querySelectorAll("[data-view]"));
+    const oneDay = 24 * 60 * 60 * 1000;
+
+    const menuPlans = [
+      {
+        intake: [
+          ["谷薯类", "285g", "米饭、小米粥"],
+          ["蔬菜", "460g", "空心菜、冬瓜、黄瓜"],
+          ["畜禽肉", "95g", "猪肉、鸡肉"],
+          ["蛋类", "45g", "鸡蛋"],
+          ["豆制品", "80g", "豆腐"],
+          ["菌菇类", "35g", "香菇"]
+        ]
+      },
+      {
+        intake: [
+          ["谷薯类", "310g", "杂粮饭、花卷"],
+          ["蔬菜", "520g", "番茄、生菜、青椒"],
+          ["畜禽肉", "70g", "牛肉"],
+          ["水产品", "65g", "鱼片"],
+          ["豆制品", "90g", "豆腐"],
+          ["奶类", "180g", "酸奶"],
+          ["水果", "120g", "苹果"]
+        ]
+      },
+      {
+        intake: [
+          ["谷薯类", "295g", "南瓜饭、包子"],
+          ["蔬菜", "485g", "茄子、丝瓜、冬瓜"],
+          ["畜禽肉", "105g", "鸡肉、猪肉"]
+        ]
+      },
+      {
+        intake: [
+          ["谷薯类", "275g", "玉米饭、小米粥"],
+          ["蔬菜", "430g", "小白菜、冬瓜"],
+          ["畜禽肉", "55g", "牛肉"],
+          ["水产品", "90g", "鱼、虾仁"],
+          ["豆制品", "70g", "腐竹"],
+          ["菌菇类", "50g", "木耳"],
+          ["坚果", "10g", "花生碎"],
+          ["油盐", "适量", "低盐调味"]
+        ]
+      }
+    ];
+
+    const guideData = {
+      guide1: {
+        title: "营养餐用餐指引",
+        source: "（根据《中国居民膳食指南2022》）",
+        headers: ["食材种类", "推荐摄入", "用餐参考"],
+        rows: [
+          ["食材种类", "每天12种以上，每周25种以上", "午餐4-6种、晚餐4-5种（不含调味料）"],
+          ["谷薯类", "每天260克、每周1600克", "参考数值左右即可"],
+          ["蔬菜", "每天400克、每周2900克", "参考数值左右即可"],
+          ["畜、禽肉", "每天45克、每周310克", "参考数值左右即可"],
+          ["蛋类", "每天45克、每周310克", "参考数值左右即可"],
+          ["水产品", "每天45克、每周310克", "参考数值左右即可"],
+          ["奶类", "每天300克、每周2100克", "参考数值左右即可"],
+          ["取餐", "1荤+2素以上（建议3素、4素）", "少餐量、多种类"],
+          ["菜类选择", "每天取餐种类不同，肉类每天1种", "建议每周最大限度减少重复"],
+          ["取餐计量", "肉菜2勺、素菜1勺、主食一勺", "建议量，可以量浮动"]
+        ]
+      },
+      guide2: {
+        title: "营养餐用餐指引",
+        source: "（根据人体9种体质分类特点）",
+        headers: ["体质类型", "推荐食材"],
+        rows: [
+          ["平和质", "玉米、豆类、瘦肉、鱼虾、青菜、胡萝卜、苹果、香蕉、橙子等"],
+          ["气虚质", "粳米、葡萄、南瓜、牛肉、山药、红枣。免生冷和辛辣食物。"],
+          ["阳虚质", "糯米、大枣、韭菜、羊肉。如韭菜炒滑蛋、羊肉豆腐汤。"],
+          ["阴虚质", "小米、桑葚、枸杞叶、猪皮。如银耳羹、老鸭汤。"],
+          ["痰湿质", "冬瓜、薏米。避免油腻和甜食。"],
+          ["湿热质", "黄瓜、西瓜。避免辛辣刺激食物。"],
+          ["气郁质", "富含镁的食物，如核桃、菠菜。"],
+          ["血瘀质", "红枣、山楂等。避免油腻食物。"],
+          ["特禀质", "饮食清淡，避免过敏源。"]
+        ],
+        notes: {
+          title: "9种体质判断依据",
+          items: [
+            ["平和质", "体形匀称健壮，面色红润。"],
+            ["气虚质", "容易气短、疲劳，活动后出汗多。"],
+            ["阳虚质", "畏寒肢冷，手脚发凉，喜欢吃热食。"],
+            ["阴虚质", "手足心热、口燥咽干，喜欢喝冷饮，性格急躁。"],
+            ["痰湿质", "体型肥胖，腹部肥满，皮肤油脂较多，容易出汗且黏，易胸闷痰多。"],
+            ["湿热质", "面部油腻，口苦口臭，皮肤瘙痒易生痤疮。"],
+            ["血瘀质", "面色晦暗，易褐斑和黑眼圈，女性易痛经、闭经。"],
+            ["气郁质", "胸胁胀满、心烦易怒、多愁善感、精神抑郁。"],
+            ["特禀质", "体质虚弱，易过敏。"]
+          ]
+        }
+      },
+      summary: {
+        title: "推荐组合汇总",
+        source: "（营养搭配与菜单搭配对应参考）",
+        headers: ["营养搭配目标", "食材组合建议", "菜单搭配示例"],
+        rows: [
+          ["高蛋白均衡", "谷薯类 + 畜禽肉/水产品 + 叶菜类 + 豆制品", "杂粮饭 + 清蒸鱼 + 香菇菜心 + 家常豆腐"],
+          ["控油清淡", "谷薯类 + 少油蛋白 + 瓜茄类 + 清汤", "玉米饭 + 香菇滑鸡 + 蒜蓉丝瓜 + 紫菜豆腐汤"],
+          ["高纤维饱腹", "粗粮主食 + 深色蔬菜 + 菌菇类 + 少量坚果", "南瓜饭 + 清炒空心菜 + 木耳山药 + 花生碎拌菜"],
+          ["补铁补锌", "瘦肉/牛肉 + 深色蔬菜 + 豆类 + 水果", "番茄牛腩 + 菠菜豆腐 + 红豆饭 + 橙子"],
+          ["低盐晚餐", "清淡主食 + 鱼虾/豆腐 + 瓜类蔬菜 + 粥汤", "小米粥 + 冬瓜虾仁 + 腐竹木耳 + 黄瓜"],
+          ["多样化轮换", "肉类每日轮换，蔬菜叶菜/根茎/菌菇交替", "周一鸡肉配叶菜，周二鱼虾配瓜类，周三牛肉配菌菇"]
+        ]
+      }
+    };
+
+    function parseDateValue(value) {
+      if (!value) return null;
+      const [year, month, day] = value.split("-").map(Number);
+      return new Date(year, month - 1, day);
+    }
+
+    function updateRangeView() {
+      const start = parseDateValue(startDate.value);
+      const end = parseDateValue(endDate.value);
+      if (!start || !end || end < start) {
+        daysTotal.textContent = "0";
+        recipeCards.innerHTML = '<div class="empty-range">请选择有效的开始时间和结束时间</div>';
+        return;
+      }
+
+      const count = Math.round((end - start) / oneDay) + 1;
+      daysTotal.textContent = String(count);
+      renderRecipeCards(start, count);
+      if (getActiveView() === "intake") {
+        showIntakeView();
+      }
+    }
+
+    function formatDateTitle(date) {
+      return `${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日`;
+    }
+
+    function renderRecipeCards(start, count) {
+      recipeCards.innerHTML = "";
+      for (let index = 0; index < count; index += 1) {
+        const date = new Date(start);
+        date.setDate(start.getDate() + index);
+        const plan = menuPlans[index % menuPlans.length];
+        const article = document.createElement("article");
+        article.className = "intake-row";
+        article.innerHTML = `
+          <header><span>${formatDateTitle(date)}</span><span class="day-total">${plan.intake.length}类食材</span></header>
+          <div class="intake-grid">
+            ${plan.intake.map((row) => `<div class="intake-item"><strong>${row[0]}</strong>${row[1]}<span>${row[2]}</span></div>`).join("")}
+          </div>
+        `;
+        recipeCards.appendChild(article);
+      }
+    }
+
+    function getActiveView() {
+      return viewTabs.find((tab) => tab.classList.contains("active"))?.dataset.view || "intake";
+    }
+
+    function setActiveView(type) {
+      viewTabs.forEach((tab) => {
+        tab.classList.toggle("active", tab.dataset.view === type);
+      });
+    }
+
+    function showIntakeView() {
+      referenceBody.classList.add("hidden");
+      recipeCards.classList.remove("hidden");
+      setActiveView("intake");
+    }
+
+    function showGuideView(type) {
+      const data = guideData[type];
+      recipeCards.classList.add("hidden");
+      referenceBody.classList.remove("hidden");
+      guideTitle.textContent = data.title;
+      guideSource.textContent = data.source;
+      guideHead.innerHTML = `<tr>${data.headers.map((header) => `<th>${header}</th>`).join("")}</tr>`;
+      guideRows.innerHTML = data.rows.map((row) => `<tr>${row.map((cell) => `<td>${cell}</td>`).join("")}</tr>`).join("");
+      if (data.notes) {
+        guideNotes.innerHTML = `<h3>${data.notes.title}</h3>${data.notes.items.map((item) => `<p><strong>${item[0]}：</strong>${item[1]}</p>`).join("")}`;
+      } else {
+        guideNotes.innerHTML = "";
+      }
+      setActiveView(type);
+    }
+
+    startDate.addEventListener("change", updateRangeView);
+    endDate.addEventListener("change", updateRangeView);
+    viewTabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        const view = tab.dataset.view;
+        if (view === "intake") {
+          showIntakeView();
+          return;
+        }
+        showGuideView(view);
+      });
+    });
+    updateRangeView();
+    showIntakeView();
+
+    document.querySelectorAll(".menu-title").forEach((title) => {
+      title.addEventListener("click", () => {
+        title.closest(".menu-group").classList.toggle("collapsed");
+      });
+    });
+  </script>
+</body>
+</html>
