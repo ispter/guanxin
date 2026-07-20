@@ -6,9 +6,9 @@
   <title>关大师 菜谱搭配平台 - 菜品设计</title>
   <style>
     :root {
-      --orange: #ff6a1a;
-      --orange-soft: #fff3e7;
-      --line: #ffc79b;
+      --orange: #f5a623;
+      --orange-soft: #fff7df;
+      --line: #f3d28a;
       --text: #443a34;
       --muted: #756b63;
       --bg: #fffaf5;
@@ -193,8 +193,14 @@
     }
 
     .menu-item.active {
-      color: #fff;
-      background: linear-gradient(90deg, #ff8a36, #ff7627);
+      color: #c94f1f;
+      background: #f2f3f5;
+    }
+
+    .menu-item[href]:hover,
+    .menu-item[href]:focus-visible {
+      color: #C94F1F;
+      outline: 0;
     }
 
     .menu-group {
@@ -224,7 +230,7 @@
     }
 
     .menu-group.current .menu-icon {
-      color: #ff9b24;
+      color: #f2aa2e;
     }
 
     .menu-icon.book {
@@ -295,7 +301,7 @@
 
     input,
     textarea {
-      border: 1px solid #ffb57a;
+      border: 1px solid #efd184;
       border-radius: 5px;
       color: #554942;
       background: #fffdf9;
@@ -319,7 +325,7 @@
     input:focus,
     textarea:focus {
       border-color: var(--orange);
-      box-shadow: 0 0 0 3px rgba(255, 106, 26, .12);
+      box-shadow: 0 0 0 3px rgba(216, 90, 42, .13);
     }
 
     .dish-name {
@@ -333,30 +339,34 @@
     .section-title {
       margin-bottom: 18px;
       padding-bottom: 10px;
-      border-bottom: 1px solid var(--orange);
-      color: var(--orange);
+      border-bottom: 1px solid #e07042;
+      color: #d85a2a;
       font-size: 18px;
       font-weight: 900;
     }
 
-    .ingredient-grid {
+    .ingredient-grid,
+    .material-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 20px 24px;
     }
 
-    .ingredient-item {
+    .ingredient-item,
+    .material-item {
       display: grid;
       grid-template-columns: auto minmax(0, 1fr) 64px auto;
       align-items: center;
       gap: 8px;
     }
 
-    .ingredient-item input:first-of-type {
+    .ingredient-item input:first-of-type,
+    .material-item input:first-of-type {
       min-width: 0;
     }
 
     .ingredient-add,
+    .material-add,
     .seasoning-add {
       align-self: center;
       justify-self: start;
@@ -373,13 +383,15 @@
       width: 64px;
     }
 
-    .seasoning-grid {
+    .seasoning-grid,
+    .seasoning-material-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 20px 36px;
     }
 
-    .seasoning-item {
+    .seasoning-item,
+    .seasoning-material-item {
       display: grid;
       grid-template-columns: auto minmax(0, 1fr);
       align-items: center;
@@ -409,9 +421,9 @@
     .btn {
       min-width: 112px;
       height: 36px;
-      border: 1px solid #ff9e68;
+      border: 1px solid #efbd55;
       border-radius: 5px;
-      color: var(--orange);
+      color: #df7f22;
       background: #fff6ef;
       font: inherit;
       font-weight: 900;
@@ -424,7 +436,7 @@
     .btn.primary-always {
       color: #fff;
       border-color: var(--orange);
-      background: linear-gradient(#ff872f, #ff711f);
+      background: linear-gradient(#f7b84b, #f0a51f);
       box-shadow: 0 2px 8px rgba(226, 88, 12, .18);
       outline: 0;
     }
@@ -458,7 +470,7 @@
         <div class="menu-title"><span class="menu-icon book" aria-hidden="true"></span>菜谱搭配<span class="chev down"></span></div>
         <div class="menu-children">
           <a class="menu-item" href="page01.html">搭配菜谱</a>
-          <a class="menu-item" href="page04.html">我的搭配</a>
+          <a class="menu-item" href="page04.html">食材统计</a>
         </div>
       </div>
       <div class="menu-group">
@@ -488,13 +500,23 @@
         </div>
 
         <section class="section">
-          <div class="section-title">食材选择</div>
-          <div class="ingredient-grid" id="ingredientGrid"></div>
+          <div class="section-title">主料设置</div>
+          <div class="material-grid" id="mainMaterialGrid"></div>
         </section>
 
         <section class="section">
-          <div class="section-title">调味料选择</div>
-          <div class="seasoning-grid" id="seasoningGrid"></div>
+          <div class="section-title">辅料设置</div>
+          <div class="material-grid" id="sideMaterialGrid"></div>
+        </section>
+
+        <section class="section">
+          <div class="section-title">小料设置</div>
+          <div class="seasoning-material-grid" id="smallMaterialGrid"></div>
+        </section>
+
+        <section class="section">
+          <div class="section-title">调料设置</div>
+          <div class="seasoning-material-grid" id="seasoningGrid"></div>
         </section>
 
         <section class="section">
@@ -511,31 +533,60 @@
   </div>
 
   <script>
-    const ingredientGrid = document.querySelector("#ingredientGrid");
+    const mainMaterialGrid = document.querySelector("#mainMaterialGrid");
+    const sideMaterialGrid = document.querySelector("#sideMaterialGrid");
+    const smallMaterialGrid = document.querySelector("#smallMaterialGrid");
     const seasoningGrid = document.querySelector("#seasoningGrid");
     const processGrid = document.querySelector("#processGrid");
     const dishForm = document.querySelector("#dishForm");
-    const addIngredientButton = document.createElement("button");
-    addIngredientButton.className = "btn ingredient-add";
-    addIngredientButton.id = "addIngredient";
-    addIngredientButton.type = "button";
-    addIngredientButton.textContent = "添加食材";
-    const addSeasoningButton = document.createElement("button");
-    addSeasoningButton.className = "btn seasoning-add";
-    addSeasoningButton.id = "addSeasoning";
-    addSeasoningButton.type = "button";
-    addSeasoningButton.textContent = "增加调味料";
     const addProcessButton = document.createElement("button");
     addProcessButton.className = "btn process-add";
     addProcessButton.id = "addProcess";
     addProcessButton.type = "button";
     addProcessButton.textContent = "添加工序/工艺";
+    const materialSections = [
+      {
+        grid: mainMaterialGrid,
+        label: "主料",
+        addText: "添加主料",
+        weighted: true
+      },
+      {
+        grid: sideMaterialGrid,
+        label: "辅料",
+        addText: "添加辅料",
+        weighted: true
+      },
+      {
+        grid: smallMaterialGrid,
+        label: "小料",
+        addText: "添加小料",
+        weighted: false
+      },
+      {
+        grid: seasoningGrid,
+        label: "调料",
+        addText: "添加调料",
+        weighted: false
+      }
+    ].map((section) => ({
+      ...section,
+      addButton: createAddMaterialButton(section.addText)
+    }));
 
-    function createIngredient(index) {
+    function createAddMaterialButton(text) {
+      const button = document.createElement("button");
+      button.className = "btn material-add";
+      button.type = "button";
+      button.textContent = text;
+      return button;
+    }
+
+    function createWeightedMaterial(label, index) {
       const item = document.createElement("div");
-      item.className = "ingredient-item";
+      item.className = "material-item";
       item.innerHTML = `
-        <label>食材${index}</label>
+        <label>${label}${index}</label>
         <input type="text" placeholder="请输入食材名称">
         <input class="weight-input" type="text" placeholder="克数">
         <span>g</span>
@@ -543,14 +594,20 @@
       return item;
     }
 
-    function createSeasoning(index) {
+    function createSimpleMaterial(label, index) {
       const item = document.createElement("div");
-      item.className = "seasoning-item";
+      item.className = "seasoning-material-item";
       item.innerHTML = `
-        <label>调味料${index}</label>
-        <input type="text" placeholder="请输入食材名称">
+        <label>${label}${index}</label>
+        <input type="text" placeholder="请输入${label}名称">
       `;
       return item;
+    }
+
+    function createMaterial(section, index) {
+      return section.weighted
+        ? createWeightedMaterial(section.label, index)
+        : createSimpleMaterial(section.label, index);
     }
 
     function createProcess(index) {
@@ -566,31 +623,24 @@
     }
 
     function renderInitialFields() {
-      ingredientGrid.innerHTML = "";
-      seasoningGrid.innerHTML = "";
+      materialSections.forEach((section) => {
+        section.grid.innerHTML = "";
+        section.grid.appendChild(createMaterial(section, 1));
+        section.grid.appendChild(section.addButton);
+      });
       processGrid.innerHTML = "";
-      ingredientGrid.appendChild(createIngredient(1));
-      ingredientGrid.appendChild(addIngredientButton);
-      seasoningGrid.appendChild(createSeasoning(1));
-      seasoningGrid.appendChild(addSeasoningButton);
       for (let index = 1; index <= 5; index += 1) {
         processGrid.appendChild(createProcess(index));
       }
       processGrid.appendChild(addProcessButton);
     }
 
-    function appendIngredient() {
-      addIngredientButton.remove();
-      const nextIndex = ingredientGrid.querySelectorAll(".ingredient-item").length + 1;
-      ingredientGrid.appendChild(createIngredient(nextIndex));
-      ingredientGrid.appendChild(addIngredientButton);
-    }
-
-    function appendSeasoning() {
-      addSeasoningButton.remove();
-      const nextIndex = seasoningGrid.querySelectorAll(".seasoning-item").length + 1;
-      seasoningGrid.appendChild(createSeasoning(nextIndex));
-      seasoningGrid.appendChild(addSeasoningButton);
+    function appendMaterial(section) {
+      section.addButton.remove();
+      const itemSelector = section.weighted ? ".material-item" : ".seasoning-material-item";
+      const nextIndex = section.grid.querySelectorAll(itemSelector).length + 1;
+      section.grid.appendChild(createMaterial(section, nextIndex));
+      section.grid.appendChild(section.addButton);
     }
 
     function appendProcess() {
@@ -600,8 +650,9 @@
       processGrid.appendChild(addProcessButton);
     }
 
-    addIngredientButton.addEventListener("click", appendIngredient);
-    addSeasoningButton.addEventListener("click", appendSeasoning);
+    materialSections.forEach((section) => {
+      section.addButton.addEventListener("click", () => appendMaterial(section));
+    });
     addProcessButton.addEventListener("click", appendProcess);
     document.querySelector("#clearForm").addEventListener("click", () => {
       dishForm.reset();

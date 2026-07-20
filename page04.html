@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>关大师 菜谱搭配平台 - 我的搭配</title>
+  <title>关大师 菜谱搭配平台 - 食材统计</title>
   <style>
     :root {
-      --orange: #ff6a1a;
-      --orange-deep: #f25b17;
-      --orange-soft: #fff3e7;
-      --line: #ffc79b;
+      --orange: #f5a623;
+      --orange-deep: #df8d12;
+      --orange-soft: #fff7df;
+      --line: #f3d28a;
       --text: #443a34;
       --muted: #7d736c;
       --bg: #fffaf5;
@@ -207,7 +207,7 @@
       width: 20px;
       height: 19px;
       margin-right: 12px;
-      color: #ff9b24;
+      color: #f2aa2e;
       background: currentColor;
       flex: 0 0 20px;
     }
@@ -240,8 +240,14 @@
     }
 
     .menu-item.active {
-      color: #fff;
-      background: linear-gradient(90deg, #ff8a36, #ff7627);
+      color: #c94f1f;
+      background: #f2f3f5;
+    }
+
+    .menu-item[href]:hover,
+    .menu-item[href]:focus-visible {
+      color: #C94F1F;
+      outline: 0;
     }
 
     .chev {
@@ -316,7 +322,7 @@
       width: 150px;
       height: 36px;
       padding: 0 12px;
-      border: 1px solid #ffb57a;
+      border: 1px solid #efd184;
       border-radius: 5px;
       color: #554942;
       background: #fffdf9;
@@ -326,7 +332,7 @@
 
     .date-input:focus {
       border-color: var(--orange);
-      box-shadow: 0 0 0 3px rgba(255, 106, 26, .12);
+      box-shadow: 0 0 0 3px rgba(216, 90, 42, .13);
     }
 
     .search-spacer {
@@ -338,37 +344,56 @@
     }
 
     .tabs {
-      display: flex;
-      gap: 10px;
+      --view-index: 0;
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      height: 36px;
+      padding: 2px;
+      border: 1px solid #ead8c2;
+      border-radius: 5px;
+      background: #fffaf2;
+      box-shadow: inset 0 1px 4px rgba(105, 76, 43, .08);
+    }
+
+    .tabs::before {
+      content: "";
+      position: absolute;
+      left: 2px;
+      top: 2px;
+      width: 78px;
+      height: 30px;
+      border-radius: 4px;
+      background: var(--orange);
+      box-shadow: 0 2px 6px rgba(203, 139, 22, .22);
+      transform: translateX(calc(var(--view-index) * 78px));
+      transition: transform .22s ease;
     }
 
     .tab {
-      min-width: 108px;
-      height: 38px;
-      border: 1px solid #f7bd91;
+      position: relative;
+      z-index: 1;
+      width: 78px;
+      height: 30px;
+      border: 0;
       border-radius: 5px;
-      color: #594a40;
-      background: #fff6ed;
+      color: #8c6b50;
+      background: transparent;
       font: inherit;
-      font-size: 12px;
-      font-weight: 900;
+      font-size: 13px;
+      font-weight: 800;
       cursor: pointer;
-      transition: border-color .18s ease, background .18s ease, color .18s ease, box-shadow .18s ease;
+      transition: color .18s ease;
     }
 
     .tab:hover,
     .tab:focus-visible {
-      color: #fff;
-      border-color: var(--orange);
-      background: linear-gradient(#ff9340, #ff761f);
-      box-shadow: 0 2px 8px rgba(226, 88, 12, .18);
+      color: #d96216;
       outline: 0;
     }
 
     .tab.active {
       color: #fff;
-      background: linear-gradient(#ff872f, #ff711f);
-      border-color: var(--orange);
     }
 
     .reference-body {
@@ -469,7 +494,7 @@
     .intake-row {
       display: grid;
       grid-template-columns: 170px 1fr;
-      border: 1px solid #ffcaa0;
+      border: 1px solid #f3d28a;
       border-radius: 8px;
       background: rgba(255, 255, 255, .86);
       box-shadow: 0 3px 10px rgba(196, 113, 48, .12);
@@ -484,7 +509,7 @@
       gap: 6px;
       min-height: 96px;
       padding: 12px;
-      border-right: 1px solid #ffd4b2;
+      border-right: 1px solid #f1db9b;
       background: #fff7ef;
       font-size: 13px;
       font-weight: 900;
@@ -492,7 +517,7 @@
     }
 
     .day-total {
-      color: #ff6a1a;
+      color: #c94f1f;
       font-size: 12px;
       font-weight: 900;
     }
@@ -507,7 +532,7 @@
     .intake-item {
       min-height: 56px;
       padding: 8px 10px;
-      border: 1px solid #ffd4b2;
+      border: 1px solid #f1db9b;
       border-radius: 5px;
       background: #fffdf9;
       color: #665d55;
@@ -534,11 +559,141 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      border: 1px dashed #ffcaa0;
+      border: 1px dashed #f3d28a;
       border-radius: 8px;
       color: #9b8a7d;
       background: rgba(255, 255, 255, .72);
       font-weight: 800;
+    }
+
+    .export-btn {
+      min-width: 116px;
+      height: 36px;
+      border: 1px solid #efbd55;
+      border-radius: 5px;
+      color: #df7f22;
+      background: #fff6ef;
+      font: inherit;
+      font-weight: 900;
+      cursor: pointer;
+      transition: border-color .18s ease, background .18s ease, color .18s ease, box-shadow .18s ease;
+    }
+
+    .export-btn:hover,
+    .export-btn:focus-visible {
+      color: #fff;
+      border-color: var(--orange);
+      background: linear-gradient(#f7b84b, #f0a51f);
+      box-shadow: 0 2px 8px rgba(226, 88, 12, .18);
+      outline: 0;
+    }
+
+    .stat-summary {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .summary-card {
+      min-height: 76px;
+      padding: 14px 16px;
+      border: 1px solid #f1db9b;
+      border-radius: 7px;
+      background: #fffdf9;
+      color: #665d55;
+      font-weight: 800;
+    }
+
+    .summary-card strong {
+      display: block;
+      margin-top: 6px;
+      color: #c94f1f;
+      font-size: 22px;
+    }
+
+    .stats-table-panel {
+      padding: 16px 18px 20px;
+    }
+
+    .stats-title {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 14px;
+      color: #3f3832;
+      font-size: 20px;
+      font-weight: 900;
+    }
+
+    .stats-title span {
+      color: #8a7b70;
+      font-size: 13px;
+    }
+
+    .stats-table {
+      width: 100%;
+      border-collapse: collapse;
+      border: 1px solid var(--line);
+      background: #fffdf9;
+      font-size: 13px;
+    }
+
+    .stats-table th,
+    .stats-table td {
+      height: 36px;
+      padding: 0 12px;
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      text-align: center;
+      color: #5d554e;
+    }
+
+    .stats-table th {
+      color: #6b4b37;
+      background: #fff1e5;
+      font-weight: 900;
+    }
+
+    .stats-table tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .stats-table th:last-child,
+    .stats-table td:last-child {
+      border-right: 0;
+    }
+
+    @media print {
+      body {
+        min-width: 0;
+        background: #fff;
+      }
+
+      .topbar,
+      .sidebar,
+      .search-panel,
+      .bottom-actions,
+      .export-btn {
+        display: none !important;
+      }
+
+      .layout {
+        display: block;
+      }
+
+      main {
+        padding: 0;
+        background: #fff;
+      }
+
+      .page-title {
+        padding: 0 0 12px;
+      }
+
+      .panel {
+        box-shadow: none;
+      }
     }
   </style>
 </head>
@@ -562,7 +717,7 @@
         <div class="menu-title"><span class="menu-icon book" aria-hidden="true"></span>菜谱搭配<span class="chev down"></span></div>
         <div class="menu-children">
           <a class="menu-item" href="page01.html">搭配菜谱</a>
-          <div class="menu-item active">我的搭配</div>
+          <div class="menu-item active">食材统计</div>
         </div>
       </div>
       <div class="menu-group collapsed">
@@ -584,250 +739,226 @@
     </aside>
 
     <main>
-      <div class="page-title">菜谱搭配 / 我的搭配</div>
+      <div class="page-title">菜谱搭配 / 食材统计</div>
 
       <section class="panel search-panel">
         <div class="search-controls">
-          <span>我的搭配菜谱搜索：</span>
+          <span>选择起始日期：</span>
           <input class="date-input" id="startDate" type="date" value="2026-06-23" aria-label="开始日期">
-          <input class="date-input" id="endDate" type="date" value="2026-06-29" aria-label="结束日期">
-          <strong class="days-count">共<span id="daysTotal">7</span>天</strong>
+          <strong class="days-count" id="rangeLabel">2026-06-23 至 2026-06-29</strong>
         </div>
         <div class="reference-actions">
-          <div class="tabs" role="tablist" aria-label="内容切换">
-            <button class="tab active" type="button" data-view="intake">食材摄入汇总</button>
-            <button class="tab" type="button" data-view="guide1">营养餐用餐指引1</button>
-            <button class="tab" type="button" data-view="guide2">营养餐用餐指引2</button>
-            <button class="tab" type="button" data-view="summary">推荐组合汇总</button>
+          <div class="tabs" role="tablist" aria-label="统计周期切换">
+            <button class="tab active" type="button" data-period="week">周统计</button>
+            <button class="tab" type="button" data-period="month">月统计</button>
           </div>
+          <button class="export-btn" id="exportPdf" type="button">保存为PDF</button>
         </div>
       </section>
 
-      <section class="panel reference-body hidden" id="referenceBody">
-        <div class="guide-title" id="guideTitle">营养餐用餐指引</div>
-        <p class="guide-source" id="guideSource">（根据《中国居民膳食指南2022》）</p>
-        <table class="guide-table">
-          <thead id="guideHead"></thead>
-          <tbody id="guideRows"></tbody>
-        </table>
-        <div class="guide-notes" id="guideNotes"></div>
-      </section>
+      <section id="statsReport">
+        <div class="stat-summary" id="statSummary"></div>
 
-      <section class="intake-list" id="recipeCards" aria-label="时间段菜谱食材摄入"></section>
+        <section class="panel stats-table-panel">
+          <div class="stats-title">食材用量统计表 <span id="tableCaption">周统计</span></div>
+          <table class="stats-table">
+            <thead>
+              <tr>
+                <th>原材料名称</th>
+                <th>分类</th>
+                <th>规格/单位</th>
+                <th>采购重量</th>
+                <th>来源菜品</th>
+              </tr>
+            </thead>
+            <tbody id="statsRows"></tbody>
+          </table>
+        </section>
+      </section>
     </main>
   </div>
 
   <script>
     const startDate = document.querySelector("#startDate");
-    const endDate = document.querySelector("#endDate");
-    const daysTotal = document.querySelector("#daysTotal");
-    const recipeCards = document.querySelector("#recipeCards");
-    const referenceBody = document.querySelector("#referenceBody");
-    const guideTitle = document.querySelector("#guideTitle");
-    const guideSource = document.querySelector("#guideSource");
-    const guideHead = document.querySelector("#guideHead");
-    const guideRows = document.querySelector("#guideRows");
-    const guideNotes = document.querySelector("#guideNotes");
-    const viewTabs = Array.from(document.querySelectorAll("[data-view]"));
-    const oneDay = 24 * 60 * 60 * 1000;
+    const rangeLabel = document.querySelector("#rangeLabel");
+    const statSummary = document.querySelector("#statSummary");
+    const statsRows = document.querySelector("#statsRows");
+    const tableCaption = document.querySelector("#tableCaption");
+    const periodSwitcher = document.querySelector(".tabs");
+    const periodButtons = Array.from(document.querySelectorAll("[data-period]"));
+    const exportPdf = document.querySelector("#exportPdf");
 
-    const menuPlans = [
-      {
-        intake: [
-          ["谷薯类", "285g", "米饭、小米粥"],
-          ["蔬菜", "460g", "空心菜、冬瓜、黄瓜"],
-          ["畜禽肉", "95g", "猪肉、鸡肉"],
-          ["蛋类", "45g", "鸡蛋"],
-          ["豆制品", "80g", "豆腐"],
-          ["菌菇类", "35g", "香菇"]
-        ]
-      },
-      {
-        intake: [
-          ["谷薯类", "310g", "杂粮饭、花卷"],
-          ["蔬菜", "520g", "番茄、生菜、青椒"],
-          ["畜禽肉", "70g", "牛肉"],
-          ["水产品", "65g", "鱼片"],
-          ["豆制品", "90g", "豆腐"],
-          ["奶类", "180g", "酸奶"],
-          ["水果", "120g", "苹果"]
-        ]
-      },
-      {
-        intake: [
-          ["谷薯类", "295g", "南瓜饭、包子"],
-          ["蔬菜", "485g", "茄子、丝瓜、冬瓜"],
-          ["畜禽肉", "105g", "鸡肉、猪肉"]
-        ]
-      },
-      {
-        intake: [
-          ["谷薯类", "275g", "玉米饭、小米粥"],
-          ["蔬菜", "430g", "小白菜、冬瓜"],
-          ["畜禽肉", "55g", "牛肉"],
-          ["水产品", "90g", "鱼、虾仁"],
-          ["豆制品", "70g", "腐竹"],
-          ["菌菇类", "50g", "木耳"],
-          ["坚果", "10g", "花生碎"],
-          ["油盐", "适量", "低盐调味"]
-        ]
-      }
+    const baseIngredients = [
+      { name: "大米", category: "粮油干货", unit: "kg", weekly: 18.4, dishes: "米饭、杂粮饭" },
+      { name: "小米", category: "粮油干货", unit: "kg", weekly: 5.2, dishes: "小米粥" },
+      { name: "空心菜", category: "蔬菜", unit: "kg", weekly: 12.6, dishes: "清炒空心菜" },
+      { name: "冬瓜", category: "蔬菜", unit: "kg", weekly: 9.8, dishes: "冬瓜烧豆腐、冬瓜汤" },
+      { name: "猪五花肉", category: "畜禽肉", unit: "kg", weekly: 6.2, dishes: "红烧肉、回锅肉" },
+      { name: "鸡腿肉", category: "畜禽肉", unit: "kg", weekly: 5.6, dishes: "香菇滑鸡、黄焖鸡" },
+      { name: "草鱼片", category: "水产", unit: "kg", weekly: 3.4, dishes: "清蒸鱼、酸菜鱼" },
+      { name: "豆腐", category: "豆制品", unit: "kg", weekly: 5.2, dishes: "家常豆腐、紫菜豆腐汤" },
+      { name: "香菇", category: "菌菇", unit: "kg", weekly: 2.6, dishes: "香菇菜心、香菇滑鸡" },
+      { name: "食用油", category: "调料", unit: "L", weekly: 2.4, dishes: "炒制通用" },
+      { name: "食盐", category: "调料", unit: "kg", weekly: 0.8, dishes: "调味通用" }
     ];
-
-    const guideData = {
-      guide1: {
-        title: "营养餐用餐指引",
-        source: "（根据《中国居民膳食指南2022》）",
-        headers: ["食材种类", "推荐摄入", "用餐参考"],
-        rows: [
-          ["食材种类", "每天12种以上，每周25种以上", "午餐4-6种、晚餐4-5种（不含调味料）"],
-          ["谷薯类", "每天260克、每周1600克", "参考数值左右即可"],
-          ["蔬菜", "每天400克、每周2900克", "参考数值左右即可"],
-          ["畜、禽肉", "每天45克、每周310克", "参考数值左右即可"],
-          ["蛋类", "每天45克、每周310克", "参考数值左右即可"],
-          ["水产品", "每天45克、每周310克", "参考数值左右即可"],
-          ["奶类", "每天300克、每周2100克", "参考数值左右即可"],
-          ["取餐", "1荤+2素以上（建议3素、4素）", "少餐量、多种类"],
-          ["菜类选择", "每天取餐种类不同，肉类每天1种", "建议每周最大限度减少重复"],
-          ["取餐计量", "肉菜2勺、素菜1勺、主食一勺", "建议量，可以量浮动"]
-        ]
-      },
-      guide2: {
-        title: "营养餐用餐指引",
-        source: "（根据人体9种体质分类特点）",
-        headers: ["体质类型", "推荐食材"],
-        rows: [
-          ["平和质", "玉米、豆类、瘦肉、鱼虾、青菜、胡萝卜、苹果、香蕉、橙子等"],
-          ["气虚质", "粳米、葡萄、南瓜、牛肉、山药、红枣。免生冷和辛辣食物。"],
-          ["阳虚质", "糯米、大枣、韭菜、羊肉。如韭菜炒滑蛋、羊肉豆腐汤。"],
-          ["阴虚质", "小米、桑葚、枸杞叶、猪皮。如银耳羹、老鸭汤。"],
-          ["痰湿质", "冬瓜、薏米。避免油腻和甜食。"],
-          ["湿热质", "黄瓜、西瓜。避免辛辣刺激食物。"],
-          ["气郁质", "富含镁的食物，如核桃、菠菜。"],
-          ["血瘀质", "红枣、山楂等。避免油腻食物。"],
-          ["特禀质", "饮食清淡，避免过敏源。"]
-        ],
-        notes: {
-          title: "9种体质判断依据",
-          items: [
-            ["平和质", "体形匀称健壮，面色红润。"],
-            ["气虚质", "容易气短、疲劳，活动后出汗多。"],
-            ["阳虚质", "畏寒肢冷，手脚发凉，喜欢吃热食。"],
-            ["阴虚质", "手足心热、口燥咽干，喜欢喝冷饮，性格急躁。"],
-            ["痰湿质", "体型肥胖，腹部肥满，皮肤油脂较多，容易出汗且黏，易胸闷痰多。"],
-            ["湿热质", "面部油腻，口苦口臭，皮肤瘙痒易生痤疮。"],
-            ["血瘀质", "面色晦暗，易褐斑和黑眼圈，女性易痛经、闭经。"],
-            ["气郁质", "胸胁胀满、心烦易怒、多愁善感、精神抑郁。"],
-            ["特禀质", "体质虚弱，易过敏。"]
-          ]
-        }
-      },
-      summary: {
-        title: "推荐组合汇总",
-        source: "（营养搭配与菜单搭配对应参考）",
-        headers: ["营养搭配目标", "食材组合建议", "菜单搭配示例"],
-        rows: [
-          ["高蛋白均衡", "谷薯类 + 畜禽肉/水产品 + 叶菜类 + 豆制品", "杂粮饭 + 清蒸鱼 + 香菇菜心 + 家常豆腐"],
-          ["控油清淡", "谷薯类 + 少油蛋白 + 瓜茄类 + 清汤", "玉米饭 + 香菇滑鸡 + 蒜蓉丝瓜 + 紫菜豆腐汤"],
-          ["高纤维饱腹", "粗粮主食 + 深色蔬菜 + 菌菇类 + 少量坚果", "南瓜饭 + 清炒空心菜 + 木耳山药 + 花生碎拌菜"],
-          ["补铁补锌", "瘦肉/牛肉 + 深色蔬菜 + 豆类 + 水果", "番茄牛腩 + 菠菜豆腐 + 红豆饭 + 橙子"],
-          ["低盐晚餐", "清淡主食 + 鱼虾/豆腐 + 瓜类蔬菜 + 粥汤", "小米粥 + 冬瓜虾仁 + 腐竹木耳 + 黄瓜"],
-          ["多样化轮换", "肉类每日轮换，蔬菜叶菜/根茎/菌菇交替", "周一鸡肉配叶菜，周二鱼虾配瓜类，周三牛肉配菌菇"]
-        ]
-      }
+    const recipeMaterials = {
+      红烧肉: [["猪五花肉", "畜禽肉", "kg", 0.45], ["生抽", "调料", "L", 0.03], ["食盐", "调料", "kg", 0.01]],
+      回锅肉: [["猪后腿肉", "畜禽肉", "kg", 0.38], ["青椒", "蔬菜", "kg", 0.18], ["豆瓣酱", "调料", "kg", 0.03]],
+      香菇滑鸡: [["鸡腿肉", "畜禽肉", "kg", 0.42], ["香菇", "菌菇", "kg", 0.12], ["生抽", "调料", "L", 0.02]],
+      黄焖鸡: [["鸡腿肉", "畜禽肉", "kg", 0.45], ["土豆", "蔬菜", "kg", 0.25], ["青椒", "蔬菜", "kg", 0.12]],
+      清炒空心菜: [["空心菜", "蔬菜", "kg", 0.35], ["蒜", "小料", "kg", 0.02], ["食用油", "调料", "L", 0.02]],
+      冬瓜烧豆腐: [["冬瓜", "蔬菜", "kg", 0.32], ["豆腐", "豆制品", "kg", 0.28], ["食盐", "调料", "kg", 0.01]],
+      紫菜豆腐汤: [["豆腐", "豆制品", "kg", 0.22], ["紫菜", "干货", "kg", 0.02], ["食盐", "调料", "kg", 0.01]],
+      白米饭: [["大米", "粮油干货", "kg", 0.18]],
+      杂粮饭: [["大米", "粮油干货", "kg", 0.12], ["杂粮", "粮油干货", "kg", 0.08]],
+      小米粥: [["小米", "粮油干货", "kg", 0.08]],
+      清蒸鱼: [["草鱼片", "水产", "kg", 0.4], ["姜", "小料", "kg", 0.02], ["葱", "小料", "kg", 0.02]]
+    };
+    const courseMeta = {
+      main: { category: "主荤", amount: 0.35 },
+      side: { category: "副荤", amount: 0.22 },
+      veg: { category: "蔬菜", amount: 0.26 },
+      staple: { category: "主食", amount: 0.18 },
+      cold: { category: "凉菜", amount: 0.12 },
+      soup: { category: "粥汤", amount: 0.3 }
     };
 
+    let currentPeriod = "week";
+
     function parseDateValue(value) {
-      if (!value) return null;
-      const [year, month, day] = value.split("-").map(Number);
-      return new Date(year, month - 1, day);
+      const parts = value.split("-").map(Number);
+      return new Date(parts[0], parts[1] - 1, parts[2]);
     }
 
-    function updateRangeView() {
+    function formatDate(date) {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      return [year, month, day].join("-");
+    }
+
+    function addDays(date, days) {
+      const next = new Date(date);
+      next.setDate(next.getDate() + days);
+      return next;
+    }
+
+    function getRange() {
       const start = parseDateValue(startDate.value);
-      const end = parseDateValue(endDate.value);
-      if (!start || !end || end < start) {
-        daysTotal.textContent = "0";
-        recipeCards.innerHTML = '<div class="empty-range">请选择有效的开始时间和结束时间</div>';
-        return;
+      if (currentPeriod === "week") {
+        return { start: start, end: addDays(start, 6), multiplier: 1, label: "周统计" };
       }
+      const monthStart = new Date(start.getFullYear(), start.getMonth(), 1);
+      const monthEnd = new Date(start.getFullYear(), start.getMonth() + 1, 0);
+      return { start: monthStart, end: monthEnd, multiplier: 4, label: "月统计" };
+    }
 
-      const count = Math.round((end - start) / oneDay) + 1;
-      daysTotal.textContent = String(count);
-      renderRecipeCards(start, count);
-      if (getActiveView() === "intake") {
-        showIntakeView();
+    function getRows() {
+      const range = getRange();
+      const storedRows = getStoredRows(range);
+      if (storedRows.length) {
+        return attachRatio(storedRows);
       }
+      return attachRatio(baseIngredients.map((item) => Object.assign({}, item, {
+        amount: item.weekly * range.multiplier
+      })));
     }
 
-    function formatDateTitle(date) {
-      return `${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日`;
+    function attachRatio(rows) {
+      const total = rows.reduce((sum, item) => sum + item.amount, 0);
+      return rows.map((item) => Object.assign({}, item, {
+        ratio: Math.round(item.amount / total * 100) + "%"
+      }));
     }
 
-    function renderRecipeCards(start, count) {
-      recipeCards.innerHTML = "";
-      for (let index = 0; index < count; index += 1) {
-        const date = new Date(start);
-        date.setDate(start.getDate() + index);
-        const plan = menuPlans[index % menuPlans.length];
-        const article = document.createElement("article");
-        article.className = "intake-row";
-        article.innerHTML = `
-          <header><span>${formatDateTitle(date)}</span><span class="day-total">${plan.intake.length}类食材</span></header>
-          <div class="intake-grid">
-            ${plan.intake.map((row) => `<div class="intake-item"><strong>${row[0]}</strong>${row[1]}<span>${row[2]}</span></div>`).join("")}
-          </div>
-        `;
-        recipeCards.appendChild(article);
+    function getStoredRows(range) {
+      const saved = JSON.parse(localStorage.getItem("mealPlans") || "{}");
+      const buckets = {};
+      function addMaterial(name, category, unit, amount, dish) {
+        const key = name + "|" + unit;
+        buckets[key] ||= {
+          name: name,
+          category: category,
+          unit: unit,
+          dishes: new Set(),
+          amount: 0
+        };
+        buckets[key].amount += amount;
+        buckets[key].dishes.add(dish);
       }
+      Object.keys(saved).forEach((dateKey) => {
+        const date = parseDateValue(dateKey);
+        if (date < range.start || date > range.end) return;
+        Object.values(saved[dateKey]).flat().forEach((item) => {
+          const recipe = item[0];
+          const courseType = item[2];
+          const meta = courseMeta[courseType] || { category: "其他", amount: 180 };
+          const materials = recipeMaterials[recipe] || [[recipe, meta.category, "kg", meta.amount]];
+          materials.forEach((material) => addMaterial(material[0], material[1], material[2], material[3], recipe));
+        });
+      });
+      return Object.values(buckets).map((bucket) => ({
+        name: bucket.name,
+        category: bucket.category,
+        amount: bucket.amount,
+        unit: bucket.unit,
+        dishes: Array.from(bucket.dishes).join("、")
+      }));
     }
 
-    function getActiveView() {
-      return viewTabs.find((tab) => tab.classList.contains("active"))?.dataset.view || "intake";
-    }
-
-    function setActiveView(type) {
-      viewTabs.forEach((tab) => {
-        tab.classList.toggle("active", tab.dataset.view === type);
+    function getSampleRows() {
+      const range = getRange();
+      const total = baseIngredients.reduce((sum, item) => sum + item.weekly * range.multiplier, 0);
+      return baseIngredients.map((item) => {
+        const amount = item.weekly * range.multiplier;
+        return Object.assign({}, item, {
+          amount: amount,
+          ratio: Math.round(amount / total * 100) + "%"
+        });
       });
     }
 
-    function showIntakeView() {
-      referenceBody.classList.add("hidden");
-      recipeCards.classList.remove("hidden");
-      setActiveView("intake");
+    function renderSummary(rows) {
+      const kgAmount = rows.filter((row) => row.unit === "kg").reduce((sum, row) => sum + row.amount, 0);
+      const literAmount = rows.filter((row) => row.unit === "L").reduce((sum, row) => sum + row.amount, 0);
+      const totalCategories = new Set(rows.map((row) => row.category)).size;
+      const maxRow = rows.reduce((max, row) => row.amount > max.amount ? row : max, rows[0]);
+      const meatAmount = rows.filter((row) => ["畜禽肉", "水产"].includes(row.category)).reduce((sum, row) => sum + row.amount, 0);
+      const cards = [
+        ["重量合计", kgAmount.toFixed(1) + "kg"],
+        ["液体合计", literAmount.toFixed(1) + "L"],
+        ["统计分类", totalCategories + "类"],
+        ["肉/水产合计", meatAmount.toFixed(1) + "kg"]
+      ];
+      statSummary.innerHTML = cards.map((card) => "<div class=\"summary-card\">" + card[0] + "<strong>" + card[1] + "</strong></div>").join("");
     }
 
-    function showGuideView(type) {
-      const data = guideData[type];
-      recipeCards.classList.add("hidden");
-      referenceBody.classList.remove("hidden");
-      guideTitle.textContent = data.title;
-      guideSource.textContent = data.source;
-      guideHead.innerHTML = `<tr>${data.headers.map((header) => `<th>${header}</th>`).join("")}</tr>`;
-      guideRows.innerHTML = data.rows.map((row) => `<tr>${row.map((cell) => `<td>${cell}</td>`).join("")}</tr>`).join("");
-      if (data.notes) {
-        guideNotes.innerHTML = `<h3>${data.notes.title}</h3>${data.notes.items.map((item) => `<p><strong>${item[0]}：</strong>${item[1]}</p>`).join("")}`;
-      } else {
-        guideNotes.innerHTML = "";
-      }
-      setActiveView(type);
-    }
-
-    startDate.addEventListener("change", updateRangeView);
-    endDate.addEventListener("change", updateRangeView);
-    viewTabs.forEach((tab) => {
-      tab.addEventListener("click", () => {
-        const view = tab.dataset.view;
-        if (view === "intake") {
-          showIntakeView();
-          return;
+    function renderStats() {
+      const range = getRange();
+      const rows = getRows();
+      rangeLabel.textContent = formatDate(range.start) + " 至 " + formatDate(range.end);
+      tableCaption.textContent = range.label;
+      periodButtons.forEach((button, index) => {
+        const active = button.dataset.period === currentPeriod;
+        button.classList.toggle("active", active);
+        if (active) {
+          periodSwitcher.style.setProperty("--view-index", index);
         }
-        showGuideView(view);
+      });
+      renderSummary(rows);
+      statsRows.innerHTML = rows.map((row) => "<tr><td>" + row.name + "</td><td>" + row.category + "</td><td>" + row.unit + "</td><td>" + row.amount.toFixed(2) + row.unit + "</td><td>" + row.dishes + "</td></tr>").join("");
+    }
+
+    startDate.addEventListener("change", renderStats);
+    periodButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        currentPeriod = button.dataset.period;
+        renderStats();
       });
     });
-    updateRangeView();
-    showIntakeView();
+    exportPdf.addEventListener("click", () => window.print());
+
+    renderStats();
 
     document.querySelectorAll(".menu-title").forEach((title) => {
       title.addEventListener("click", () => {

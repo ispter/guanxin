@@ -6,9 +6,9 @@
   <title>关大师 菜谱搭配平台 - 发票管理</title>
   <style>
     :root {
-      --orange: #ff6a1a;
-      --orange-soft: #fff3e7;
-      --line: #ffc79b;
+      --orange: #f5a623;
+      --orange-soft: #fff7df;
+      --line: #f3d28a;
       --text: #443a34;
       --muted: #756b63;
       --bg: #fffaf5;
@@ -193,8 +193,14 @@
     }
 
     .menu-item.active {
-      color: #fff;
-      background: linear-gradient(90deg, #ff8a36, #ff7627);
+      color: #c94f1f;
+      background: #f2f3f5;
+    }
+
+    .menu-item[href]:hover,
+    .menu-item[href]:focus-visible {
+      color: #C94F1F;
+      outline: 0;
     }
 
     .menu-group {
@@ -224,7 +230,7 @@
     }
 
     .menu-group.current .menu-icon {
-      color: #ff9b24;
+      color: #f2aa2e;
     }
 
     .menu-icon.book {
@@ -295,7 +301,7 @@
 
     input,
     textarea {
-      border: 1px solid #ffb57a;
+      border: 1px solid #efd184;
       border-radius: 5px;
       color: #554942;
       background: #fffdf9;
@@ -319,7 +325,7 @@
     input:focus,
     textarea:focus {
       border-color: var(--orange);
-      box-shadow: 0 0 0 3px rgba(255, 106, 26, .12);
+      box-shadow: 0 0 0 3px rgba(216, 90, 42, .13);
     }
 
     .dish-name {
@@ -333,8 +339,8 @@
     .section-title {
       margin-bottom: 18px;
       padding-bottom: 10px;
-      border-bottom: 1px solid var(--orange);
-      color: var(--orange);
+      border-bottom: 1px solid #e07042;
+      color: #d85a2a;
       font-size: 18px;
       font-weight: 900;
     }
@@ -409,9 +415,9 @@
     .btn {
       min-width: 112px;
       height: 36px;
-      border: 1px solid #ff9e68;
+      border: 1px solid #efbd55;
       border-radius: 5px;
-      color: var(--orange);
+      color: #df7f22;
       background: #fff6ef;
       font: inherit;
       font-weight: 900;
@@ -424,7 +430,7 @@
     .btn.primary-always {
       color: #fff;
       border-color: var(--orange);
-      background: linear-gradient(#ff872f, #ff711f);
+      background: linear-gradient(#f7b84b, #f0a51f);
       box-shadow: 0 2px 8px rgba(226, 88, 12, .18);
       outline: 0;
     }
@@ -472,8 +478,8 @@
     .invoice-table td {
       height: 38px;
       padding: 8px 10px;
-      border-right: 1px solid #ffc79b;
-      border-bottom: 1px solid #ffc79b;
+      border-right: 1px solid #f3d28a;
+      border-bottom: 1px solid #f3d28a;
       text-align: center;
       vertical-align: middle;
     }
@@ -517,8 +523,8 @@
     }
 
     .tag.orange {
-      color: var(--orange);
-      border: 1px solid #ff9e68;
+      color: #c94f1f;
+      border: 1px solid #efbd55;
       background: #fff1e8;
     }
 
@@ -529,7 +535,7 @@
     }
 
     .invoice-link {
-      color: var(--orange);
+      color: #A75D26;
       text-decoration: none;
       font-weight: 700;
       margin: 0 4px;
@@ -561,7 +567,7 @@
         <div class="menu-title"><span class="menu-icon book" aria-hidden="true"></span>菜谱搭配<span class="chev down"></span></div>
         <div class="menu-children">
           <a class="menu-item" href="page01.html">搭配菜谱</a>
-          <a class="menu-item" href="page04.html">我的搭配</a>
+          <a class="menu-item" href="page04.html">食材统计</a>
         </div>
       </div>
       <div class="menu-group">

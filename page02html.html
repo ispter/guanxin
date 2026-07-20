@@ -258,10 +258,8 @@
     .menu-item {
       height: 36px;
       padding-left: 48px;
-      text-decoration: none;
       color: #8a827a;
       font-size: 14px;
-      cursor: pointer;
     }
 
     .chev {
@@ -421,18 +419,6 @@
       padding-right: 34px;
     }
 
-    input[type="date"].input {
-      min-width: 180px;
-      cursor: pointer;
-      color-scheme: light;
-    }
-
-    input[type="date"].input::-webkit-calendar-picker-indicator {
-      cursor: pointer;
-      opacity: .72;
-      filter: sepia(40%) saturate(620%) hue-rotate(345deg);
-    }
-
     input.input:focus,
     select.input:focus {
       border-color: #e2a126;
@@ -562,7 +548,6 @@
       display: grid;
       grid-template-columns: 1fr 162px;
       gap: 14px;
-      align-items: start;
     }
 
     .courses {
@@ -630,7 +615,7 @@
       justify-content: center;
       width: 72px;
       margin: 0 18px 10px 0;
-      color: #A75D26;
+      color: #7a5b3f;
       font-size: 18px;
       font-weight: 800;
       line-height: 1.8;
@@ -642,27 +627,27 @@
     }
 
     .course-label.main {
-      color: #A75D26;
+      color: #7a5b3f;
     }
 
     .course-label.side {
-      color: #A75D26;
+      color: #7a5b3f;
     }
 
     .course-label.veg {
-      color: #A75D26;
+      color: #7a5b3f;
     }
 
     .course-label.staple {
-      color: #A75D26;
+      color: #7a5b3f;
     }
 
     .course-label.cold {
-      color: #A75D26;
+      color: #7a5b3f;
     }
 
     .course-label.soup {
-      color: #A75D26;
+      color: #7a5b3f;
     }
 
     .dish-area {
@@ -741,10 +726,8 @@
     }
 
     .nutrition {
-      height: 756px;
       border-left: 1px solid #efe6da;
       background: rgba(255, 255, 255, .72);
-      overflow: hidden;
     }
 
     .nutrition h3 {
@@ -753,41 +736,20 @@
       font-size: 18px;
     }
 
-    .nutrition-list {
-      max-height: calc(756px - 48px);
-      overflow-y: auto;
-      padding-right: 4px;
-      scrollbar-width: thin;
-      scrollbar-color: #e0c5a6 #fff8ef;
-    }
-
-    .nutrition-list::-webkit-scrollbar {
-      width: 8px;
-    }
-
-    .nutrition-list::-webkit-scrollbar-track {
-      background: #fff8ef;
-    }
-
-    .nutrition-list::-webkit-scrollbar-thumb {
-      border-radius: 8px;
-      background: #e0c5a6;
-    }
-
     .nutri-item {
-      padding: 10px 14px 11px;
+      padding: 12px 14px 13px;
       border-top: 1px solid #eee7dc;
     }
 
     .nutri-item strong {
       display: block;
       margin-top: 4px;
-      font-size: 18px;
+      font-size: 22px;
     }
 
     .bar {
       height: 6px;
-      margin-top: 9px;
+      margin-top: 11px;
       border-radius: 8px;
       background: #dedede;
       overflow: hidden;
@@ -873,8 +835,7 @@
     .week-head {
       display: flex;
       align-items: center;
-      justify-content: flex-start;
-      gap: 16px;
+      justify-content: space-between;
       margin-bottom: 16px;
       color: #4d443c;
       font-size: 18px;
@@ -887,103 +848,78 @@
       font-weight: 700;
     }
 
-    .week-table-wrap {
-      overflow-x: auto;
+    .week-list {
+      display: grid;
+      gap: 18px;
+    }
+
+    .week-day-card {
       border: 1px solid #eadfce;
       border-radius: 8px;
+      overflow: hidden;
       background: #fffdf9;
       box-shadow: 0 2px 10px rgba(177, 132, 78, .08);
     }
 
-    .week-menu-table {
-      min-width: 980px;
-      border: 0;
-      font-size: 13px;
-    }
-
-    .week-menu-table th,
-    .week-menu-table td {
-      border-right: 1px solid #eadfce;
-    }
-
-    .week-menu-table th:last-child,
-    .week-menu-table td:last-child {
-      border-right: 0;
-    }
-
-    .week-menu-table thead th {
-      height: 52px;
-      background: #fff4e8;
-    }
-
-    .meal-head {
-      width: 92px;
+    .week-day-bar {
+      height: 44px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      padding: 0 18px;
       color: #a75d26;
-      font-size: 15px;
+      background: linear-gradient(90deg, #fff4e8, #ffe9d3);
+      border-bottom: 1px solid #efd8bd;
+      font-size: 18px;
       font-weight: 900;
     }
 
-    .day-head {
-      color: #a75d26;
-      font-size: 16px;
-      font-weight: 900;
-    }
-
-    .day-head span {
-      display: block;
-      margin-top: 4px;
-      color: #8a7564;
-      font-size: 12px;
+    .week-date {
+      font-size: 17px;
       font-weight: 800;
     }
 
-    .meal-name {
-      color: #A75D26;
-      background: #fffaf2;
-      font-size: 17px;
-      font-weight: 900;
+    .week-meals {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      padding: 16px;
+      background: #fffaf4;
     }
 
-    .meal-cell {
-      --meal-line: rgba(240, 197, 53, .58);
-      --meal-line-strong: rgba(240, 197, 53, .9);
-      --meal-hover: #fff9df;
-      --meal-focus: rgba(240, 197, 53, .24);
-      height: 132px;
-      padding: 12px 10px;
-      vertical-align: top;
+    .week-meal-card {
+      --meal-accent: #ffb000;
+      min-height: 150px;
+      padding: 14px 14px 12px;
+      border: 1px solid #eadfce;
+      border-left: 5px solid var(--meal-accent);
+      border-radius: 7px;
       background: rgba(255, 255, 255, .92);
-      box-shadow: inset 3px 0 0 var(--meal-line);
-      cursor: pointer;
-      transition: background .18s ease, box-shadow .18s ease;
+      box-shadow: inset 0 1px 2px rgba(110, 75, 42, .04);
     }
 
-    .meal-cell:hover,
-    .meal-cell:focus-visible {
-      background: var(--meal-hover);
-      box-shadow: inset 5px 0 0 var(--meal-line-strong), inset 0 0 0 2px var(--meal-focus);
-      outline: 0;
+    .week-meal-card.lunch {
+      --meal-accent: #d89a62;
     }
 
-    .meal-cell.breakfast {
-      --meal-line: rgba(240, 197, 53, .58);
-      --meal-line-strong: rgba(240, 197, 53, .95);
-      --meal-hover: #fff9df;
-      --meal-focus: rgba(240, 197, 53, .28);
+    .week-meal-card.dinner {
+      --meal-accent: #3597dc;
     }
 
-    .meal-cell.lunch {
-      --meal-line: rgba(72, 168, 154, .55);
-      --meal-line-strong: rgba(72, 168, 154, .9);
-      --meal-hover: #fff8f1;
-      --meal-focus: rgba(72, 168, 154, .24);
+    .week-meal-title {
+      margin-bottom: 16px;
+      color: #59524b;
+      font-size: 18px;
+      font-weight: 900;
+      line-height: 1.2;
     }
 
-    .meal-cell.dinner {
-      --meal-line: rgba(81, 133, 173, .55);
-      --meal-line-strong: rgba(81, 133, 173, .9);
-      --meal-hover: #fff6f2;
-      --meal-focus: rgba(81, 133, 173, .24);
+    .week-meal-title span {
+      display: block;
+      margin-top: 3px;
+      color: #8a827a;
+      font-size: 14px;
+      font-weight: 800;
     }
 
     .week-tags {
@@ -992,23 +928,10 @@
       gap: 7px;
     }
 
-    .week-empty {
-      display: inline-flex;
-      align-items: center;
-      height: 24px;
-      padding: 0 9px;
-      border: 1px dashed #d7cbbb;
-      border-radius: 5px;
-      color: #a09284;
-      background: #fffdf9;
-      font-size: 12px;
-      font-weight: 700;
-    }
-
     .week-tag {
-      --tag-color: #d8e5a9;
-      --tag-strong: #7a8a35;
-      --tag-bg: #fbfbe9;
+      --tag-color: #d8c7b3;
+      --tag-strong: #7a5b3f;
+      --tag-bg: #f8f3ee;
       display: inline-flex;
       align-items: center;
       height: 24px;
@@ -1018,43 +941,53 @@
       color: var(--tag-strong);
       background: var(--tag-bg);
       font-size: 12px;
-      font-weight: 700;
+      font-weight: 800;
     }
 
     .tag-main {
-      --tag-color: #d8e5a9;
-      --tag-strong: #7a8a35;
-      --tag-bg: #fbfbe9;
+      --tag-color: #d8c7b3;
+      --tag-strong: #7a5b3f;
+      --tag-bg: #f8f3ee;
     }
 
     .tag-side {
-      --tag-color: #d8e5a9;
-      --tag-strong: #7a8a35;
-      --tag-bg: #fbfbe9;
+      --tag-color: #d8c7b3;
+      --tag-strong: #7a5b3f;
+      --tag-bg: #f8f3ee;
     }
 
     .tag-veg {
-      --tag-color: #d8e5a9;
-      --tag-strong: #7a8a35;
-      --tag-bg: #fbfbe9;
+      --tag-color: #d8c7b3;
+      --tag-strong: #7a5b3f;
+      --tag-bg: #f8f3ee;
     }
 
     .tag-staple {
-      --tag-color: #d8e5a9;
-      --tag-strong: #7a8a35;
-      --tag-bg: #fbfbe9;
+      --tag-color: #d8c7b3;
+      --tag-strong: #7a5b3f;
+      --tag-bg: #f8f3ee;
     }
 
     .tag-cold {
-      --tag-color: #d8e5a9;
-      --tag-strong: #7a8a35;
-      --tag-bg: #fbfbe9;
+      --tag-color: #d8c7b3;
+      --tag-strong: #7a5b3f;
+      --tag-bg: #f8f3ee;
     }
 
     .tag-soup {
-      --tag-color: #d8e5a9;
-      --tag-strong: #7a8a35;
-      --tag-bg: #fbfbe9;
+      --tag-color: #d8c7b3;
+      --tag-strong: #7a5b3f;
+      --tag-bg: #f8f3ee;
+    }
+
+    @media (max-width: 1180px) {
+      .week-meals {
+        grid-template-columns: 1fr;
+      }
+
+      .week-meal-card {
+        min-height: 118px;
+      }
     }
 
     .tables {
@@ -1098,32 +1031,15 @@
       color: #6b6259;
     }
 
-    .modal-backdrop {
-      position: fixed;
-      inset: 0;
-      z-index: 19;
-      display: none;
-      background: rgba(53, 42, 31, .18);
-      backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
-    }
-
-    .modal-backdrop.open {
-      display: block;
-    }
-
     .dish-picker {
       --picker-accent: #ff7b24;
       --picker-accent-strong: #d96216;
       --picker-accent-soft: rgba(255, 123, 36, .16);
-      position: fixed;
+      position: absolute;
       z-index: 20;
       display: none;
       width: min(720px, calc(100vw - 36px));
       padding: 0;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
       background: transparent;
     }
 
@@ -1265,37 +1181,6 @@
       color: var(--picker-accent-strong);
       outline: 0;
     }
-
-    .recipe-hover-card {
-      position: fixed;
-      z-index: 30;
-      display: none;
-      width: 268px;
-      padding: 12px 14px;
-      border: 1px solid var(--picker-accent, #ff7b24);
-      border-radius: 6px;
-      color: #514942;
-      background: #fffdf9;
-      box-shadow: 0 10px 28px rgba(74, 49, 27, .18), 0 0 0 3px var(--picker-accent-soft, rgba(255, 123, 36, .16));
-      pointer-events: none;
-      font-size: 12px;
-      line-height: 1.55;
-    }
-
-    .recipe-hover-card.open {
-      display: block;
-    }
-
-    .recipe-hover-card strong {
-      display: block;
-      margin-bottom: 6px;
-      color: var(--picker-accent-strong, #d96216);
-      font-size: 14px;
-    }
-
-    .recipe-hover-card span {
-      display: block;
-    }
   </style>
 </head>
 <body>
@@ -1317,7 +1202,7 @@
       <div class="menu-group">
         <div class="menu-title"><span class="menu-icon book" aria-hidden="true"></span>菜谱搭配<span class="chev down"></span></div>
         <div class="menu-children">
-          <div class="menu-item active" id="recipeMenuHome" role="button" tabindex="0">搭配菜谱</div>
+          <div class="menu-item active">搭配菜谱</div>
           <a class="menu-item" href="page04.html">食材统计</a>
         </div>
       </div>
@@ -1346,18 +1231,26 @@
       </div>
     </aside>
 
-    <main class="is-week">
+    <main>
       <div class="page-title">
         <span>菜谱搭配 / 搭配菜谱</span>
         <div class="view-switcher" id="viewSwitcher" role="tablist" aria-label="视图切换">
-          <button class="view-btn active" type="button" role="tab" aria-selected="true" data-view="week">周视图</button>
-          <button class="view-btn" type="button" role="tab" aria-selected="false" data-view="day">日视图</button>
+          <button class="view-btn active" type="button" role="tab" aria-selected="true" data-view="day">日视图</button>
+          <button class="view-btn" type="button" role="tab" aria-selected="false" data-view="week">周视图</button>
         </div>
       </div>
 
       <section class="panel toolbar">
-        <span>选择起始日期：</span>
-        <input class="input" id="dateSelect" type="date" value="2026-05-14" aria-label="选择起始日期">
+        <span>选择日期：</span>
+        <select class="input" id="dateSelect" aria-label="选择日期">
+          <option value="2026/5/14" selected>▦　2026-05-14</option>
+          <option value="2026/5/15">▦　2026-05-15</option>
+          <option value="2026/5/16">▦　2026-05-16</option>
+          <option value="2026/5/17">▦　2026-05-17</option>
+          <option value="2026/5/18">▦　2026-05-18</option>
+          <option value="2026/5/19">▦　2026-05-19</option>
+          <option value="2026/5/20">▦　2026-05-20</option>
+        </select>
         <span></span>
         <span>就餐人数</span>
         <input class="input small" type="number" min="1" value="100" aria-label="就餐人数">
@@ -1382,6 +1275,7 @@
             <button class="tab" type="button" role="tab" aria-selected="false" data-meal="晚餐">晚餐</button>
           </div>
           <div class="action-row">
+            <button class="ghost-btn" type="button">保存</button>
             <button class="ghost-btn" type="button" id="resetMenu">重置</button>
           </div>
         </div>
@@ -1392,6 +1286,7 @@
               <div class="course-label main">主荤</div>
               <div class="dish-area">
                 <div class="dish-grid">
+                  <div class="dish" tabindex="0">菜品1</div><div class="dish" tabindex="0">菜品2</div><div class="dish" tabindex="0">菜品3</div><div class="dish" tabindex="0">菜品4</div>
                   <button class="add" type="button">+添加菜品</button>
                 </div>
               </div>
@@ -1400,6 +1295,7 @@
               <div class="course-label side">副荤</div>
               <div class="dish-area">
                 <div class="dish-grid">
+                  <div class="dish" tabindex="0">菜品1</div><div class="dish" tabindex="0">菜品2</div><div class="dish" tabindex="0">菜品3</div><div class="dish" tabindex="0">菜品4</div>
                   <button class="add" type="button">+添加菜品</button>
                 </div>
               </div>
@@ -1408,6 +1304,7 @@
               <div class="course-label veg">素菜</div>
               <div class="dish-area">
                 <div class="dish-grid">
+                  <div class="dish" tabindex="0">菜品1</div><div class="dish" tabindex="0">菜品2</div><div class="dish" tabindex="0">菜品3</div><div class="dish" tabindex="0">菜品4</div>
                   <button class="add" type="button">+添加菜品</button>
                 </div>
               </div>
@@ -1416,6 +1313,7 @@
               <div class="course-label staple">主食</div>
               <div class="dish-area">
                 <div class="dish-grid">
+                  <div class="dish" tabindex="0">菜品1</div><div class="dish" tabindex="0">菜品2</div><div class="dish" tabindex="0">菜品3</div><div class="dish" tabindex="0">菜品4</div>
                   <button class="add" type="button">+添加菜品</button>
                 </div>
               </div>
@@ -1424,6 +1322,7 @@
               <div class="course-label cold">凉菜</div>
               <div class="dish-area">
                 <div class="dish-grid">
+                  <div class="dish" tabindex="0">菜品1</div><div class="dish" tabindex="0">菜品2</div><div class="dish" tabindex="0">菜品3</div><div class="dish" tabindex="0">菜品4</div>
                   <button class="add" type="button">+添加菜品</button>
                 </div>
               </div>
@@ -1432,6 +1331,7 @@
               <div class="course-label soup">粥汤</div>
               <div class="dish-area">
                 <div class="soup-area">
+                  <div class="dish" style="width:160px" tabindex="0">菜品1</div>
                   <button class="add" type="button">+添加菜品</button>
                 </div>
               </div>
@@ -1440,25 +1340,14 @@
 
           <aside class="nutrition">
             <h3>当天营养含量</h3>
-            <div class="nutrition-list">
-              <div class="nutri-item">能量<strong>3118.1kcal</strong><div class="bar"><span style="--w:96%"></span></div></div>
-              <div class="nutri-item">蛋白质<strong>99.4g</strong><div class="bar"><span style="--w:18%"></span></div></div>
-              <div class="nutri-item">脂肪<strong>8g</strong><div class="bar"><span style="--w:8%"></span></div></div>
-              <div class="nutri-item">碳水化合物<strong>672.9g</strong><div class="bar"><span style="--w:38%"></span></div></div>
-              <div class="nutri-item">膳食纤维<strong>28.6g</strong><div class="bar"><span style="--w:82%"></span></div></div>
-              <div class="nutri-item">钙<strong>218.9mg</strong><div class="bar"><span style="--w:42%"></span></div></div>
-              <div class="nutri-item">铁<strong>20.8mg</strong><div class="bar"><span style="--w:99%"></span></div></div>
-              <div class="nutri-item">锌<strong>15.3mg</strong><div class="bar"><span style="--w:100%"></span></div></div>
-              <div class="nutri-item">钠<strong>19.2mg</strong><div class="bar"><span style="--w:12%"></span></div></div>
-              <div class="nutri-item">维生素A<strong>640ugRAE</strong><div class="bar"><span style="--w:71%"></span></div></div>
-              <div class="nutri-item">维生素B1<strong>1.1mg</strong><div class="bar"><span style="--w:79%"></span></div></div>
-              <div class="nutri-item">维生素B2<strong>1.2mg</strong><div class="bar"><span style="--w:86%"></span></div></div>
-              <div class="nutri-item">烟酸<strong>13.5mg</strong><div class="bar"><span style="--w:84%"></span></div></div>
-              <div class="nutri-item">维生素C<strong>86mg</strong><div class="bar"><span style="--w:86%"></span></div></div>
-              <div class="nutri-item">维生素D<strong>6.2ug</strong><div class="bar"><span style="--w:62%"></span></div></div>
-              <div class="nutri-item">维生素E<strong>12.4mg</strong><div class="bar"><span style="--w:83%"></span></div></div>
-              <div class="nutri-item">叶酸<strong>360ugDFE</strong><div class="bar"><span style="--w:90%"></span></div></div>
-            </div>
+            <div class="nutri-item">能量<strong>3118.1kcal</strong><div class="bar"><span style="--w:96%"></span></div></div>
+            <div class="nutri-item">蛋白质<strong>99.4g</strong><div class="bar"><span style="--w:18%"></span></div></div>
+            <div class="nutri-item">脂肪<strong>8g</strong><div class="bar"><span style="--w:8%"></span></div></div>
+            <div class="nutri-item">碳水化合物<strong>672.9g</strong><div class="bar"><span style="--w:38%"></span></div></div>
+            <div class="nutri-item">钙<strong>218.9mg</strong><div class="bar"><span style="--w:42%"></span></div></div>
+            <div class="nutri-item">铁<strong>20.8mg</strong><div class="bar"><span style="--w:99%"></span></div></div>
+            <div class="nutri-item">锌<strong>15.3mg</strong><div class="bar"><span style="--w:100%"></span></div></div>
+            <div class="nutri-item">钠<strong>19.2mg</strong><div class="bar"><span style="--w:12%"></span></div></div>
           </aside>
         </div>
       </section>
@@ -1519,30 +1408,75 @@
       <section class="panel week-view" id="weekView" aria-label="周视图">
         <div class="week-head">
           <span>7天菜谱总览</span>
-          <span class="week-range" id="weekRange">2026-05-14 至 2026-05-20</span>
+          <span class="week-range">2026-05-14 至 2026-05-20</span>
         </div>
-        <div class="week-table-wrap">
-          <table class="week-menu-table">
-            <thead>
-              <tr>
-                <th class="meal-head">餐次</th>
-                <th class="day-head"><b data-week-day="0">周四</b><span data-week-date="0">2026/5/14</span></th>
-                <th class="day-head"><b data-week-day="1">周五</b><span data-week-date="1">2026/5/15</span></th>
-                <th class="day-head"><b data-week-day="2">周六</b><span data-week-date="2">2026/5/16</span></th>
-                <th class="day-head"><b data-week-day="3">周日</b><span data-week-date="3">2026/5/17</span></th>
-                <th class="day-head"><b data-week-day="4">周一</b><span data-week-date="4">2026/5/18</span></th>
-                <th class="day-head"><b data-week-day="5">周二</b><span data-week-date="5">2026/5/19</span></th>
-                <th class="day-head"><b data-week-day="6">周三</b><span data-week-date="6">2026/5/20</span></th>
-              </tr>
-            </thead>
-            <tbody id="weekTableBody"></tbody>
-          </table>
+        <div class="week-list">
+          <div class="week-day-card">
+            <div class="week-day-bar"><span>周四</span><span class="week-date">2026/5/14</span></div>
+            <div class="week-meals">
+              <div class="week-meal-card breakfast"><div class="week-meal-title">BREAKFAST<span>早餐</span></div><div class="week-tags"><span class="week-tag tag-soup">小米粥</span><span class="week-tag tag-staple">馒头</span><span class="week-tag tag-veg">拌黄瓜</span></div></div>
+              <div class="week-meal-card lunch"><div class="week-meal-title">LUNCH<span>中餐</span></div><div class="week-tags"><span class="week-tag tag-main">红烧肉</span><span class="week-tag tag-side">青椒肉丝</span><span class="week-tag tag-veg">清炒空心菜</span><span class="week-tag tag-staple">白米饭</span></div></div>
+              <div class="week-meal-card dinner"><div class="week-meal-title">DINNER<span>晚餐</span></div><div class="week-tags"><span class="week-tag tag-main">香菇滑鸡</span><span class="week-tag tag-veg">冬瓜烧豆腐</span><span class="week-tag tag-soup">紫菜豆腐汤</span></div></div>
+            </div>
+          </div>
+
+          <div class="week-day-card">
+            <div class="week-day-bar"><span>周五</span><span class="week-date">2026/5/15</span></div>
+            <div class="week-meals">
+              <div class="week-meal-card breakfast"><div class="week-meal-title">BREAKFAST<span>早餐</span></div><div class="week-tags"><span class="week-tag tag-soup">八宝粥</span><span class="week-tag tag-staple">花卷</span><span class="week-tag tag-veg">白灼生菜</span></div></div>
+              <div class="week-meal-card lunch"><div class="week-meal-title">LUNCH<span>中餐</span></div><div class="week-tags"><span class="week-tag tag-main">番茄牛腩</span><span class="week-tag tag-side">西芹虾仁</span><span class="week-tag tag-veg">家常豆腐</span><span class="week-tag tag-staple">杂粮饭</span></div></div>
+              <div class="week-meal-card dinner"><div class="week-meal-title">DINNER<span>晚餐</span></div><div class="week-tags"><span class="week-tag tag-main">水煮鱼片</span><span class="week-tag tag-veg">杏鲍菇炒青椒</span><span class="week-tag tag-soup">番茄蛋花汤</span></div></div>
+            </div>
+          </div>
+
+          <div class="week-day-card">
+            <div class="week-day-bar"><span>周六</span><span class="week-date">2026/5/16</span></div>
+            <div class="week-meals">
+              <div class="week-meal-card breakfast"><div class="week-meal-title">BREAKFAST<span>早餐</span></div><div class="week-tags"><span class="week-tag tag-soup">南瓜粥</span><span class="week-tag tag-staple">素包子</span><span class="week-tag tag-cold">凉拌木耳</span></div></div>
+              <div class="week-meal-card lunch"><div class="week-meal-title">LUNCH<span>中餐</span></div><div class="week-tags"><span class="week-tag tag-main">宫保鸡丁</span><span class="week-tag tag-side">木耳肉片</span><span class="week-tag tag-veg">红烧茄子</span><span class="week-tag tag-staple">南瓜饭</span></div></div>
+              <div class="week-meal-card dinner"><div class="week-meal-title">DINNER<span>晚餐</span></div><div class="week-tags"><span class="week-tag tag-main">回锅肉</span><span class="week-tag tag-veg">蒜蓉丝瓜</span><span class="week-tag tag-soup">冬瓜汤</span></div></div>
+            </div>
+          </div>
+
+          <div class="week-day-card">
+            <div class="week-day-bar"><span>周日</span><span class="week-date">2026/5/17</span></div>
+            <div class="week-meals">
+              <div class="week-meal-card breakfast"><div class="week-meal-title">BREAKFAST<span>早餐</span></div><div class="week-tags"><span class="week-tag tag-soup">银耳羹</span><span class="week-tag tag-staple">玉米棒</span><span class="week-tag tag-veg">清炒小白菜</span></div></div>
+              <div class="week-meal-card lunch"><div class="week-meal-title">LUNCH<span>中餐</span></div><div class="week-tags"><span class="week-tag tag-main">清蒸鱼</span><span class="week-tag tag-side">冬瓜虾仁</span><span class="week-tag tag-veg">清炒山药</span><span class="week-tag tag-staple">玉米饭</span></div></div>
+              <div class="week-meal-card dinner"><div class="week-meal-title">DINNER<span>晚餐</span></div><div class="week-tags"><span class="week-tag tag-main">黑椒牛柳</span><span class="week-tag tag-veg">腐竹烧木耳</span><span class="week-tag tag-soup">小米粥</span></div></div>
+            </div>
+          </div>
+
+          <div class="week-day-card">
+            <div class="week-day-bar"><span>周一</span><span class="week-date">2026/5/18</span></div>
+            <div class="week-meals">
+              <div class="week-meal-card breakfast"><div class="week-meal-title">BREAKFAST<span>早餐</span></div><div class="week-tags"><span class="week-tag tag-soup">绿豆汤</span><span class="week-tag tag-staple">紫薯</span><span class="week-tag tag-cold">酸辣藕片</span></div></div>
+              <div class="week-meal-card lunch"><div class="week-meal-title">LUNCH<span>中餐</span></div><div class="week-tags"><span class="week-tag tag-main">土豆炖牛肉</span><span class="week-tag tag-side">香菇鸡丁</span><span class="week-tag tag-veg">酸辣土豆丝</span><span class="week-tag tag-staple">白米饭</span></div></div>
+              <div class="week-meal-card dinner"><div class="week-meal-title">DINNER<span>晚餐</span></div><div class="week-tags"><span class="week-tag tag-main">照烧鸡排</span><span class="week-tag tag-veg">清炒西葫芦</span><span class="week-tag tag-soup">菌菇汤</span></div></div>
+            </div>
+          </div>
+
+          <div class="week-day-card">
+            <div class="week-day-bar"><span>周二</span><span class="week-date">2026/5/19</span></div>
+            <div class="week-meals">
+              <div class="week-meal-card breakfast"><div class="week-meal-title">BREAKFAST<span>早餐</span></div><div class="week-tags"><span class="week-tag tag-soup">红豆汤</span><span class="week-tag tag-staple">杂粮饭团</span><span class="week-tag tag-veg">香干芹菜</span></div></div>
+              <div class="week-meal-card lunch"><div class="week-meal-title">LUNCH<span>中餐</span></div><div class="week-tags"><span class="week-tag tag-main">黄焖鸡</span><span class="week-tag tag-side">芹菜牛肉丝</span><span class="week-tag tag-veg">双菇扒菜心</span><span class="week-tag tag-staple">杂粮饭</span></div></div>
+              <div class="week-meal-card dinner"><div class="week-meal-title">DINNER<span>晚餐</span></div><div class="week-tags"><span class="week-tag tag-main">油焖大虾</span><span class="week-tag tag-veg">木耳炒山药</span><span class="week-tag tag-soup">南瓜粥</span></div></div>
+            </div>
+          </div>
+
+          <div class="week-day-card">
+            <div class="week-day-bar"><span>周三</span><span class="week-date">2026/5/20</span></div>
+            <div class="week-meals">
+              <div class="week-meal-card breakfast"><div class="week-meal-title">BREAKFAST<span>早餐</span></div><div class="week-tags"><span class="week-tag tag-soup">菌菇汤</span><span class="week-tag tag-staple">葱油饼</span><span class="week-tag tag-veg">蒜蓉油麦菜</span></div></div>
+              <div class="week-meal-card lunch"><div class="week-meal-title">LUNCH<span>中餐</span></div><div class="week-tags"><span class="week-tag tag-main">酸菜鱼</span><span class="week-tag tag-side">豆角肉末</span><span class="week-tag tag-veg">莲藕炒荷兰豆</span><span class="week-tag tag-staple">花卷</span></div></div>
+              <div class="week-meal-card dinner"><div class="week-meal-title">DINNER<span>晚餐</span></div><div class="week-tags"><span class="week-tag tag-main">红焖羊肉</span><span class="week-tag tag-veg">香菇菜心</span><span class="week-tag tag-soup">银耳羹</span></div></div>
+            </div>
+          </div>
         </div>
       </section>
     </main>
   </div>
-
-  <div class="modal-backdrop" id="modalBackdrop" aria-hidden="true"></div>
 
   <div class="dish-picker" id="dishPicker" aria-hidden="true">
     <div class="picker-dialog" role="listbox" aria-labelledby="pickerTitle">
@@ -1564,8 +1498,6 @@
     </div>
   </div>
 
-  <div class="recipe-hover-card" id="recipeHoverCard" aria-hidden="true"></div>
-
   <script>
     const mealTabs = document.querySelector("#mealTabs");
     const mealName = document.querySelector("#mealName");
@@ -1573,10 +1505,6 @@
     const viewSwitcher = document.querySelector("#viewSwitcher");
     const viewButtons = Array.from(viewSwitcher.querySelectorAll(".view-btn"));
     const dateSelect = document.querySelector("#dateSelect");
-    const weekRange = document.querySelector("#weekRange");
-    const weekTableBody = document.querySelector("#weekTableBody");
-    const weekDayLabels = Array.from(document.querySelectorAll("[data-week-day]"));
-    const weekDateLabels = Array.from(document.querySelectorAll("[data-week-date]"));
     const editDate = document.querySelector("#editDate");
     const tabs = Array.from(mealTabs.querySelectorAll(".tab"));
     const pickerMenus = {
@@ -1648,14 +1576,12 @@
       }
     };
     const dishPicker = document.querySelector("#dishPicker");
-    const modalBackdrop = document.querySelector("#modalBackdrop");
     const pickerClose = document.querySelector("#pickerClose");
     const groupTitle = document.querySelector("#groupTitle");
     const meatList = document.querySelector("#meatList");
     const dishSearch = document.querySelector("#dishSearch");
     const recipeTitle = document.querySelector("#recipeTitle");
     const recipeGrid = document.querySelector("#recipeGrid");
-    const recipeHoverCard = document.querySelector("#recipeHoverCard");
     const ingredientStats = document.querySelector("#ingredientStats");
     const dishIngredientWeights = {
       红烧肉: 520,
@@ -1673,176 +1599,38 @@
       小米粥: 520
     };
     const personalRecipes = ["招牌红烧肉", "自制卤牛肉", "私房番茄牛腩", "家常蒜蓉青菜", "低油麻婆豆腐", "妈妈牌八宝粥"];
-    const weekdayNames = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
-    const courseTagClasses = {
-      main: "tag-main",
-      side: "tag-side",
-      veg: "tag-veg",
-      staple: "tag-staple",
-      cold: "tag-cold",
-      soup: "tag-soup"
-    };
-    const mealPlans = JSON.parse(localStorage.getItem("mealPlans") || "{}");
-    const weekMeals = [
-      {
-        name: "早餐",
-        key: "breakfast",
-        days: [[], [], [], [], [], [], []]
-      },
-      {
-        name: "中餐",
-        key: "lunch",
-        days: [[], [], [], [], [], [], []]
-      },
-      {
-        name: "晚餐",
-        key: "dinner",
-        days: [[], [], [], [], [], [], []]
-      }
-    ];
     let activeDish = null;
     let activePickerMenu = pickerMenus.main;
     let activeGroup = "";
-    let weekStartValue = dateSelect.value;
-
-    function parseMenuDate(value) {
-      if (!value) return parseMenuDate("2026-05-14");
-      const [year, month, day] = value.split(/[-/]/).map(Number);
-      return new Date(year, month - 1, day);
-    }
-
-    function addDays(date, days) {
-      const nextDate = new Date(date);
-      nextDate.setDate(nextDate.getDate() + days);
-      return nextDate;
-    }
-
-    function formatDate(date, separator) {
-      const year = date.getFullYear();
-      const month = String(date.getMonth() + 1).padStart(2, "0");
-      const day = String(date.getDate()).padStart(2, "0");
-      return [year, month, day].join(separator);
-    }
-
-    function formatDateLoose(date) {
-      return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
-    }
-
-    function selectMeal(meal) {
-      const tab = tabs.find((item) => item.dataset.meal === meal);
-      if (!tab) return;
-      const index = tabs.indexOf(tab);
-      mealTabs.style.setProperty("--active-index", index);
-      mealName.textContent = meal;
-      tabs.forEach((item) => {
-        const active = item === tab;
-        item.classList.toggle("active", active);
-        item.setAttribute("aria-selected", String(active));
-      });
-    }
-
-    function switchView(view) {
-      const targetButton = viewButtons.find((button) => button.dataset.view === view);
-      if (!targetButton) return;
-      const index = viewButtons.indexOf(targetButton);
-      const weekMode = view === "week";
-      viewSwitcher.style.setProperty("--view-index", index);
-      mainContent.classList.toggle("is-week", weekMode);
-      viewButtons.forEach((item) => {
-        const active = item === targetButton;
-        item.classList.toggle("active", active);
-        item.setAttribute("aria-selected", String(active));
-      });
-    }
-
-    function openDayEditor(dateValue, meal) {
-      dateSelect.value = dateValue;
-      const selectedDate = parseMenuDate(dateValue);
-      editDate.textContent = formatDateLoose(selectedDate);
-      selectMeal(meal);
-      loadCurrentMealIntoEditor();
-      renderWeekView();
-      switchView("day");
-    }
-
-    function renderWeekView() {
-      const startDate = parseMenuDate(weekStartValue);
-      const weekDates = Array.from({ length: 7 }, (_, index) => addDays(startDate, index));
-      weekDayLabels.forEach((label, index) => {
-        label.textContent = weekdayNames[weekDates[index].getDay()];
-      });
-      weekDateLabels.forEach((label, index) => {
-        label.textContent = formatDateLoose(weekDates[index]);
-      });
-      weekRange.textContent = `${formatDate(startDate, "-")} 至 ${formatDate(weekDates[6], "-")}`;
-      weekTableBody.innerHTML = weekMeals.map((meal) => {
-        const cells = weekDates.map((date, index) => {
-          const dateKey = formatDate(date, "-");
-          const items = mealPlans[dateKey]?.[meal.name] || [];
-          const tags = items.length
-            ? items.map(([name, tagClass]) => `<span class="week-tag ${tagClass}">${name}</span>`).join("")
-            : `<span class="week-empty">待添加</span>`;
-          return `<td class="meal-cell ${meal.key}" role="button" tabindex="0" data-date="${dateKey}" data-meal="${meal.name}" aria-label="编辑${formatDateLoose(weekDates[index])}${meal.name}"><div class="week-tags">${tags}</div></td>`;
-        }).join("");
-        return `<tr><th class="meal-name">${meal.name}</th>${cells}</tr>`;
-      }).join("");
-    }
 
     tabs.forEach((tab, index) => {
       tab.addEventListener("click", () => {
-        selectMeal(tab.dataset.meal);
-        loadCurrentMealIntoEditor();
+        mealTabs.style.setProperty("--active-index", index);
+        mealName.textContent = tab.dataset.meal;
+        tabs.forEach((item) => {
+          const active = item === tab;
+          item.classList.toggle("active", active);
+          item.setAttribute("aria-selected", String(active));
+        });
       });
     });
 
     dateSelect.addEventListener("change", () => {
-      editDate.textContent = formatDateLoose(parseMenuDate(dateSelect.value));
-      if (mainContent.classList.contains("is-week")) {
-        weekStartValue = dateSelect.value;
-      } else {
-        loadCurrentMealIntoEditor();
-      }
-      renderWeekView();
+      editDate.textContent = dateSelect.value;
     });
 
     viewButtons.forEach((button, index) => {
       button.addEventListener("click", () => {
-        switchView(button.dataset.view);
+        const weekMode = button.dataset.view === "week";
+        viewSwitcher.style.setProperty("--view-index", index);
+        mainContent.classList.toggle("is-week", weekMode);
+        viewButtons.forEach((item) => {
+          const active = item === button;
+          item.classList.toggle("active", active);
+          item.setAttribute("aria-selected", String(active));
+        });
       });
     });
-
-    weekTableBody.addEventListener("click", (event) => {
-      const cell = event.target.closest(".meal-cell");
-      if (!cell) return;
-      openDayEditor(cell.dataset.date, cell.dataset.meal);
-    });
-
-    weekTableBody.addEventListener("keydown", (event) => {
-      if (event.key !== "Enter" && event.key !== " ") return;
-      const cell = event.target.closest(".meal-cell");
-      if (!cell) return;
-      event.preventDefault();
-      openDayEditor(cell.dataset.date, cell.dataset.meal);
-    });
-
-    function applyInitialState() {
-      const params = new URLSearchParams(window.location.search);
-      const date = params.get("date");
-      const meal = params.get("meal");
-      const view = params.get("view");
-      if (date) {
-        dateSelect.value = date;
-        editDate.textContent = formatDateLoose(parseMenuDate(date));
-      }
-      if (meal) {
-        selectMeal(meal);
-      }
-      loadCurrentMealIntoEditor();
-      renderWeekView();
-      if (view) {
-        switchView(view);
-      }
-    }
 
     function getCourseType(dish) {
       const row = dish.closest(".course-row");
@@ -1852,61 +1640,6 @@
       if (row.classList.contains("cold-row")) return "cold";
       if (row.classList.contains("soup-row")) return "soup";
       return "main";
-    }
-
-    function syncCurrentMealToWeekView() {
-      const dateKey = formatDate(parseMenuDate(dateSelect.value), "-");
-      const meal = mealName.textContent.trim();
-      const selectedItems = Array.from(document.querySelectorAll(".dish.selected")).map((dish) => {
-        const courseType = getCourseType(dish);
-        return [dish.dataset.recipe || dish.textContent.trim(), courseTagClasses[courseType], courseType];
-      });
-      mealPlans[dateKey] = {
-        ...mealPlans[dateKey],
-        [meal]: selectedItems
-      };
-      localStorage.setItem("mealPlans", JSON.stringify(mealPlans));
-      renderWeekView();
-    }
-
-    function getCourseArea(courseType) {
-      const row = document.querySelector(`.${courseType}-row`);
-      return row?.querySelector(".dish-area") || null;
-    }
-
-    function setDishRecipe(dish, recipe, tagClass) {
-      dish.textContent = recipe;
-      dish.classList.add("selected");
-      dish.title = recipe;
-      dish.dataset.recipe = recipe;
-      dish.dataset.tagClass = tagClass;
-    }
-
-    function loadCurrentMealIntoEditor() {
-      closeDishPicker();
-      document.querySelectorAll(".dish-area").forEach(fillDefaultDishArea);
-      const dateKey = formatDate(parseMenuDate(dateSelect.value), "-");
-      const meal = mealName.textContent.trim();
-      const items = mealPlans[dateKey]?.[meal] || [];
-      const usedByCourse = {};
-
-      items.forEach(([recipe, tagClass, courseType]) => {
-        const area = getCourseArea(courseType);
-        if (!area) return;
-        const dishes = Array.from(area.querySelectorAll(".dish"));
-        const index = usedByCourse[courseType] || 0;
-        let dish = dishes[index];
-        if (!dish) {
-          const container = area.querySelector(".dish-grid, .soup-area");
-          const button = container.querySelector(".add");
-          dish = createPlaceholderDish(container.classList.contains("soup-area"));
-          container.insertBefore(dish, button);
-        }
-        setDishRecipe(dish, recipe, tagClass);
-        usedByCourse[courseType] = index + 1;
-      });
-
-      updateIngredientStats();
     }
 
     function syncPickerColor(dish) {
@@ -1951,45 +1684,6 @@
       ];
     }
 
-    function getRecipeDetails(recipe, groupLabel) {
-      return {
-        main: groupLabel === "个人菜品" ? recipe : `${groupLabel}、时令食材`,
-        side: "葱姜蒜、配菜、清水",
-        small: "盐、白胡椒、料酒",
-        seasoning: "生抽、食用油、少量糖",
-        craft: recipe.includes("汤") || recipe.includes("粥") || recipe.includes("炖") ? "炖煮" : "炒制"
-      };
-    }
-
-    function positionRecipeHoverCard(event) {
-      const padding = 16;
-      const rect = recipeHoverCard.getBoundingClientRect();
-      const left = Math.min(event.clientX + 16, window.innerWidth - rect.width - padding);
-      const top = Math.min(event.clientY + 16, window.innerHeight - rect.height - padding);
-      recipeHoverCard.style.left = `${Math.max(padding, left)}px`;
-      recipeHoverCard.style.top = `${Math.max(padding, top)}px`;
-    }
-
-    function showRecipeHoverCard(event, recipe, groupLabel) {
-      const detail = getRecipeDetails(recipe, groupLabel);
-      recipeHoverCard.innerHTML = `
-        <strong>${recipe}</strong>
-        <span>主料：${detail.main}</span>
-        <span>辅料：${detail.side}</span>
-        <span>小料：${detail.small}</span>
-        <span>调料：${detail.seasoning}</span>
-        <span>工艺：${detail.craft}</span>
-      `;
-      recipeHoverCard.classList.add("open");
-      recipeHoverCard.setAttribute("aria-hidden", "false");
-      positionRecipeHoverCard(event);
-    }
-
-    function hideRecipeHoverCard() {
-      recipeHoverCard.classList.remove("open");
-      recipeHoverCard.setAttribute("aria-hidden", "true");
-    }
-
     function renderRecipeButtons(recipes, groupLabel) {
       recipeGrid.innerHTML = "";
       if (!recipes.length) {
@@ -2004,11 +1698,6 @@
         button.type = "button";
         button.className = "recipe-btn";
         button.textContent = recipe;
-        button.addEventListener("mouseenter", (event) => showRecipeHoverCard(event, recipe, groupLabel));
-        button.addEventListener("mousemove", positionRecipeHoverCard);
-        button.addEventListener("mouseleave", hideRecipeHoverCard);
-        button.addEventListener("focus", (event) => showRecipeHoverCard(event, recipe, groupLabel));
-        button.addEventListener("blur", hideRecipeHoverCard);
         button.addEventListener("click", () => {
           if (activeDish) {
             activeDish.textContent = recipe;
@@ -2016,7 +1705,6 @@
             activeDish.title = `${groupLabel} - ${recipe}`;
             activeDish.dataset.recipe = recipe;
             updateIngredientStats();
-            syncCurrentMealToWeekView();
           }
           closeDishPicker();
         });
@@ -2049,19 +1737,25 @@
       renderRecipeOptions(firstGroup);
       dishSearch.value = "";
       dishPicker.classList.add("open");
-      modalBackdrop.classList.add("open");
       dishPicker.setAttribute("aria-hidden", "false");
-      modalBackdrop.setAttribute("aria-hidden", "false");
+      positionDishPicker(dish);
       dishSearch.focus();
     }
 
     function closeDishPicker() {
       dishPicker.classList.remove("open");
-      modalBackdrop.classList.remove("open");
-      hideRecipeHoverCard();
       dishPicker.setAttribute("aria-hidden", "true");
-      modalBackdrop.setAttribute("aria-hidden", "true");
       activeDish = null;
+    }
+
+    function positionDishPicker(dish) {
+      const rect = dish.getBoundingClientRect();
+      const pickerWidth = dishPicker.offsetWidth || Math.min(720, window.innerWidth - 36);
+      const pageLeft = window.scrollX + rect.left;
+      const maxLeft = window.scrollX + window.innerWidth - pickerWidth - 18;
+      const left = Math.max(window.scrollX + 12, Math.min(pageLeft, maxLeft));
+      dishPicker.style.left = `${left}px`;
+      dishPicker.style.top = `${window.scrollY + rect.bottom + 8}px`;
     }
 
     function getDishWeight(recipe, index) {
@@ -2109,11 +1803,11 @@
       });
     }
 
-    function createPlaceholderDish(isSoup = false) {
+    function createPlaceholderDish(index, isSoup = false) {
       const dish = document.createElement("div");
       dish.className = "dish";
       dish.tabIndex = 0;
-      dish.textContent = "菜品";
+      dish.textContent = `菜品${index}`;
       delete dish.dataset.recipe;
       if (isSoup) {
         dish.style.width = "160px";
@@ -2122,28 +1816,25 @@
       return dish;
     }
 
-    function fillDefaultDishArea(area) {
+    function resetDishArea(area) {
       const container = area.querySelector(".dish-grid, .soup-area");
       const button = container.querySelector(".add");
       const isSoup = container.classList.contains("soup-area");
-      const defaultCount = isSoup ? 1 : 4;
+      const initialCount = isSoup ? 1 : 4;
 
       container.querySelectorAll(".dish").forEach((dish) => dish.remove());
-      for (let index = 0; index < defaultCount; index += 1) {
-        container.insertBefore(createPlaceholderDish(isSoup), button);
+      for (let index = 1; index <= initialCount; index += 1) {
+        container.insertBefore(createPlaceholderDish(index, isSoup), button);
       }
     }
-
-    document.querySelectorAll(".dish-area").forEach(fillDefaultDishArea);
-    applyInitialState();
 
     document.querySelectorAll(".add").forEach((button) => {
       button.addEventListener("click", () => {
         const area = button.closest(".dish-area");
         const container = button.parentElement;
-        const dish = createPlaceholderDish(container.classList.contains("soup-area"));
+        const dishCount = area.querySelectorAll(".dish").length;
+        const dish = createPlaceholderDish(dishCount + 1, container.classList.contains("soup-area"));
         container.insertBefore(dish, button);
-        openDishPicker(dish);
       });
     });
 
@@ -2153,29 +1844,13 @@
       });
     });
 
-    const recipeMenuHome = document.querySelector("#recipeMenuHome");
-    recipeMenuHome.addEventListener("click", () => {
-      closeDishPicker();
-      renderWeekView();
-      switchView("week");
-    });
-    recipeMenuHome.addEventListener("keydown", (event) => {
-      if (event.key !== "Enter" && event.key !== " ") return;
-      event.preventDefault();
-      closeDishPicker();
-      renderWeekView();
-      switchView("week");
-    });
-
     document.querySelector("#resetMenu").addEventListener("click", () => {
       closeDishPicker();
-      document.querySelectorAll(".dish-area").forEach(fillDefaultDishArea);
+      document.querySelectorAll(".dish-area").forEach(resetDishArea);
       updateIngredientStats();
-      syncCurrentMealToWeekView();
     });
 
     pickerClose.addEventListener("click", closeDishPicker);
-    modalBackdrop.addEventListener("click", closeDishPicker);
     dishPicker.addEventListener("click", (event) => {
       event.stopPropagation();
     });
@@ -2184,6 +1859,12 @@
       if (!dishPicker.classList.contains("open")) return;
       if (event.target.closest(".dish-picker") || event.target.closest(".dish")) return;
       closeDishPicker();
+    });
+
+    window.addEventListener("resize", () => {
+      if (dishPicker.classList.contains("open") && activeDish) {
+        positionDishPicker(activeDish);
+      }
     });
 
     document.addEventListener("keydown", (event) => {
