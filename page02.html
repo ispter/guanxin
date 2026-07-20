@@ -6,9 +6,9 @@
   <title>关大师 菜谱搭配平台</title>
   <style>
     :root {
-      --orange: #ff6a1a;
-      --orange-dark: #e85d14;
-      --orange-soft: #fff3e9;
+      --orange: #f5a623;
+      --orange-dark: #df8d12;
+      --orange-soft: #fff7df;
       --line: #eadfce;
       --text: #3d352d;
       --muted: #8b837b;
@@ -210,7 +210,7 @@
       width: 20px;
       height: 19px;
       margin-right: 12px;
-      color: #ff9b24;
+      color: #f2aa2e;
       background: currentColor;
       flex: 0 0 20px;
     }
@@ -238,7 +238,7 @@
       width: 20px;
       height: 19px;
       margin-right: 12px;
-      color: #ff9b24;
+      color: #f2aa2e;
       flex: 0 0 20px;
     }
 
@@ -283,9 +283,15 @@
       height: 39px;
       margin: 0 0 4px 0;
       padding-left: 48px;
-      color: #fff;
-      background: linear-gradient(90deg, #ff8a36, #ff7627);
-      box-shadow: inset -1px 0 0 rgba(132, 72, 22, .15);
+      color: #c94f1f;
+      background: #f2f3f5;
+      box-shadow: inset -1px 0 0 rgba(80, 80, 80, .08);
+    }
+
+    .menu-item[href]:hover,
+    .menu-item[href]:focus-visible {
+      color: #C94F1F;
+      outline: 0;
     }
 
     main {
@@ -329,7 +335,7 @@
       height: 30px;
       border-radius: 4px;
       background: var(--orange);
-      box-shadow: 0 2px 6px rgba(219, 91, 19, .24);
+      box-shadow: 0 2px 6px rgba(203, 139, 22, .22);
       transform: translateX(calc(var(--view-index) * 78px));
       transition: transform .22s ease;
     }
@@ -407,16 +413,16 @@
       appearance: none;
       cursor: pointer;
       background:
-        linear-gradient(45deg, transparent 50%, #c47b37 50%) right 17px center / 6px 6px no-repeat,
-        linear-gradient(135deg, #c47b37 50%, transparent 50%) right 11px center / 6px 6px no-repeat,
+        linear-gradient(45deg, transparent 50%, #c94f1f 50%) right 17px center / 6px 6px no-repeat,
+        linear-gradient(135deg, #c94f1f 50%, transparent 50%) right 11px center / 6px 6px no-repeat,
         #fff;
       padding-right: 34px;
     }
 
     input.input:focus,
     select.input:focus {
-      border-color: #f08a3a;
-      box-shadow: 0 0 0 3px rgba(240, 138, 58, .14);
+      border-color: #e2a126;
+      box-shadow: 0 0 0 3px rgba(226, 161, 38, .16);
     }
 
     .ai-btn,
@@ -424,7 +430,7 @@
       height: 35px;
       border: 1px solid #ead8c2;
       border-radius: 4px;
-      color: #c47b37;
+      color: #df7f22;
       background: linear-gradient(#fff, #fff8ef);
       font-weight: 800;
       cursor: pointer;
@@ -435,10 +441,10 @@
     .ai-btn:focus-visible,
     .ghost-btn:hover,
     .ghost-btn:focus-visible {
-      border-color: #f08a3a;
+      border-color: #e2a126;
       color: #fff;
-      background: linear-gradient(#ff8a38, #ff6a1a);
-      box-shadow: 0 2px 8px rgba(226, 88, 12, .24);
+      background: linear-gradient(#f7b84b, #f0a51f);
+      box-shadow: 0 2px 8px rgba(203, 139, 22, .24);
       outline: 0;
     }
 
@@ -457,13 +463,13 @@
     }
 
     .editing-meta {
-      color: var(--orange);
+      color: #c94f1f;
     }
 
     .editing-icon {
       width: 24px;
       height: 26px;
-      color: #ff9b24;
+      color: #c94f1f;
       flex: 0 0 24px;
     }
 
@@ -506,7 +512,7 @@
       height: 31px;
       border-radius: 4px;
       background: var(--orange);
-      box-shadow: 0 2px 6px rgba(219, 91, 19, .24);
+      box-shadow: 0 2px 6px rgba(203, 139, 22, .22);
       transform: translateX(calc(var(--active-index) * 74px));
       transition: transform .24s ease;
     }
@@ -549,10 +555,10 @@
     }
 
     .course-row {
-      --course-accent: #f08a3a;
-      --course-accent-strong: #d86d22;
-      --course-accent-soft: rgba(234, 113, 34, .16);
-      --course-accent-tint: #fff5ea;
+      --course-accent: #d8c7b3;
+      --course-accent-strong: #A75D26;
+      --course-accent-soft: rgba(122, 91, 63, .12);
+      --course-accent-tint: #FFFAF2;
       display: grid;
       grid-template-columns: 72px 1fr;
       min-height: 126px;
@@ -561,42 +567,42 @@
 
     .course-row.side-row,
     .course-row:has(.course-label.side) {
-      --course-accent: #48a89a;
-      --course-accent-strong: #318d84;
-      --course-accent-soft: rgba(72, 168, 154, .18);
-      --course-accent-tint: #edf9f6;
+      --course-accent: #d8c7b3;
+      --course-accent-strong: #A75D26;
+      --course-accent-soft: rgba(122, 91, 63, .12);
+      --course-accent-tint: #FFFAF2;
     }
 
     .course-row.veg-row,
     .course-row:has(.course-label.veg) {
-      --course-accent: #a6c526;
-      --course-accent-strong: #7d9c16;
-      --course-accent-soft: rgba(166, 197, 38, .2);
-      --course-accent-tint: #f5fae8;
+      --course-accent: #d8c7b3;
+      --course-accent-strong: #A75D26;
+      --course-accent-soft: rgba(122, 91, 63, .12);
+      --course-accent-tint: #FFFAF2;
     }
 
     .course-row.staple-row,
     .course-row:has(.course-label.staple) {
-      --course-accent: #ff7b24;
-      --course-accent-strong: #d96216;
-      --course-accent-soft: rgba(255, 123, 36, .18);
-      --course-accent-tint: #fff2e7;
+      --course-accent: #d8c7b3;
+      --course-accent-strong: #A75D26;
+      --course-accent-soft: rgba(122, 91, 63, .12);
+      --course-accent-tint: #FFFAF2;
     }
 
     .course-row.cold-row,
     .course-row:has(.course-label.cold) {
-      --course-accent: #5185ad;
-      --course-accent-strong: #3b6f97;
-      --course-accent-soft: rgba(81, 133, 173, .18);
-      --course-accent-tint: #eef6fb;
+      --course-accent: #d8c7b3;
+      --course-accent-strong: #A75D26;
+      --course-accent-soft: rgba(122, 91, 63, .12);
+      --course-accent-tint: #FFFAF2;
     }
 
     .course-row.soup-row,
     .course-row:has(.course-label.soup) {
-      --course-accent: #f0c535;
-      --course-accent-strong: #c69b13;
-      --course-accent-soft: rgba(240, 197, 53, .24);
-      --course-accent-tint: #fff9df;
+      --course-accent: #d8c7b3;
+      --course-accent-strong: #A75D26;
+      --course-accent-soft: rgba(122, 91, 63, .12);
+      --course-accent-tint: #FFFAF2;
     }
 
     .course-row:last-child {
@@ -609,37 +615,39 @@
       justify-content: center;
       width: 72px;
       margin: 0 18px 10px 0;
-      color: #fff;
+      color: #7a5b3f;
       font-size: 18px;
       font-weight: 800;
       line-height: 1.8;
       writing-mode: vertical-rl;
       letter-spacing: 2px;
       border-radius: 3px;
+      border: 1px solid #d8c7b3;
+      background: #fff4eb;
     }
 
     .course-label.main {
-      background: linear-gradient(#ec6035, #f26f3c);
+      color: #7a5b3f;
     }
 
     .course-label.side {
-      background: linear-gradient(#56b6a8, #3c9f99);
+      color: #7a5b3f;
     }
 
     .course-label.veg {
-      background: var(--green);
+      color: #7a5b3f;
     }
 
     .course-label.staple {
-      background: linear-gradient(#ff883b, #ff7929);
+      color: #7a5b3f;
     }
 
     .course-label.cold {
-      background: var(--blue);
+      color: #7a5b3f;
     }
 
     .course-label.soup {
-      background: var(--yellow);
+      color: #7a5b3f;
     }
 
     .dish-area {
@@ -673,29 +681,39 @@
 
     .dish:hover,
     .dish:focus-visible {
-      border-color: var(--course-accent);
-      color: var(--course-accent-strong);
-      box-shadow: 0 2px 8px var(--course-accent-soft);
+      border-color: #d8e5a9;
+      color: #7a8a35;
+      box-shadow: 0 1px 5px rgba(120, 95, 60, .1);
       outline: 0;
     }
 
     .dish.selected {
-      border-color: var(--course-accent);
-      color: var(--course-accent-strong);
-      background: var(--course-accent-tint);
+      border-color: #d8e5a9;
+      color: #7a8a35;
+      background: #fbfbe9;
+      box-shadow: 0 1px 5px rgba(120, 95, 60, .1);
       font-weight: 800;
     }
 
     .add {
       width: 100%;
       height: 31px;
-      border: 1px solid currentColor;
+      border: 1px solid #d9dce1;
       border-radius: 5px;
-      color: var(--course-accent-strong);
-      background: #fffdf8;
+      color: #8b9098;
+      background: #fafafa;
       font: inherit;
       font-weight: 700;
       cursor: pointer;
+      transition: border-color .18s ease, color .18s ease, background .18s ease, box-shadow .18s ease;
+    }
+
+    .add:hover,
+    .add:focus-visible {
+      border-color: #d8e5a9;
+      color: #7a8a35;
+      box-shadow: 0 1px 5px rgba(120, 95, 60, .1);
+      outline: 0;
     }
 
     .soup-area .add {
@@ -762,7 +780,7 @@
     .stats-icon {
       width: 24px;
       height: 24px;
-      color: #ff9b24;
+      color: #c94f1f;
       flex: 0 0 24px;
     }
 
@@ -881,7 +899,7 @@
     }
 
     .week-meal-card.lunch {
-      --meal-accent: #48a89a;
+      --meal-accent: #d89a62;
     }
 
     .week-meal-card.dinner {
@@ -911,9 +929,9 @@
     }
 
     .week-tag {
-      --tag-color: #ff7b24;
-      --tag-strong: #d96216;
-      --tag-bg: #fff2e7;
+      --tag-color: #d8c7b3;
+      --tag-strong: #7a5b3f;
+      --tag-bg: #f8f3ee;
       display: inline-flex;
       align-items: center;
       height: 24px;
@@ -927,39 +945,39 @@
     }
 
     .tag-main {
-      --tag-color: #f08a3a;
-      --tag-strong: #d86d22;
-      --tag-bg: #fff5ea;
+      --tag-color: #d8c7b3;
+      --tag-strong: #7a5b3f;
+      --tag-bg: #f8f3ee;
     }
 
     .tag-side {
-      --tag-color: #48a89a;
-      --tag-strong: #318d84;
-      --tag-bg: #edf9f6;
+      --tag-color: #d8c7b3;
+      --tag-strong: #7a5b3f;
+      --tag-bg: #f8f3ee;
     }
 
     .tag-veg {
-      --tag-color: #a6c526;
-      --tag-strong: #7d9c16;
-      --tag-bg: #f5fae8;
+      --tag-color: #d8c7b3;
+      --tag-strong: #7a5b3f;
+      --tag-bg: #f8f3ee;
     }
 
     .tag-staple {
-      --tag-color: #ff7b24;
-      --tag-strong: #d96216;
-      --tag-bg: #fff2e7;
+      --tag-color: #d8c7b3;
+      --tag-strong: #7a5b3f;
+      --tag-bg: #f8f3ee;
     }
 
     .tag-cold {
-      --tag-color: #5185ad;
-      --tag-strong: #3b6f97;
-      --tag-bg: #eef6fb;
+      --tag-color: #d8c7b3;
+      --tag-strong: #7a5b3f;
+      --tag-bg: #f8f3ee;
     }
 
     .tag-soup {
-      --tag-color: #f0c535;
-      --tag-strong: #c69b13;
-      --tag-bg: #fff9df;
+      --tag-color: #d8c7b3;
+      --tag-strong: #7a5b3f;
+      --tag-bg: #f8f3ee;
     }
 
     @media (max-width: 1180px) {
@@ -1074,14 +1092,14 @@
       overflow-y: auto;
       padding: 0 12px 12px;
       border-right: 1px solid #efe5d8;
-      background: linear-gradient(#fffdf9, var(--picker-accent-soft));
+      background: #fff8f2;
     }
 
     .picker-group-title {
       padding: 14px 12px 10px;
       border-right: 1px solid #efe5d8;
       color: var(--picker-accent-strong);
-      background: #fffdf9;
+      background: #fff4eb;
       font-weight: 800;
     }
 
@@ -1090,19 +1108,19 @@
       min-height: 38px;
       margin-bottom: 8px;
       padding: 0 8px;
-      border: 1px solid #ead8c2;
+      border: 1px solid #ead0b8;
       border-radius: 5px;
-      color: #665b51;
-      background: #fff;
+      color: #A75D26;
+      background: #FFFAF2;
       font-weight: 800;
       cursor: pointer;
     }
 
     .meat-btn.active {
-      color: #fff;
-      border-color: var(--picker-accent);
-      background: var(--picker-accent);
-      box-shadow: 0 2px 6px var(--picker-accent-soft);
+      color: #A75D26;
+      border-color: #d7965d;
+      background: #ffe5cf;
+      box-shadow: 0 2px 6px rgba(167, 93, 38, .16), inset 0 0 0 1px rgba(167, 93, 38, .18);
     }
 
     .dish-list {
@@ -1146,10 +1164,10 @@
     .recipe-btn {
       min-height: 40px;
       padding: 0 8px;
-      border: 1px solid #e1d7ca;
+      border: 1px solid #ead0b8;
       border-radius: 5px;
-      color: #514942;
-      background: linear-gradient(#fff, #fffaf3);
+      color: #6b4d35;
+      background: #FFFAF2;
       font-weight: 800;
       cursor: pointer;
       white-space: nowrap;
@@ -1185,7 +1203,7 @@
         <div class="menu-title"><span class="menu-icon book" aria-hidden="true"></span>菜谱搭配<span class="chev down"></span></div>
         <div class="menu-children">
           <div class="menu-item active">搭配菜谱</div>
-          <div class="menu-item">我的搭配</div>
+          <a class="menu-item" href="page04.html">食材统计</a>
         </div>
       </div>
       <div class="menu-group collapsed">
