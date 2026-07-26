@@ -486,6 +486,210 @@
       min-width: 76px;
     }
 
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 20;
+      display: none;
+      place-items: center;
+      padding: 24px;
+      background: rgba(53, 42, 31, .3);
+      backdrop-filter: blur(3px);
+      -webkit-backdrop-filter: blur(3px);
+    }
+
+    .modal-backdrop.open {
+      display: grid;
+    }
+
+    .modal-dialog {
+      width: 900px;
+      max-height: calc(100vh - 48px);
+      overflow: hidden;
+      border: 1px solid #f0c977;
+      border-radius: 8px;
+      background: #fffdf9;
+      box-shadow: 0 18px 48px rgba(61, 42, 28, .24);
+    }
+
+    .modal-dialog.confirm {
+      width: 420px;
+    }
+
+    .modal-head {
+      height: 54px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      color: #a75d26;
+      background: #fff7e9;
+      border-bottom: 1px solid #f0d69e;
+      font-size: 18px;
+      font-weight: 900;
+    }
+
+    .modal-close {
+      width: 30px;
+      height: 30px;
+      border: 0;
+      color: #9b8b7f;
+      background: transparent;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    .modal-body {
+      max-height: calc(100vh - 190px);
+      overflow-y: auto;
+      padding: 22px 24px 8px;
+    }
+
+    .edit-row {
+      display: grid;
+      grid-template-columns: 78px 1fr;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .edit-row label {
+      color: #5e5148;
+      font-weight: 800;
+    }
+
+    .edit-row input,
+    .edit-row select,
+    .edit-row textarea {
+      width: 100%;
+      border: 1px solid #efd184;
+      border-radius: 5px;
+      color: #554942;
+      background: #fff;
+      font: inherit;
+      outline: 0;
+    }
+
+    .edit-row input,
+    .edit-row select {
+      height: 38px;
+      padding: 0 11px;
+    }
+
+    .edit-row textarea {
+      min-height: 86px;
+      padding: 10px 11px;
+      resize: vertical;
+    }
+
+    .design-section {
+      margin: 22px 0;
+    }
+
+    .design-section-title {
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #e07042;
+      color: #a75d26;
+      font-size: 16px;
+      font-weight: 900;
+    }
+
+    .edit-material-list {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px 14px;
+    }
+
+    .edit-material-item {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 64px 18px 26px;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .edit-material-item input,
+    .edit-process-list textarea {
+      width: 100%;
+      border: 1px solid #efd184;
+      border-radius: 5px;
+      color: #554942;
+      background: #fff;
+      font: inherit;
+      outline: 0;
+    }
+
+    .edit-material-item input {
+      height: 34px;
+      min-width: 0;
+      padding: 0 8px;
+    }
+
+    .edit-material-remove {
+      width: 26px;
+      height: 26px;
+      padding: 0;
+      border: 0;
+      color: #a09284;
+      background: transparent;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    .edit-material-add {
+      margin-top: 10px;
+      min-width: 96px;
+      height: 32px;
+    }
+
+    .edit-process-list {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .edit-process-list textarea {
+      min-height: 88px;
+      padding: 9px;
+      resize: vertical;
+    }
+
+    .confirm-text {
+      margin: 2px 0 14px;
+      color: #665d55;
+      line-height: 1.7;
+    }
+
+    .confirm-text strong {
+      color: #c94f1f;
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      padding: 14px 24px 22px;
+    }
+
+    .modal-actions .btn {
+      min-width: 96px;
+    }
+
+    .danger-btn {
+      color: #fff;
+      border-color: var(--orange);
+      background: linear-gradient(#f7b84b, #f0a51f);
+      box-shadow: 0 2px 8px rgba(203, 139, 22, .24);
+    }
+
+    .danger-btn:hover,
+    .danger-btn:focus-visible {
+      color: #fff;
+      border-color: var(--orange);
+      background: linear-gradient(#f7b84b, #f0a51f);
+      box-shadow: 0 2px 8px rgba(203, 139, 22, .24);
+    }
+
   </style>
 </head>
 <body>
@@ -508,7 +712,9 @@
         <div class="menu-title"><span class="menu-icon book" aria-hidden="true"></span>菜谱搭配<span class="chev down"></span></div>
         <div class="menu-children">
           <a class="menu-item" href="page01.html">搭配菜谱</a>
-          <a class="menu-item" href="page04.html">食材统计</a>
+          <a class="menu-item" href="page10.html">我的菜谱</a>
+          <a class="menu-item" href="page04.html">营养分析</a>
+          <a class="menu-item" href="page11.html">食材统计</a>
         </div>
       </div>
       <div class="menu-group">
@@ -532,30 +738,209 @@
       <div class="page-title">我的菜品 / 我的菜品</div>
 
       <div class="dish-list" aria-label="我的菜品列表">
-        <div class="dish-card">
+        <div class="dish-card" data-key="佛跳墙" data-category="特色菜" data-description="传统滋补菜品">
           <div class="dish-title">佛跳墙</div>
           <div class="dish-meta">创建时间：2026年7月2日</div>
           <div class="dish-meta">修改时间：2026年7月2日</div>
           <div class="dish-actions">
-            <button class="btn primary-always" type="button">管理</button>
-            <button class="btn" type="button">删除</button>
+            <button class="btn manage-dish" type="button">管理</button>
+            <button class="btn delete-dish" type="button">删除</button>
           </div>
         </div>
 
-        <div class="dish-card">
+        <div class="dish-card" data-key="红烧肉" data-category="主荤" data-description="家常红烧口味">
           <div class="dish-title">红烧肉</div>
           <div class="dish-meta">创建时间：2026年7月2日</div>
           <div class="dish-meta">修改时间：2026年7月2日</div>
           <div class="dish-actions">
-            <button class="btn primary-always" type="button">管理</button>
-            <button class="btn" type="button">删除</button>
+            <button class="btn manage-dish" type="button">管理</button>
+            <button class="btn delete-dish" type="button">删除</button>
           </div>
         </div>
       </div>
     </main>
   </div>
 
+  <div class="modal-backdrop" id="editModal" aria-hidden="true">
+    <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="editTitle">
+      <div class="modal-head"><span id="editTitle">修改菜品</span><button class="modal-close" id="editClose" type="button" aria-label="关闭">×</button></div>
+      <div class="modal-body">
+        <div class="edit-row"><label for="editName">菜名</label><input id="editName" maxlength="30"></div>
+        <div class="design-section" data-design-section="main"><div class="design-section-title">主料设置</div><div class="edit-material-list"></div><button class="btn edit-material-add" type="button">添加主料</button></div>
+        <div class="design-section" data-design-section="side"><div class="design-section-title">辅料设置</div><div class="edit-material-list"></div><button class="btn edit-material-add" type="button">添加辅料</button></div>
+        <div class="design-section" data-design-section="small"><div class="design-section-title">小料设置</div><div class="edit-material-list"></div><button class="btn edit-material-add" type="button">添加小料</button></div>
+        <div class="design-section" data-design-section="seasoning"><div class="design-section-title">调料设置</div><div class="edit-material-list"></div><button class="btn edit-material-add" type="button">添加调料</button></div>
+        <div class="design-section"><div class="design-section-title">菜品工序／工艺</div><div class="edit-process-list" id="editProcessList"></div></div>
+      </div>
+      <div class="modal-actions"><button class="btn" id="editCancel" type="button">取消</button><button class="btn primary-always" id="editSave" type="button">保存修改</button></div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="deleteModal" aria-hidden="true">
+    <div class="modal-dialog confirm" role="alertdialog" aria-modal="true" aria-labelledby="deleteTitle">
+      <div class="modal-head"><span id="deleteTitle">确认删除</span><button class="modal-close" id="deleteClose" type="button" aria-label="关闭">×</button></div>
+      <div class="modal-body"><p class="confirm-text">确定要删除菜品“<strong id="deleteDishName"></strong>”吗？删除后将无法恢复。</p></div>
+      <div class="modal-actions"><button class="btn" id="deleteCancel" type="button">取消</button><button class="btn danger-btn" id="deleteConfirm" type="button">确认删除</button></div>
+    </div>
+  </div>
+
   <script>
+    const editModal = document.querySelector("#editModal");
+    const deleteModal = document.querySelector("#deleteModal");
+    const editName = document.querySelector("#editName");
+    const editProcessList = document.querySelector("#editProcessList");
+    const deleteDishName = document.querySelector("#deleteDishName");
+    let activeDishCard = null;
+    const storedDishDesigns = JSON.parse(localStorage.getItem("dishDesigns") || "{}");
+    const defaultDishDesigns = {
+      佛跳墙: {
+        name:"佛跳墙",
+        main:[["鲍鱼",120],["海参",100],["鱼翅",80]],
+        side:[["花菇",60],["鸽蛋",80],["猪蹄筋",100]],
+        small:[["生姜",12],["香葱",8],["蒜",10]],
+        seasoning:[["花雕酒",25],["高汤",300],["盐",6]],
+        processes:["准备砂锅、蒸盅及高汤","鲍鱼、海参等食材洗净泡发","主料分别焯水去腥","食材分层放入蒸盅并加入高汤","密封后小火慢炖至入味"]
+      },
+      红烧肉: {
+        name:"红烧肉",
+        main:[["猪五花肉",500],["冰糖",30]],
+        side:[["鹌鹑蛋",120],["香菇",80]],
+        small:[["生姜",15],["香葱",10],["八角",4]],
+        seasoning:[["生抽",25],["老抽",10],["料酒",20],["盐",5]],
+        processes:["准备炒锅、汤锅及称量工具","五花肉洗净切块，冷水下锅焯水","冰糖炒出糖色后放入五花肉翻炒","加入小料、调料和清水，小火焖煮","大火收汁并调整咸甜口味"]
+      }
+    };
+    document.querySelectorAll(".dish-card").forEach((card) => {
+      const stored = storedDishDesigns[card.dataset.key];
+      if (!stored) return;
+      card.querySelector(".dish-title").textContent = stored.name || card.dataset.key;
+      card.querySelectorAll(".dish-meta")[1].textContent = `修改时间：${stored.updatedLabel || "刚刚"}`;
+    });
+
+    function openModal(modal) {
+      modal.classList.add("open");
+      modal.setAttribute("aria-hidden", "false");
+    }
+
+    function closeModal(modal) {
+      modal.classList.remove("open");
+      modal.setAttribute("aria-hidden", "true");
+    }
+
+    function createMaterialEditItem(value = ["", ""]) {
+      const item = document.createElement("div");
+      item.className = "edit-material-item";
+      const name = document.createElement("input");
+      name.placeholder = "食材名称";
+      name.value = value[0] || "";
+      const weight = document.createElement("input");
+      weight.placeholder = "克数";
+      weight.value = value[1] || "";
+      const unit = document.createElement("span");
+      unit.textContent = "g";
+      const remove = document.createElement("button");
+      remove.className = "edit-material-remove";
+      remove.type = "button";
+      remove.setAttribute("aria-label", "删除该项");
+      remove.textContent = "×";
+      item.append(name, weight, unit, remove);
+      return item;
+    }
+
+    function renderDesignEditor(design) {
+      document.querySelectorAll("[data-design-section]").forEach((section) => {
+        const key = section.dataset.designSection;
+        const list = section.querySelector(".edit-material-list");
+        list.innerHTML = "";
+        (design[key]?.length ? design[key] : [["", ""]]).forEach((value) => list.appendChild(createMaterialEditItem(value)));
+      });
+      editProcessList.innerHTML = "";
+      const processes = design.processes?.length ? design.processes : ["","","","",""];
+      processes.forEach((text, index) => {
+        const textarea = document.createElement("textarea");
+        textarea.placeholder = `请输入工序${index + 1}`;
+        textarea.value = text;
+        editProcessList.appendChild(textarea);
+      });
+    }
+
+    editModal.addEventListener("click", (event) => {
+      const add = event.target.closest(".edit-material-add");
+      if (add) {
+        add.closest(".design-section").querySelector(".edit-material-list").appendChild(createMaterialEditItem());
+        return;
+      }
+      const remove = event.target.closest(".edit-material-remove");
+      if (remove) remove.closest(".edit-material-item").remove();
+    });
+
+    document.querySelector(".dish-list").addEventListener("click", (event) => {
+      const card = event.target.closest(".dish-card");
+      if (!card) return;
+      if (event.target.closest(".manage-dish")) {
+        activeDishCard = card;
+        const design = storedDishDesigns[card.dataset.key] || defaultDishDesigns[card.dataset.key];
+        editName.value = design?.name || card.querySelector(".dish-title").textContent.trim();
+        renderDesignEditor(design || {});
+        openModal(editModal);
+        editName.focus();
+        return;
+      }
+      if (event.target.closest(".delete-dish")) {
+        activeDishCard = card;
+        deleteDishName.textContent = card.querySelector(".dish-title").textContent.trim();
+        openModal(deleteModal);
+      }
+    });
+
+    document.querySelector("#editSave").addEventListener("click", () => {
+      const name = editName.value.trim();
+      if (!activeDishCard || !name) {
+        editName.focus();
+        return;
+      }
+      const readMaterials = (key) => Array.from(document.querySelector(`[data-design-section="${key}"]`).querySelectorAll(".edit-material-item")).map((item) => {
+        const inputs = item.querySelectorAll("input");
+        return [inputs[0].value.trim(), Number(inputs[1].value) || 0];
+      }).filter((item) => item[0]);
+      const updatedLabel = new Date().toLocaleDateString("zh-CN", { year:"numeric", month:"long", day:"numeric" });
+      storedDishDesigns[activeDishCard.dataset.key] = {
+        name,
+        main:readMaterials("main"),
+        side:readMaterials("side"),
+        small:readMaterials("small"),
+        seasoning:readMaterials("seasoning"),
+        processes:Array.from(editProcessList.querySelectorAll("textarea")).map((textarea) => textarea.value.trim()),
+        updatedLabel
+      };
+      localStorage.setItem("dishDesigns", JSON.stringify(storedDishDesigns));
+      activeDishCard.querySelector(".dish-title").textContent = name;
+      activeDishCard.querySelectorAll(".dish-meta")[1].textContent = `修改时间：${updatedLabel}`;
+      closeModal(editModal);
+    });
+
+    document.querySelector("#deleteConfirm").addEventListener("click", () => {
+      if (activeDishCard) {
+        delete storedDishDesigns[activeDishCard.dataset.key];
+        localStorage.setItem("dishDesigns", JSON.stringify(storedDishDesigns));
+        activeDishCard.remove();
+      }
+      activeDishCard = null;
+      closeModal(deleteModal);
+    });
+
+    document.querySelector("#editClose").addEventListener("click", () => closeModal(editModal));
+    document.querySelector("#editCancel").addEventListener("click", () => closeModal(editModal));
+    document.querySelector("#deleteClose").addEventListener("click", () => closeModal(deleteModal));
+    document.querySelector("#deleteCancel").addEventListener("click", () => closeModal(deleteModal));
+    editModal.addEventListener("click", (event) => { if (event.target === editModal) closeModal(editModal); });
+    deleteModal.addEventListener("click", (event) => { if (event.target === deleteModal) closeModal(deleteModal); });
+    document.addEventListener("keydown", (event) => {
+      if (event.key !== "Escape") return;
+      if (deleteModal.classList.contains("open")) closeModal(deleteModal);
+      else if (editModal.classList.contains("open")) closeModal(editModal);
+    });
+
     document.querySelectorAll(".menu-title").forEach((title) => {
       title.addEventListener("click", () => {
         title.closest(".menu-group").classList.toggle("collapsed");

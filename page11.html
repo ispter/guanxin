@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>关大师 菜谱搭配平台 - 营养分析</title>
+  <title>关大师 菜谱搭配平台 - 食材统计</title>
   <style>
     :root {
       --orange: #f5a623;
@@ -695,31 +695,6 @@
         box-shadow: none;
       }
     }
-    .nutrition-controls { display:flex; align-items:center; justify-content:space-between; gap:18px; }
-    .nutrition-controls-left { display:flex; align-items:center; gap:12px; }
-    .nutrition-overview { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px; max-width:990px; margin-top:18px; }
-    .nutrition-card { padding:18px; border:1px solid #eee2d3; border-radius:7px; background:#fff; box-shadow:0 2px 8px rgba(102,75,45,.06); }
-    .nutrition-card span { display:block; color:#8b8178; font-size:13px; }
-    .nutrition-card strong { display:block; margin:8px 0 5px; color:#554940; font-size:24px; }
-    .nutrition-card small { color:#c94f1f; }
-    .analysis-grid { display:grid; grid-template-columns:1.25fr .9fr; gap:16px; max-width:990px; margin-top:16px; }
-    .analysis-grid.day-mode { grid-template-columns:1fr; }
-    .analysis-grid.day-mode #trendPanel { display:none; }
-    .analysis-panel { padding:20px; }
-    .analysis-title { margin-bottom:18px; color:#a75d26; font-size:17px; font-weight:900; }
-    .nutrient-row { display:grid; grid-template-columns:90px 90px 1fr 64px; align-items:center; gap:12px; margin-bottom:15px; color:#665d55; font-size:13px; }
-    .nutrient-row strong { text-align:right; color:#554940; }
-    .nutrient-bar { height:9px; overflow:hidden; border-radius:999px; background:#eee9e2; }
-    .nutrient-bar span { display:block; width:var(--value); height:100%; border-radius:inherit; background:linear-gradient(90deg,#c7d77c,#8fa84c); }
-    .nutrient-row.low .nutrient-bar span { background:linear-gradient(90deg,#a9d8e8,#5f9fbd); }
-    .nutrient-row.high .nutrient-bar span { background:linear-gradient(90deg,#eeaa86,#d46b45); }
-    .nutrient-status { color:#7a8a35; text-align:right; font-weight:800; }
-    .nutrient-status.low { color:#4f8eae; }
-    .nutrient-status.high { color:#d4663d; }
-    .trend-chart { height:230px; display:flex; align-items:flex-end; justify-content:space-between; gap:12px; padding-top:18px; border-bottom:1px solid #ddd3c8; }
-    .trend-day { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; height:100%; gap:8px; color:#82776e; font-size:12px; }
-    .trend-bar { width:34px; height:var(--height); min-height:28px; border-radius:5px 5px 0 0; background:linear-gradient(#dce7a8,#9eb55a); }
-    .nutrition-note { margin-top:16px; padding:13px 15px; border-left:4px solid #a6bd5d; color:#6d645c; background:#fbfbe9; line-height:1.65; }
   </style>
 </head>
 <body>
@@ -743,8 +718,8 @@
         <div class="menu-children">
           <a class="menu-item" href="page01.html">搭配菜谱</a>
           <a class="menu-item" href="page10.html">我的菜谱</a>
-          <div class="menu-item active">营养分析</div>
-          <a class="menu-item" href="page11.html">食材统计</a>
+          <a class="menu-item" href="page04.html">营养分析</a>
+          <div class="menu-item active">食材统计</div>
         </div>
       </div>
       <div class="menu-group collapsed">
@@ -766,38 +741,46 @@
     </aside>
 
     <main>
-      <div class="page-title">菜谱搭配 / 营养分析</div>
+      <div class="page-title">菜谱搭配 / 食材统计</div>
 
-      <section class="panel search-panel nutrition-controls">
-        <div class="nutrition-controls-left">
-          <span id="analysisDateLabel">选择起始时间：</span>
-          <input class="date-input" id="analysisDate" type="date" value="2026-07-24" aria-label="分析日期">
-          <strong class="days-count" id="analysisRange">2026-07-24</strong>
+      <section class="panel search-panel">
+        <div class="search-controls">
+          <span>选择起始日期：</span>
+          <input class="date-input" id="startDate" type="date" value="2026-06-23" aria-label="开始日期">
+          <strong class="days-count" id="rangeLabel">2026-06-23 至 2026-06-29</strong>
         </div>
-        <div class="tabs" role="tablist" aria-label="营养分析周期">
-          <button class="tab active" type="button" data-period="week">每周分析</button>
-          <button class="tab" type="button" data-period="day">每日分析</button>
+        <div class="reference-actions">
+          <div class="tabs" role="tablist" aria-label="统计周期切换">
+            <button class="tab active" type="button" data-period="week">周统计</button>
+            <button class="tab" type="button" data-period="month">月统计</button>
+          </div>
+          <button class="export-btn" id="exportPdf" type="button">保存为PDF</button>
         </div>
       </section>
 
-      <section class="nutrition-overview" id="nutritionOverview"></section>
+      <section id="statsReport">
+        <div class="stat-summary" id="statSummary"></div>
 
-      <div class="analysis-grid" id="analysisGrid">
-        <section class="panel analysis-panel">
-          <div class="analysis-title" id="detailTitle">每日营养摄入分析</div>
-          <div id="nutrientRows"></div>
-          <div class="nutrition-note" id="nutritionNote"></div>
+        <section class="panel stats-table-panel">
+          <div class="stats-title">食材用量统计表 <span id="tableCaption">周统计</span></div>
+          <table class="stats-table">
+            <thead>
+              <tr>
+                <th>原材料名称</th>
+                <th>分类</th>
+                <th>规格/单位</th>
+                <th>采购重量</th>
+                <th>来源菜品</th>
+              </tr>
+            </thead>
+            <tbody id="statsRows"></tbody>
+          </table>
         </section>
-        <section class="panel analysis-panel" id="trendPanel">
-          <div class="analysis-title">能量摄入趋势</div>
-          <div class="trend-chart" id="trendChart"></div>
-        </section>
-      </div>
+      </section>
     </main>
   </div>
 
   <script>
-    if (false) {
     const startDate = document.querySelector("#startDate");
     const rangeLabel = document.querySelector("#rangeLabel");
     const statSummary = document.querySelector("#statSummary");
@@ -984,109 +967,6 @@
         title.closest(".menu-group").classList.toggle("collapsed");
       });
     });
-    }
-
-    const analysisDate = document.querySelector("#analysisDate");
-    const analysisDateLabel = document.querySelector("#analysisDateLabel");
-    const analysisRange = document.querySelector("#analysisRange");
-    const nutritionOverview = document.querySelector("#nutritionOverview");
-    const analysisGrid = document.querySelector("#analysisGrid");
-    const nutrientRows = document.querySelector("#nutrientRows");
-    const trendChart = document.querySelector("#trendChart");
-    const detailTitle = document.querySelector("#detailTitle");
-    const nutritionNote = document.querySelector("#nutritionNote");
-    const analysisButtons = Array.from(document.querySelectorAll("[data-period]"));
-    let analysisPeriod = "week";
-
-    const nutritionData = [
-      { name:"能量", unit:"kcal", day:2186, week:15180, targetDay:2200, targetWeek:15400 },
-      { name:"蛋白质", unit:"g", day:86.4, week:598, targetDay:80, targetWeek:560 },
-      { name:"脂肪", unit:"g", day:48.6, week:421, targetDay:65, targetWeek:455 },
-      { name:"碳水化合物", unit:"g", day:302, week:2098, targetDay:300, targetWeek:2100 },
-      { name:"膳食纤维", unit:"g", day:31.2, week:185, targetDay:25, targetWeek:175 },
-      { name:"钙", unit:"mg", day:612, week:5390, targetDay:800, targetWeek:5600 },
-      { name:"铁", unit:"mg", day:15.2, week:128, targetDay:18, targetWeek:126 },
-      { name:"锌", unit:"mg", day:9.2, week:74, targetDay:11, targetWeek:77 },
-      { name:"钠", unit:"mg", day:2280, week:16800, targetDay:2000, targetWeek:14000 },
-      { name:"维生素A", unit:"μgRAE", day:720, week:4970, targetDay:700, targetWeek:4900 },
-      { name:"维生素B1", unit:"mg", day:0.9, week:7.4, targetDay:1.2, targetWeek:8.4 },
-      { name:"维生素B2", unit:"mg", day:1.4, week:9.7, targetDay:1.4, targetWeek:9.8 },
-      { name:"烟酸", unit:"mg", day:17, week:109, targetDay:15, targetWeek:105 },
-      { name:"维生素C", unit:"mg", day:136, week:760, targetDay:100, targetWeek:700 },
-      { name:"维生素D", unit:"μg", day:5.1, week:56, targetDay:10, targetWeek:70 },
-      { name:"维生素E", unit:"mg", day:16.8, week:99, targetDay:14, targetWeek:98 },
-      { name:"叶酸", unit:"μgDFE", day:360, week:2700, targetDay:400, targetWeek:2800 }
-    ];
-    const energyTrend = [2050,2240,2186,2310,2090,2205,2145];
-    const weekTrendNames = ["周一","周二","周三","周四","周五","周六","周日"];
-
-    function analysisParseDate(value) {
-      const [year, month, day] = value.split("-").map(Number);
-      return new Date(year, month - 1, day);
-    }
-
-    function analysisFormatDate(date) {
-      const month = String(date.getMonth() + 1).padStart(2, "0");
-      const day = String(date.getDate()).padStart(2, "0");
-      return `${date.getFullYear()}-${month}-${day}`;
-    }
-
-    function renderNutritionAnalysis() {
-      const selected = analysisParseDate(analysisDate.value);
-      const isWeek = analysisPeriod === "week";
-      analysisDateLabel.textContent = isWeek ? "选择起始时间：" : "选择日期：";
-      analysisGrid.classList.toggle("day-mode", !isWeek);
-      analysisRange.hidden = !isWeek;
-      const weekEnd = new Date(selected);
-      weekEnd.setDate(weekEnd.getDate() + 6);
-      analysisRange.textContent = `${analysisFormatDate(selected)} 至 ${analysisFormatDate(weekEnd)}`;
-      detailTitle.textContent = isWeek ? "每周营养摄入分析" : "每日营养摄入分析";
-      analysisButtons.forEach((button, index) => {
-        const active = button.dataset.period === analysisPeriod;
-        button.classList.toggle("active", active);
-        if (active) button.parentElement.style.setProperty("--view-index", index);
-      });
-
-      const energy = nutritionData[0];
-      const protein = nutritionData[1];
-      const fiber = nutritionData[4];
-      const key = isWeek ? "week" : "day";
-      const targetKey = isWeek ? "targetWeek" : "targetDay";
-      const suitableCount = nutritionData.filter((item) => {
-        const ratio = item[key] / item[targetKey] * 100;
-        return ratio >= 90 && ratio <= 115;
-      }).length;
-      const cards = [
-        ["总能量", `${energy[key]} kcal`, `${Math.round(energy[key] / energy[targetKey] * 100)}% 目标`],
-        ["蛋白质", `${protein[key]} g`, "摄入充足"],
-        ["膳食纤维", `${fiber[key]} g`, "达到推荐"],
-        ["营养达标项", `${suitableCount} / ${nutritionData.length}`, "整体均衡"]
-      ];
-      nutritionOverview.innerHTML = cards.map(([label,value,note]) =>
-        `<div class="nutrition-card"><span>${label}</span><strong>${value}</strong><small>${note}</small></div>`).join("");
-
-      nutrientRows.innerHTML = nutritionData.map((item) => {
-        const ratio = Math.round(item[key] / item[targetKey] * 100);
-        const status = ratio < 90 ? "偏低" : ratio > 115 ? "偏高" : "适宜";
-        const statusClass = ratio < 90 ? "low" : ratio > 115 ? "high" : "normal";
-        return `<div class="nutrient-row ${statusClass}"><span>${item.name}</span><strong>${item[key]}${item.unit}</strong><div class="nutrient-bar"><span style="--value:${Math.min(ratio,100)}%"></span></div><span class="nutrient-status ${statusClass}">${status}</span></div>`;
-      }).join("");
-      nutritionNote.textContent = isWeek
-        ? "本周维生素B1和维生素D偏低，钠摄入偏高。建议增加粗粮、菌菇、蛋类或奶制品，并适当减少盐、酱油及腌制食品。"
-        : "今日能量与碳水摄入适宜，脂肪、钙和铁偏低，膳食纤维与维生素C偏高。晚餐可适量增加豆腐、瘦肉或坚果。";
-
-      const values = isWeek ? energyTrend : [nutritionData[0].day];
-      trendChart.innerHTML = values.map((value, index) =>
-        `<div class="trend-day"><strong>${value}</strong><div class="trend-bar" style="--height:${Math.min(96,Math.round(value / 25))}%"></div><span>${isWeek ? weekTrendNames[index] : "当日"}</span></div>`).join("");
-    }
-
-    analysisDate.addEventListener("change", renderNutritionAnalysis);
-    analysisButtons.forEach((button) => button.addEventListener("click", () => {
-      analysisPeriod = button.dataset.period;
-      renderNutritionAnalysis();
-    }));
-    document.querySelectorAll(".menu-title").forEach((title) => title.addEventListener("click", () => title.closest(".menu-group").classList.toggle("collapsed")));
-    renderNutritionAnalysis();
   </script>
 </body>
 </html>

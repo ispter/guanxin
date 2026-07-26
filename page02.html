@@ -1032,9 +1032,9 @@
     }
 
     .dish-picker {
-      --picker-accent: #ff7b24;
-      --picker-accent-strong: #d96216;
-      --picker-accent-soft: rgba(255, 123, 36, .16);
+      --picker-accent: #d8e5a9;
+      --picker-accent-strong: #7a8a35;
+      --picker-accent-soft: rgba(216, 229, 169, .28);
       position: absolute;
       z-index: 20;
       display: none;
@@ -1092,14 +1092,14 @@
       overflow-y: auto;
       padding: 0 12px 12px;
       border-right: 1px solid #efe5d8;
-      background: #fff8f2;
+      background: #fffef7;
     }
 
     .picker-group-title {
       padding: 14px 12px 10px;
       border-right: 1px solid #efe5d8;
       color: var(--picker-accent-strong);
-      background: #fff4eb;
+      background: #fbfbe9;
       font-weight: 800;
     }
 
@@ -1108,19 +1108,22 @@
       min-height: 38px;
       margin-bottom: 8px;
       padding: 0 8px;
-      border: 1px solid #ead0b8;
+      border: 1px solid #e0e8b8;
       border-radius: 5px;
-      color: #A75D26;
-      background: #FFFAF2;
+      color: #7a8a35;
+      background: #fffef7;
       font-weight: 800;
       cursor: pointer;
     }
 
+    .meat-btn:hover,
+    .meat-btn:focus-visible,
     .meat-btn.active {
-      color: #A75D26;
-      border-color: #d7965d;
-      background: #ffe5cf;
-      box-shadow: 0 2px 6px rgba(167, 93, 38, .16), inset 0 0 0 1px rgba(167, 93, 38, .18);
+      color: #7a8a35;
+      border-color: #d8e5a9;
+      background: #fbfbe9;
+      box-shadow: 0 2px 6px rgba(122, 138, 53, .12), inset 0 0 0 1px rgba(122, 138, 53, .12);
+      outline: 0;
     }
 
     .dish-list {
@@ -1164,10 +1167,10 @@
     .recipe-btn {
       min-height: 40px;
       padding: 0 8px;
-      border: 1px solid #ead0b8;
+      border: 1px solid #e0e8b8;
       border-radius: 5px;
       color: #6b4d35;
-      background: #FFFAF2;
+      background: #fffef7;
       font-weight: 800;
       cursor: pointer;
       white-space: nowrap;
@@ -1203,7 +1206,9 @@
         <div class="menu-title"><span class="menu-icon book" aria-hidden="true"></span>菜谱搭配<span class="chev down"></span></div>
         <div class="menu-children">
           <div class="menu-item active">搭配菜谱</div>
-          <a class="menu-item" href="page04.html">食材统计</a>
+          <a class="menu-item" href="page10.html">我的菜谱</a>
+          <a class="menu-item" href="page04.html">营养分析</a>
+          <a class="menu-item" href="page11.html">食材统计</a>
         </div>
       </div>
       <div class="menu-group collapsed">
@@ -1265,13 +1270,13 @@
             <line x1="3.25" y1="6.28" x2="8.81" y2="6.28"/>
             <line x1="3.25" y1="10.25" x2="12.66" y2="10.25"/>
           </svg>
-          <span>正在编辑： <b class="editing-meta" id="editDate">2026/5/14</b>&nbsp;&nbsp;<b class="editing-meta" id="mealName">中餐</b></span>
+          <span>正在编辑： <b class="editing-meta" id="editDate">2026/5/14</b>&nbsp;&nbsp;<b class="editing-meta" id="mealName">午餐</b></span>
         </div>
 
         <div class="tabs-actions">
           <div class="tabs" id="mealTabs" role="tablist" aria-label="餐次选择">
             <button class="tab" type="button" role="tab" aria-selected="false" data-meal="早餐">早餐</button>
-            <button class="tab active" type="button" role="tab" aria-selected="true" data-meal="中餐">中餐</button>
+            <button class="tab active" type="button" role="tab" aria-selected="true" data-meal="午餐">午餐</button>
             <button class="tab" type="button" role="tab" aria-selected="false" data-meal="晚餐">晚餐</button>
           </div>
           <div class="action-row">
@@ -1415,7 +1420,7 @@
             <div class="week-day-bar"><span>周四</span><span class="week-date">2026/5/14</span></div>
             <div class="week-meals">
               <div class="week-meal-card breakfast"><div class="week-meal-title">BREAKFAST<span>早餐</span></div><div class="week-tags"><span class="week-tag tag-soup">小米粥</span><span class="week-tag tag-staple">馒头</span><span class="week-tag tag-veg">拌黄瓜</span></div></div>
-              <div class="week-meal-card lunch"><div class="week-meal-title">LUNCH<span>中餐</span></div><div class="week-tags"><span class="week-tag tag-main">红烧肉</span><span class="week-tag tag-side">青椒肉丝</span><span class="week-tag tag-veg">清炒空心菜</span><span class="week-tag tag-staple">白米饭</span></div></div>
+              <div class="week-meal-card lunch"><div class="week-meal-title">LUNCH<span>午餐</span></div><div class="week-tags"><span class="week-tag tag-main">红烧肉</span><span class="week-tag tag-side">青椒肉丝</span><span class="week-tag tag-veg">清炒空心菜</span><span class="week-tag tag-staple">白米饭</span></div></div>
               <div class="week-meal-card dinner"><div class="week-meal-title">DINNER<span>晚餐</span></div><div class="week-tags"><span class="week-tag tag-main">香菇滑鸡</span><span class="week-tag tag-veg">冬瓜烧豆腐</span><span class="week-tag tag-soup">紫菜豆腐汤</span></div></div>
             </div>
           </div>
@@ -1424,7 +1429,7 @@
             <div class="week-day-bar"><span>周五</span><span class="week-date">2026/5/15</span></div>
             <div class="week-meals">
               <div class="week-meal-card breakfast"><div class="week-meal-title">BREAKFAST<span>早餐</span></div><div class="week-tags"><span class="week-tag tag-soup">八宝粥</span><span class="week-tag tag-staple">花卷</span><span class="week-tag tag-veg">白灼生菜</span></div></div>
-              <div class="week-meal-card lunch"><div class="week-meal-title">LUNCH<span>中餐</span></div><div class="week-tags"><span class="week-tag tag-main">番茄牛腩</span><span class="week-tag tag-side">西芹虾仁</span><span class="week-tag tag-veg">家常豆腐</span><span class="week-tag tag-staple">杂粮饭</span></div></div>
+              <div class="week-meal-card lunch"><div class="week-meal-title">LUNCH<span>午餐</span></div><div class="week-tags"><span class="week-tag tag-main">番茄牛腩</span><span class="week-tag tag-side">西芹虾仁</span><span class="week-tag tag-veg">家常豆腐</span><span class="week-tag tag-staple">杂粮饭</span></div></div>
               <div class="week-meal-card dinner"><div class="week-meal-title">DINNER<span>晚餐</span></div><div class="week-tags"><span class="week-tag tag-main">水煮鱼片</span><span class="week-tag tag-veg">杏鲍菇炒青椒</span><span class="week-tag tag-soup">番茄蛋花汤</span></div></div>
             </div>
           </div>
@@ -1433,7 +1438,7 @@
             <div class="week-day-bar"><span>周六</span><span class="week-date">2026/5/16</span></div>
             <div class="week-meals">
               <div class="week-meal-card breakfast"><div class="week-meal-title">BREAKFAST<span>早餐</span></div><div class="week-tags"><span class="week-tag tag-soup">南瓜粥</span><span class="week-tag tag-staple">素包子</span><span class="week-tag tag-cold">凉拌木耳</span></div></div>
-              <div class="week-meal-card lunch"><div class="week-meal-title">LUNCH<span>中餐</span></div><div class="week-tags"><span class="week-tag tag-main">宫保鸡丁</span><span class="week-tag tag-side">木耳肉片</span><span class="week-tag tag-veg">红烧茄子</span><span class="week-tag tag-staple">南瓜饭</span></div></div>
+              <div class="week-meal-card lunch"><div class="week-meal-title">LUNCH<span>午餐</span></div><div class="week-tags"><span class="week-tag tag-main">宫保鸡丁</span><span class="week-tag tag-side">木耳肉片</span><span class="week-tag tag-veg">红烧茄子</span><span class="week-tag tag-staple">南瓜饭</span></div></div>
               <div class="week-meal-card dinner"><div class="week-meal-title">DINNER<span>晚餐</span></div><div class="week-tags"><span class="week-tag tag-main">回锅肉</span><span class="week-tag tag-veg">蒜蓉丝瓜</span><span class="week-tag tag-soup">冬瓜汤</span></div></div>
             </div>
           </div>
@@ -1442,7 +1447,7 @@
             <div class="week-day-bar"><span>周日</span><span class="week-date">2026/5/17</span></div>
             <div class="week-meals">
               <div class="week-meal-card breakfast"><div class="week-meal-title">BREAKFAST<span>早餐</span></div><div class="week-tags"><span class="week-tag tag-soup">银耳羹</span><span class="week-tag tag-staple">玉米棒</span><span class="week-tag tag-veg">清炒小白菜</span></div></div>
-              <div class="week-meal-card lunch"><div class="week-meal-title">LUNCH<span>中餐</span></div><div class="week-tags"><span class="week-tag tag-main">清蒸鱼</span><span class="week-tag tag-side">冬瓜虾仁</span><span class="week-tag tag-veg">清炒山药</span><span class="week-tag tag-staple">玉米饭</span></div></div>
+              <div class="week-meal-card lunch"><div class="week-meal-title">LUNCH<span>午餐</span></div><div class="week-tags"><span class="week-tag tag-main">清蒸鱼</span><span class="week-tag tag-side">冬瓜虾仁</span><span class="week-tag tag-veg">清炒山药</span><span class="week-tag tag-staple">玉米饭</span></div></div>
               <div class="week-meal-card dinner"><div class="week-meal-title">DINNER<span>晚餐</span></div><div class="week-tags"><span class="week-tag tag-main">黑椒牛柳</span><span class="week-tag tag-veg">腐竹烧木耳</span><span class="week-tag tag-soup">小米粥</span></div></div>
             </div>
           </div>
@@ -1451,7 +1456,7 @@
             <div class="week-day-bar"><span>周一</span><span class="week-date">2026/5/18</span></div>
             <div class="week-meals">
               <div class="week-meal-card breakfast"><div class="week-meal-title">BREAKFAST<span>早餐</span></div><div class="week-tags"><span class="week-tag tag-soup">绿豆汤</span><span class="week-tag tag-staple">紫薯</span><span class="week-tag tag-cold">酸辣藕片</span></div></div>
-              <div class="week-meal-card lunch"><div class="week-meal-title">LUNCH<span>中餐</span></div><div class="week-tags"><span class="week-tag tag-main">土豆炖牛肉</span><span class="week-tag tag-side">香菇鸡丁</span><span class="week-tag tag-veg">酸辣土豆丝</span><span class="week-tag tag-staple">白米饭</span></div></div>
+              <div class="week-meal-card lunch"><div class="week-meal-title">LUNCH<span>午餐</span></div><div class="week-tags"><span class="week-tag tag-main">土豆炖牛肉</span><span class="week-tag tag-side">香菇鸡丁</span><span class="week-tag tag-veg">酸辣土豆丝</span><span class="week-tag tag-staple">白米饭</span></div></div>
               <div class="week-meal-card dinner"><div class="week-meal-title">DINNER<span>晚餐</span></div><div class="week-tags"><span class="week-tag tag-main">照烧鸡排</span><span class="week-tag tag-veg">清炒西葫芦</span><span class="week-tag tag-soup">菌菇汤</span></div></div>
             </div>
           </div>
@@ -1460,7 +1465,7 @@
             <div class="week-day-bar"><span>周二</span><span class="week-date">2026/5/19</span></div>
             <div class="week-meals">
               <div class="week-meal-card breakfast"><div class="week-meal-title">BREAKFAST<span>早餐</span></div><div class="week-tags"><span class="week-tag tag-soup">红豆汤</span><span class="week-tag tag-staple">杂粮饭团</span><span class="week-tag tag-veg">香干芹菜</span></div></div>
-              <div class="week-meal-card lunch"><div class="week-meal-title">LUNCH<span>中餐</span></div><div class="week-tags"><span class="week-tag tag-main">黄焖鸡</span><span class="week-tag tag-side">芹菜牛肉丝</span><span class="week-tag tag-veg">双菇扒菜心</span><span class="week-tag tag-staple">杂粮饭</span></div></div>
+              <div class="week-meal-card lunch"><div class="week-meal-title">LUNCH<span>午餐</span></div><div class="week-tags"><span class="week-tag tag-main">黄焖鸡</span><span class="week-tag tag-side">芹菜牛肉丝</span><span class="week-tag tag-veg">双菇扒菜心</span><span class="week-tag tag-staple">杂粮饭</span></div></div>
               <div class="week-meal-card dinner"><div class="week-meal-title">DINNER<span>晚餐</span></div><div class="week-tags"><span class="week-tag tag-main">油焖大虾</span><span class="week-tag tag-veg">木耳炒山药</span><span class="week-tag tag-soup">南瓜粥</span></div></div>
             </div>
           </div>
@@ -1469,7 +1474,7 @@
             <div class="week-day-bar"><span>周三</span><span class="week-date">2026/5/20</span></div>
             <div class="week-meals">
               <div class="week-meal-card breakfast"><div class="week-meal-title">BREAKFAST<span>早餐</span></div><div class="week-tags"><span class="week-tag tag-soup">菌菇汤</span><span class="week-tag tag-staple">葱油饼</span><span class="week-tag tag-veg">蒜蓉油麦菜</span></div></div>
-              <div class="week-meal-card lunch"><div class="week-meal-title">LUNCH<span>中餐</span></div><div class="week-tags"><span class="week-tag tag-main">酸菜鱼</span><span class="week-tag tag-side">豆角肉末</span><span class="week-tag tag-veg">莲藕炒荷兰豆</span><span class="week-tag tag-staple">花卷</span></div></div>
+              <div class="week-meal-card lunch"><div class="week-meal-title">LUNCH<span>午餐</span></div><div class="week-tags"><span class="week-tag tag-main">酸菜鱼</span><span class="week-tag tag-side">豆角肉末</span><span class="week-tag tag-veg">莲藕炒荷兰豆</span><span class="week-tag tag-staple">花卷</span></div></div>
               <div class="week-meal-card dinner"><div class="week-meal-title">DINNER<span>晚餐</span></div><div class="week-tags"><span class="week-tag tag-main">红焖羊肉</span><span class="week-tag tag-veg">香菇菜心</span><span class="week-tag tag-soup">银耳羹</span></div></div>
             </div>
           </div>
@@ -1643,11 +1648,9 @@
     }
 
     function syncPickerColor(dish) {
-      const row = dish.closest(".course-row");
-      const style = getComputedStyle(row);
-      dishPicker.style.setProperty("--picker-accent", style.getPropertyValue("--course-accent").trim());
-      dishPicker.style.setProperty("--picker-accent-strong", style.getPropertyValue("--course-accent-strong").trim());
-      dishPicker.style.setProperty("--picker-accent-soft", style.getPropertyValue("--course-accent-soft").trim());
+      dishPicker.style.setProperty("--picker-accent", "#d8e5a9");
+      dishPicker.style.setProperty("--picker-accent-strong", "#7a8a35");
+      dishPicker.style.setProperty("--picker-accent-soft", "rgba(216, 229, 169, .28)");
     }
 
     function renderGroupOptions(activeGroup) {

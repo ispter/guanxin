@@ -470,7 +470,9 @@
         <div class="menu-title"><span class="menu-icon book" aria-hidden="true"></span>菜谱搭配<span class="chev down"></span></div>
         <div class="menu-children">
           <a class="menu-item" href="page01.html">搭配菜谱</a>
-          <a class="menu-item" href="page04.html">食材统计</a>
+          <a class="menu-item" href="page10.html">我的菜谱</a>
+          <a class="menu-item" href="page04.html">营养分析</a>
+          <a class="menu-item" href="page11.html">食材统计</a>
         </div>
       </div>
       <div class="menu-group">
@@ -511,12 +513,12 @@
 
         <section class="section">
           <div class="section-title">小料设置</div>
-          <div class="seasoning-material-grid" id="smallMaterialGrid"></div>
+          <div class="material-grid" id="smallMaterialGrid"></div>
         </section>
 
         <section class="section">
           <div class="section-title">调料设置</div>
-          <div class="seasoning-material-grid" id="seasoningGrid"></div>
+          <div class="material-grid" id="seasoningGrid"></div>
         </section>
 
         <section class="section">
@@ -561,13 +563,13 @@
         grid: smallMaterialGrid,
         label: "小料",
         addText: "添加小料",
-        weighted: false
+        weighted: true
       },
       {
         grid: seasoningGrid,
         label: "调料",
         addText: "添加调料",
-        weighted: false
+        weighted: true
       }
     ].map((section) => ({
       ...section,
@@ -650,6 +652,76 @@
       processGrid.appendChild(addProcessButton);
     }
 
+    const dishDesigns = {
+      佛跳墙: {
+        main: [["鲍鱼",120],["海参",100],["鱼翅",80]],
+        side: [["花菇",60],["鸽蛋",80],["猪蹄筋",100]],
+        small: [["生姜",12],["香葱",8],["蒜",10]],
+        seasoning: [["花雕酒",25],["高汤",300],["盐",6]],
+        processes: ["准备砂锅、蒸盅及高汤", "鲍鱼、海参等食材洗净泡发", "主料分别焯水去腥", "食材分层放入蒸盅并加入高汤", "密封后小火慢炖至入味"]
+      },
+      红烧肉: {
+        main: [["猪五花肉",500],["冰糖",30]],
+        side: [["鹌鹑蛋",120],["香菇",80]],
+        small: [["生姜",15],["香葱",10],["八角",4]],
+        seasoning: [["生抽",25],["老抽",10],["料酒",20],["盐",5]],
+        processes: ["准备炒锅、汤锅及称量工具", "五花肉洗净切块，冷水下锅焯水", "冰糖炒出糖色后放入五花肉翻炒", "加入小料、调料和清水，小火焖煮", "大火收汁并调整咸甜口味"]
+      }
+    };
+
+    function fillMaterialSection(section, values) {
+      while (section.grid.querySelectorAll(".material-item").length < values.length) {
+        appendMaterial(section);
+      }
+      const items = Array.from(section.grid.querySelectorAll(".material-item"));
+      items.forEach((item, index) => {
+        const inputs = item.querySelectorAll("input");
+        inputs[0].value = values[index]?.[0] || "";
+        inputs[1].value = values[index]?.[1] || "";
+      });
+    }
+
+    function applyEditState() {
+      const editName = new URLSearchParams(window.location.search).get("edit");
+      if (!editName) return;
+      const storedDesigns = JSON.parse(localStorage.getItem("dishDesigns") || "{}");
+      const design = storedDesigns[editName] || dishDesigns[editName];
+      const displayName = design?.name || editName;
+      document.querySelector("#dishName").value = displayName;
+      document.querySelector(".page-title").textContent = `我的菜品 / 编辑菜品 / ${displayName}`;
+      document.querySelector(".bottom-actions .primary-always").textContent = "保存修改";
+      if (!design) return;
+      fillMaterialSection(materialSections[0], design.main);
+      fillMaterialSection(materialSections[1], design.side);
+      fillMaterialSection(materialSections[2], design.small);
+      fillMaterialSection(materialSections[3], design.seasoning);
+      const textareas = processGrid.querySelectorAll("textarea");
+      design.processes.forEach((text, index) => {
+        if (textareas[index]) textareas[index].value = text;
+      });
+    }
+
+    document.querySelector(".bottom-actions .primary-always").addEventListener("click", () => {
+      const originalName = new URLSearchParams(window.location.search).get("edit");
+      if (!originalName) return;
+      const readSection = (section) => Array.from(section.grid.querySelectorAll(".material-item")).map((item) => {
+        const inputs = item.querySelectorAll("input");
+        return [inputs[0].value.trim(), Number(inputs[1].value) || 0];
+      }).filter((item) => item[0]);
+      const storedDesigns = JSON.parse(localStorage.getItem("dishDesigns") || "{}");
+      storedDesigns[originalName] = {
+        name: document.querySelector("#dishName").value.trim() || originalName,
+        main: readSection(materialSections[0]),
+        side: readSection(materialSections[1]),
+        small: readSection(materialSections[2]),
+        seasoning: readSection(materialSections[3]),
+        processes: Array.from(processGrid.querySelectorAll("textarea")).map((textarea) => textarea.value.trim()),
+        updatedLabel: new Date().toLocaleDateString("zh-CN", { year:"numeric", month:"long", day:"numeric" })
+      };
+      localStorage.setItem("dishDesigns", JSON.stringify(storedDesigns));
+      window.location.href = "page06.html";
+    });
+
     materialSections.forEach((section) => {
       section.addButton.addEventListener("click", () => appendMaterial(section));
     });
@@ -670,6 +742,7 @@
     });
 
     renderInitialFields();
+    applyEditState();
   </script>
 </body>
 </html>

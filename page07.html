@@ -468,10 +468,28 @@
     .profile-avatar {
       width: 118px;
       height: 118px;
+      display: block;
       border-radius: 50%;
       background: #d8d2cc;
       border: 1px solid #ead5c2;
       box-shadow: inset 0 0 0 6px rgba(255, 255, 255, .42);
+      object-fit: cover;
+    }
+
+    .avatar-upload-input {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+
+    .avatar-upload-note {
+      margin-top: 8px;
+      color: #8a827a;
+      font-size: 12px;
     }
 
     .info-table {
@@ -530,7 +548,9 @@
         <div class="menu-title"><span class="menu-icon book" aria-hidden="true"></span>菜谱搭配<span class="chev down"></span></div>
         <div class="menu-children">
           <a class="menu-item" href="page01.html">搭配菜谱</a>
-          <a class="menu-item" href="page04.html">食材统计</a>
+          <a class="menu-item" href="page10.html">我的菜谱</a>
+          <a class="menu-item" href="page04.html">营养分析</a>
+          <a class="menu-item" href="page11.html">食材统计</a>
         </div>
       </div>
       <div class="menu-group">
@@ -556,8 +576,12 @@
       <div class="account-wrap">
         <section class="account-card" aria-label="帐户基本信息">
           <div class="profile-row">
-            <div class="profile-avatar" aria-hidden="true"></div>
-            <button class="btn" type="button">更换头像</button>
+            <img class="profile-avatar" id="profileAvatar" src="images/person.png" alt="当前头像">
+            <div>
+              <button class="btn" id="changeAvatar" type="button">更换头像</button>
+              <input class="avatar-upload-input" id="avatarUpload" type="file" accept="image/png,image/jpeg,image/webp,image/gif">
+              <div class="avatar-upload-note" id="avatarUploadNote">支持 JPG、PNG、WebP、GIF，图片不超过 2MB</div>
+            </div>
           </div>
 
           <table class="info-table">
@@ -584,6 +608,43 @@
   </div>
 
   <script>
+    const avatarUpload = document.querySelector("#avatarUpload");
+    const profileAvatar = document.querySelector("#profileAvatar");
+    const topAvatar = document.querySelector(".avatar-img");
+    const avatarUploadNote = document.querySelector("#avatarUploadNote");
+    const storedAvatar = localStorage.getItem("userAvatar");
+    if (storedAvatar) {
+      profileAvatar.src = storedAvatar;
+      topAvatar.src = storedAvatar;
+    }
+
+    document.querySelector("#changeAvatar").addEventListener("click", () => {
+      avatarUpload.value = "";
+      avatarUpload.click();
+    });
+
+    avatarUpload.addEventListener("change", () => {
+      const file = avatarUpload.files[0];
+      if (!file) return;
+      if (!file.type.startsWith("image/")) {
+        avatarUploadNote.textContent = "请选择有效的图片文件";
+        return;
+      }
+      if (file.size > 2 * 1024 * 1024) {
+        avatarUploadNote.textContent = "图片超过 2MB，请选择更小的图片";
+        return;
+      }
+      const reader = new FileReader();
+      reader.addEventListener("load", () => {
+        const imageData = reader.result;
+        profileAvatar.src = imageData;
+        topAvatar.src = imageData;
+        localStorage.setItem("userAvatar", imageData);
+        avatarUploadNote.textContent = "头像已更新";
+      });
+      reader.readAsDataURL(file);
+    });
+
     document.querySelectorAll(".menu-title").forEach((title) => {
       title.addEventListener("click", () => {
         title.closest(".menu-group").classList.toggle("collapsed");

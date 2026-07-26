@@ -404,6 +404,16 @@
       text-align: center;
     }
 
+    .diners-label {
+      justify-self: end;
+      margin-right: -10px;
+    }
+
+    .toolbar-range {
+      color: #7d7168;
+      font-size: 14px;
+    }
+
     input.input,
     select.input {
       font: inherit;
@@ -460,6 +470,44 @@
       background: linear-gradient(#f7b84b, #f0a51f);
       box-shadow: 0 2px 8px rgba(203, 139, 22, .24);
       outline: 0;
+    }
+
+    .save-recipe-btn {
+      border: 1px solid #ef941c;
+      border-radius: 4px;
+      padding: 7px 18px;
+      color: #fff;
+      background: linear-gradient(180deg, #ffb23e, #f39a19);
+      box-shadow: 0 2px 5px rgba(193, 110, 16, .18);
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .save-recipe-btn:hover,
+    .save-recipe-btn:focus-visible {
+      background: linear-gradient(180deg, #ffba4e, #ec8e0d);
+      outline: 2px solid rgba(245, 166, 35, .22);
+    }
+
+    .save-toast {
+      position: fixed;
+      right: 28px;
+      top: 84px;
+      z-index: 50;
+      padding: 12px 20px;
+      border-radius: 6px;
+      color: #fff;
+      background: rgba(63, 146, 104, .96);
+      box-shadow: 0 8px 24px rgba(55, 91, 69, .2);
+      transform: translateY(-12px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .2s ease, transform .2s ease;
+    }
+
+    .save-toast.show {
+      transform: translateY(0);
+      opacity: 1;
     }
 
     .editor {
@@ -677,11 +725,12 @@
     }
 
     .dish {
+      position: relative;
       height: 31px;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 0 8px;
+      padding: 0 28px 0 8px;
       border: 1px solid #dcd7cd;
       border-radius: 5px;
       color: #77716a;
@@ -708,6 +757,36 @@
       background: #fbfbe9;
       box-shadow: 0 1px 5px rgba(120, 95, 60, .1);
       font-weight: 800;
+    }
+
+    .dish-name-label {
+      display: block;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .dish-remove {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      width: 22px;
+      height: 22px;
+      padding: 0;
+      border: 0;
+      border-radius: 50%;
+      color: #879642;
+      background: transparent;
+      font-size: 17px;
+      line-height: 21px;
+      cursor: pointer;
+    }
+
+    .dish-remove:hover,
+    .dish-remove:focus-visible {
+      color: #fff;
+      background: #a9b966;
+      outline: 0;
     }
 
     .add {
@@ -761,6 +840,27 @@
       scrollbar-color: #e0c5a6 #fff8ef;
     }
 
+    .nutrition-legend {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin: -2px 0 8px;
+      color: #837a72;
+      font-size: 11px;
+    }
+
+    .nutrition-legend i {
+      width: 8px;
+      height: 8px;
+      display: inline-block;
+      margin-right: 4px;
+      border-radius: 50%;
+      background: #9fb45d;
+    }
+
+    .nutrition-legend .low i { background: #5f9fbd; }
+    .nutrition-legend .high i { background: #d46b45; }
+
     .nutrition-list::-webkit-scrollbar {
       width: 8px;
     }
@@ -789,7 +889,7 @@
       height: 6px;
       margin-top: 9px;
       border-radius: 8px;
-      background: #dedede;
+      background: #edf1de;
       overflow: hidden;
     }
 
@@ -798,7 +898,15 @@
       height: 100%;
       width: var(--w);
       border-radius: inherit;
-      background: linear-gradient(90deg, #ff9b25, #ff6c10);
+      background: linear-gradient(90deg, #d8e5a9, #9fb45d);
+    }
+
+    .nutri-item.low .bar span {
+      background: linear-gradient(90deg, #a9d8e8, #5f9fbd);
+    }
+
+    .nutri-item.high .bar span {
+      background: linear-gradient(90deg, #eeaa86, #d46b45);
     }
 
     .stats {
@@ -1113,9 +1221,9 @@
     }
 
     .dish-picker {
-      --picker-accent: #ff7b24;
-      --picker-accent-strong: #d96216;
-      --picker-accent-soft: rgba(255, 123, 36, .16);
+      --picker-accent: #d8e5a9;
+      --picker-accent-strong: #7a8a35;
+      --picker-accent-soft: rgba(216, 229, 169, .28);
       position: fixed;
       z-index: 20;
       display: none;
@@ -1176,15 +1284,16 @@
       overflow-y: auto;
       padding: 0 12px 12px;
       border-right: 1px solid #efe5d8;
-      background: #fff8f2;
+      background: #fffef7;
     }
 
     .picker-group-title {
       padding: 14px 12px 10px;
       border-right: 1px solid #efe5d8;
       color: var(--picker-accent-strong);
-      background: #fff4eb;
+      background: #fbfbe9;
       font-weight: 800;
+      text-align: center;
     }
 
     .meat-btn {
@@ -1192,19 +1301,22 @@
       min-height: 38px;
       margin-bottom: 8px;
       padding: 0 8px;
-      border: 1px solid #ead0b8;
+      border: 1px solid #e0e8b8;
       border-radius: 5px;
-      color: #A75D26;
-      background: #FFFAF2;
+      color: #7a8a35;
+      background: #fffef7;
       font-weight: 800;
       cursor: pointer;
     }
 
+    .meat-btn:hover,
+    .meat-btn:focus-visible,
     .meat-btn.active {
-      color: #A75D26;
-      border-color: #d7965d;
-      background: #ffe5cf;
-      box-shadow: 0 2px 6px rgba(167, 93, 38, .16), inset 0 0 0 1px rgba(167, 93, 38, .18);
+      color: #7a8a35;
+      border-color: #d8e5a9;
+      background: #fbfbe9;
+      box-shadow: 0 2px 6px rgba(122, 138, 53, .12), inset 0 0 0 1px rgba(122, 138, 53, .12);
+      outline: 0;
     }
 
     .dish-list {
@@ -1248,10 +1360,10 @@
     .recipe-btn {
       min-height: 40px;
       padding: 0 8px;
-      border: 1px solid #ead0b8;
+      border: 1px solid #e0e8b8;
       border-radius: 5px;
       color: #6b4d35;
-      background: #FFFAF2;
+      background: #fffef7;
       font-weight: 800;
       cursor: pointer;
       white-space: nowrap;
@@ -1272,11 +1384,11 @@
       display: none;
       width: 268px;
       padding: 12px 14px;
-      border: 1px solid var(--picker-accent, #ff7b24);
+      border: 1px solid var(--picker-accent, #d8e5a9);
       border-radius: 6px;
       color: #514942;
       background: #fffdf9;
-      box-shadow: 0 10px 28px rgba(74, 49, 27, .18), 0 0 0 3px var(--picker-accent-soft, rgba(255, 123, 36, .16));
+      box-shadow: 0 10px 28px rgba(74, 49, 27, .18), 0 0 0 3px var(--picker-accent-soft, rgba(216, 229, 169, .28));
       pointer-events: none;
       font-size: 12px;
       line-height: 1.55;
@@ -1289,12 +1401,114 @@
     .recipe-hover-card strong {
       display: block;
       margin-bottom: 6px;
-      color: var(--picker-accent-strong, #d96216);
+      color: var(--picker-accent-strong, #7a8a35);
       font-size: 14px;
     }
 
     .recipe-hover-card span {
       display: block;
+    }
+
+    .saved-recipe-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 39;
+      display: none;
+      background: rgba(53, 42, 31, .18);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+    }
+
+    .saved-recipe-backdrop.open {
+      display: block;
+    }
+
+    .saved-recipe-dialog {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      z-index: 40;
+      display: none;
+      width: min(720px, calc(100vw - 36px));
+      transform: translate(-50%, -50%);
+      overflow: hidden;
+      border: 1px solid #d8e5a9;
+      border-radius: 6px;
+      background: #fffdf9;
+      box-shadow: 0 12px 30px rgba(128, 75, 22, .16), 0 0 0 3px rgba(216, 229, 169, .28);
+    }
+
+    .saved-recipe-dialog.open {
+      display: block;
+    }
+
+    .saved-recipe-head {
+      height: 54px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 18px 0 22px;
+      color: #7a8a35;
+      background: linear-gradient(90deg, rgba(255, 255, 255, .96), rgba(216, 229, 169, .28));
+      border-bottom: 1px solid #efdfcd;
+      font-weight: 800;
+    }
+
+    .saved-recipe-close {
+      width: 30px;
+      height: 30px;
+      border: 1px solid #d8e5a9;
+      border-radius: 4px;
+      color: #7a8a35;
+      background: #fffaf3;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    .saved-recipe-list {
+      max-height: 420px;
+      overflow-y: auto;
+      padding: 16px;
+    }
+
+    .saved-recipe-item {
+      display: grid;
+      grid-template-columns: 180px 80px 1fr 76px;
+      align-items: center;
+      gap: 12px;
+      padding: 14px;
+      border-bottom: 1px solid #eee7dc;
+    }
+
+    .saved-recipe-item:last-child {
+      border-bottom: 0;
+    }
+
+    .saved-recipe-name {
+      color: #5d5148;
+      font-weight: 800;
+    }
+
+    .saved-recipe-meal {
+      color: #7a8a35;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .saved-recipe-dishes {
+      color: #7a7169;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .recall-btn {
+      height: 32px;
+      border: 1px solid #d8e5a9;
+      border-radius: 5px;
+      color: #7a8a35;
+      background: #fbfbe9;
+      font-weight: 800;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -1318,7 +1532,9 @@
         <div class="menu-title"><span class="menu-icon book" aria-hidden="true"></span>菜谱搭配<span class="chev down"></span></div>
         <div class="menu-children">
           <div class="menu-item active" id="recipeMenuHome" role="button" tabindex="0">搭配菜谱</div>
-          <a class="menu-item" href="page04.html">食材统计</a>
+          <a class="menu-item" href="page10.html">我的菜谱</a>
+          <a class="menu-item" href="page04.html">营养分析</a>
+          <a class="menu-item" href="page11.html">食材统计</a>
         </div>
       </div>
       <div class="menu-group collapsed">
@@ -1356,10 +1572,10 @@
       </div>
 
       <section class="panel toolbar">
-        <span>选择起始日期：</span>
-        <input class="input" id="dateSelect" type="date" value="2026-05-14" aria-label="选择起始日期">
-        <span></span>
-        <span>就餐人数</span>
+        <span id="dateSelectLabel">选择起始时间：</span>
+        <input class="input" id="dateSelect" type="date" value="2026-05-14" aria-label="选择日期">
+        <strong class="toolbar-range" id="toolbarRange">2026-05-14 至 2026-05-20</strong>
+        <span class="diners-label">就餐人数</span>
         <input class="input small" type="number" min="1" value="100" aria-label="就餐人数">
         <button class="ai-btn" type="button">AI推荐</button>
       </section>
@@ -1372,17 +1588,19 @@
             <line x1="3.25" y1="6.28" x2="8.81" y2="6.28"/>
             <line x1="3.25" y1="10.25" x2="12.66" y2="10.25"/>
           </svg>
-          <span>正在编辑： <b class="editing-meta" id="editDate">2026/5/14</b>&nbsp;&nbsp;<b class="editing-meta" id="mealName">中餐</b></span>
+          <span>正在编辑： <b class="editing-meta" id="editDate">2026/5/14</b>&nbsp;&nbsp;<b class="editing-meta" id="mealName">午餐</b></span>
         </div>
 
         <div class="tabs-actions">
           <div class="tabs" id="mealTabs" role="tablist" aria-label="餐次选择">
             <button class="tab" type="button" role="tab" aria-selected="false" data-meal="早餐">早餐</button>
-            <button class="tab active" type="button" role="tab" aria-selected="true" data-meal="中餐">中餐</button>
+            <button class="tab active" type="button" role="tab" aria-selected="true" data-meal="午餐">午餐</button>
             <button class="tab" type="button" role="tab" aria-selected="false" data-meal="晚餐">晚餐</button>
           </div>
           <div class="action-row">
             <button class="ghost-btn" type="button" id="resetMenu">重置</button>
+            <button class="ghost-btn" type="button" id="recallRecipe">调用我的菜谱</button>
+            <button class="save-recipe-btn" type="button" id="saveRecipe">保存到我的菜谱</button>
           </div>
         </div>
 
@@ -1440,24 +1658,25 @@
 
           <aside class="nutrition">
             <h3>当天营养含量</h3>
+            <div class="nutrition-legend" aria-label="营养状态颜色说明"><span class="low"><i></i>偏低</span><span><i></i>适宜</span><span class="high"><i></i>偏高</span></div>
             <div class="nutrition-list">
-              <div class="nutri-item">能量<strong>3118.1kcal</strong><div class="bar"><span style="--w:96%"></span></div></div>
-              <div class="nutri-item">蛋白质<strong>99.4g</strong><div class="bar"><span style="--w:18%"></span></div></div>
-              <div class="nutri-item">脂肪<strong>8g</strong><div class="bar"><span style="--w:8%"></span></div></div>
-              <div class="nutri-item">碳水化合物<strong>672.9g</strong><div class="bar"><span style="--w:38%"></span></div></div>
-              <div class="nutri-item">膳食纤维<strong>28.6g</strong><div class="bar"><span style="--w:82%"></span></div></div>
-              <div class="nutri-item">钙<strong>218.9mg</strong><div class="bar"><span style="--w:42%"></span></div></div>
-              <div class="nutri-item">铁<strong>20.8mg</strong><div class="bar"><span style="--w:99%"></span></div></div>
-              <div class="nutri-item">锌<strong>15.3mg</strong><div class="bar"><span style="--w:100%"></span></div></div>
-              <div class="nutri-item">钠<strong>19.2mg</strong><div class="bar"><span style="--w:12%"></span></div></div>
-              <div class="nutri-item">维生素A<strong>640ugRAE</strong><div class="bar"><span style="--w:71%"></span></div></div>
-              <div class="nutri-item">维生素B1<strong>1.1mg</strong><div class="bar"><span style="--w:79%"></span></div></div>
-              <div class="nutri-item">维生素B2<strong>1.2mg</strong><div class="bar"><span style="--w:86%"></span></div></div>
-              <div class="nutri-item">烟酸<strong>13.5mg</strong><div class="bar"><span style="--w:84%"></span></div></div>
-              <div class="nutri-item">维生素C<strong>86mg</strong><div class="bar"><span style="--w:86%"></span></div></div>
-              <div class="nutri-item">维生素D<strong>6.2ug</strong><div class="bar"><span style="--w:62%"></span></div></div>
-              <div class="nutri-item">维生素E<strong>12.4mg</strong><div class="bar"><span style="--w:83%"></span></div></div>
-              <div class="nutri-item">叶酸<strong>360ugDFE</strong><div class="bar"><span style="--w:90%"></span></div></div>
+              <div class="nutri-item high">能量<strong>3118.1kcal</strong><div class="bar"><span style="--w:96%"></span></div></div>
+              <div class="nutri-item high">蛋白质<strong>99.4g</strong><div class="bar"><span style="--w:100%"></span></div></div>
+              <div class="nutri-item low">脂肪<strong>8g</strong><div class="bar"><span style="--w:8%"></span></div></div>
+              <div class="nutri-item high">碳水化合物<strong>672.9g</strong><div class="bar"><span style="--w:100%"></span></div></div>
+              <div class="nutri-item normal">膳食纤维<strong>28.6g</strong><div class="bar"><span style="--w:82%"></span></div></div>
+              <div class="nutri-item low">钙<strong>218.9mg</strong><div class="bar"><span style="--w:42%"></span></div></div>
+              <div class="nutri-item high">铁<strong>20.8mg</strong><div class="bar"><span style="--w:99%"></span></div></div>
+              <div class="nutri-item high">锌<strong>15.3mg</strong><div class="bar"><span style="--w:100%"></span></div></div>
+              <div class="nutri-item low">钠<strong>19.2mg</strong><div class="bar"><span style="--w:12%"></span></div></div>
+              <div class="nutri-item normal">维生素A<strong>640ugRAE</strong><div class="bar"><span style="--w:71%"></span></div></div>
+              <div class="nutri-item normal">维生素B1<strong>1.1mg</strong><div class="bar"><span style="--w:79%"></span></div></div>
+              <div class="nutri-item normal">维生素B2<strong>1.2mg</strong><div class="bar"><span style="--w:86%"></span></div></div>
+              <div class="nutri-item normal">烟酸<strong>13.5mg</strong><div class="bar"><span style="--w:84%"></span></div></div>
+              <div class="nutri-item normal">维生素C<strong>86mg</strong><div class="bar"><span style="--w:86%"></span></div></div>
+              <div class="nutri-item low">维生素D<strong>6.2ug</strong><div class="bar"><span style="--w:62%"></span></div></div>
+              <div class="nutri-item normal">维生素E<strong>12.4mg</strong><div class="bar"><span style="--w:83%"></span></div></div>
+              <div class="nutri-item normal">叶酸<strong>360ugDFE</strong><div class="bar"><span style="--w:90%"></span></div></div>
             </div>
           </aside>
         </div>
@@ -1565,6 +1784,12 @@
   </div>
 
   <div class="recipe-hover-card" id="recipeHoverCard" aria-hidden="true"></div>
+  <div class="save-toast" id="saveToast" role="status" aria-live="polite">菜谱已保存，可在“我的菜谱”中查看</div>
+  <div class="saved-recipe-backdrop" id="savedRecipeBackdrop" aria-hidden="true"></div>
+  <div class="saved-recipe-dialog" id="savedRecipeDialog" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="savedRecipeTitle">
+    <div class="saved-recipe-head"><span id="savedRecipeTitle">调用我的菜谱</span><button class="saved-recipe-close" id="savedRecipeClose" type="button" aria-label="关闭">×</button></div>
+    <div class="saved-recipe-list" id="savedRecipeList"></div>
+  </div>
 
   <script>
     const mealTabs = document.querySelector("#mealTabs");
@@ -1573,6 +1798,8 @@
     const viewSwitcher = document.querySelector("#viewSwitcher");
     const viewButtons = Array.from(viewSwitcher.querySelectorAll(".view-btn"));
     const dateSelect = document.querySelector("#dateSelect");
+    const dateSelectLabel = document.querySelector("#dateSelectLabel");
+    const toolbarRange = document.querySelector("#toolbarRange");
     const weekRange = document.querySelector("#weekRange");
     const weekTableBody = document.querySelector("#weekTableBody");
     const weekDayLabels = Array.from(document.querySelectorAll("[data-week-day]"));
@@ -1683,6 +1910,14 @@
       soup: "tag-soup"
     };
     const mealPlans = JSON.parse(localStorage.getItem("mealPlans") || "{}");
+    Object.values(mealPlans).forEach((day) => {
+      const legacyLunch = "\u4e2d\u9910";
+      if (day?.[legacyLunch] && !day["午餐"]) {
+        day["午餐"] = day[legacyLunch];
+        delete day[legacyLunch];
+      }
+    });
+    localStorage.setItem("mealPlans", JSON.stringify(mealPlans));
     const weekMeals = [
       {
         name: "早餐",
@@ -1690,7 +1925,7 @@
         days: [[], [], [], [], [], [], []]
       },
       {
-        name: "中餐",
+        name: "午餐",
         key: "lunch",
         days: [[], [], [], [], [], [], []]
       },
@@ -1746,6 +1981,8 @@
       if (!targetButton) return;
       const index = viewButtons.indexOf(targetButton);
       const weekMode = view === "week";
+      dateSelectLabel.textContent = weekMode ? "选择起始时间：" : "选择日期：";
+      toolbarRange.hidden = !weekMode;
       viewSwitcher.style.setProperty("--view-index", index);
       mainContent.classList.toggle("is-week", weekMode);
       viewButtons.forEach((item) => {
@@ -1774,7 +2011,9 @@
       weekDateLabels.forEach((label, index) => {
         label.textContent = formatDateLoose(weekDates[index]);
       });
-      weekRange.textContent = `${formatDate(startDate, "-")} 至 ${formatDate(weekDates[6], "-")}`;
+      const rangeText = `${formatDate(startDate, "-")} 至 ${formatDate(weekDates[6], "-")}`;
+      weekRange.textContent = rangeText;
+      toolbarRange.textContent = rangeText;
       weekTableBody.innerHTML = weekMeals.map((meal) => {
         const cells = weekDates.map((date, index) => {
           const dateKey = formatDate(date, "-");
@@ -1832,6 +2071,7 @@
       const view = params.get("view");
       if (date) {
         dateSelect.value = date;
+        weekStartValue = date;
         editDate.textContent = formatDateLoose(parseMenuDate(date));
       }
       if (meal) {
@@ -1874,8 +2114,31 @@
       return row?.querySelector(".dish-area") || null;
     }
 
+    function clearDishRecipe(dish) {
+      dish.textContent = "菜品";
+      dish.classList.remove("selected");
+      dish.removeAttribute("title");
+      delete dish.dataset.recipe;
+      delete dish.dataset.tagClass;
+      updateIngredientStats();
+      syncCurrentMealToWeekView();
+    }
+
     function setDishRecipe(dish, recipe, tagClass) {
-      dish.textContent = recipe;
+      dish.textContent = "";
+      const label = document.createElement("span");
+      label.className = "dish-name-label";
+      label.textContent = recipe;
+      const remove = document.createElement("button");
+      remove.className = "dish-remove";
+      remove.type = "button";
+      remove.setAttribute("aria-label", `删除${recipe}`);
+      remove.textContent = "×";
+      remove.addEventListener("click", (event) => {
+        event.stopPropagation();
+        clearDishRecipe(dish);
+      });
+      dish.append(label, remove);
       dish.classList.add("selected");
       dish.title = recipe;
       dish.dataset.recipe = recipe;
@@ -1910,11 +2173,9 @@
     }
 
     function syncPickerColor(dish) {
-      const row = dish.closest(".course-row");
-      const style = getComputedStyle(row);
-      dishPicker.style.setProperty("--picker-accent", style.getPropertyValue("--course-accent").trim());
-      dishPicker.style.setProperty("--picker-accent-strong", style.getPropertyValue("--course-accent-strong").trim());
-      dishPicker.style.setProperty("--picker-accent-soft", style.getPropertyValue("--course-accent-soft").trim());
+      dishPicker.style.setProperty("--picker-accent", "#d8e5a9");
+      dishPicker.style.setProperty("--picker-accent-strong", "#7a8a35");
+      dishPicker.style.setProperty("--picker-accent-soft", "rgba(216, 229, 169, .28)");
     }
 
     function renderGroupOptions(activeGroup) {
@@ -2011,10 +2272,8 @@
         button.addEventListener("blur", hideRecipeHoverCard);
         button.addEventListener("click", () => {
           if (activeDish) {
-            activeDish.textContent = recipe;
-            activeDish.classList.add("selected");
+            setDishRecipe(activeDish, recipe, courseTagClasses[getCourseType(activeDish)]);
             activeDish.title = `${groupLabel} - ${recipe}`;
-            activeDish.dataset.recipe = recipe;
             updateIngredientStats();
             syncCurrentMealToWeekView();
           }
@@ -2040,9 +2299,17 @@
 
     function openDishPicker(dish) {
       activeDish = dish;
-      activePickerMenu = pickerMenus[getCourseType(dish)];
+      const courseType = getCourseType(dish);
+      activePickerMenu = pickerMenus[courseType];
       document.querySelector("#pickerTitle").textContent = activePickerMenu.title;
-      groupTitle.textContent = activePickerMenu.groupLabel;
+      groupTitle.textContent = {
+        main: "主荤",
+        side: "副荤",
+        veg: "素菜",
+        staple: "主食",
+        cold: "凉菜",
+        soup: "粥汤"
+      }[courseType];
       syncPickerColor(dish);
       const firstGroup = Object.keys(activePickerMenu.groups)[0];
       renderGroupOptions(firstGroup);
@@ -2100,8 +2367,12 @@
     });
 
     function attachDishPicker(dish) {
-      dish.addEventListener("click", () => openDishPicker(dish));
+      dish.addEventListener("click", (event) => {
+        if (event.target.closest(".dish-remove")) return;
+        openDishPicker(dish);
+      });
       dish.addEventListener("keydown", (event) => {
+        if (event.target.closest(".dish-remove")) return;
         if (event.key === "Enter" || event.key === " ") {
           event.preventDefault();
           openDishPicker(dish);
@@ -2167,11 +2438,125 @@
       switchView("week");
     });
 
+    const savedRecipeDialog = document.querySelector("#savedRecipeDialog");
+    const savedRecipeBackdrop = document.querySelector("#savedRecipeBackdrop");
+    const savedRecipeList = document.querySelector("#savedRecipeList");
+    const defaultSavedRecipes = [
+      {
+        id: "demo-breakfast",
+        name: "营养活力早餐搭配",
+        mealType: "早餐",
+        plans: { "组合": { "早餐": [["小米南瓜粥","tag-soup","soup"],["鲜肉包","tag-staple","staple"],["水煮鸡蛋","tag-side","side"],["凉拌黄瓜","tag-cold","cold"]] } }
+      },
+      {
+        id: "demo-lunch",
+        name: "家常均衡午餐搭配",
+        mealType: "午餐",
+        plans: { "组合": { "午餐": [["红烧肉","tag-main","main"],["西芹虾仁","tag-side","side"],["蒜蓉油麦菜","tag-veg","veg"],["白米饭","tag-staple","staple"],["番茄蛋花汤","tag-soup","soup"]] } }
+      }
+    ];
+
+    function getSavedRecipeItems(recipe, targetMeal) {
+      const days = Object.values(recipe.plans || {});
+      for (const day of days) {
+        if (day?.[targetMeal]?.length) return day[targetMeal];
+      }
+      for (const day of days) {
+        const firstMeal = Object.values(day || {}).find((items) => items?.length);
+        if (firstMeal) return firstMeal;
+      }
+      return [];
+    }
+
+    function closeSavedRecipes() {
+      savedRecipeDialog.classList.remove("open");
+      savedRecipeBackdrop.classList.remove("open");
+      savedRecipeDialog.setAttribute("aria-hidden", "true");
+      savedRecipeBackdrop.setAttribute("aria-hidden", "true");
+    }
+
+    function openSavedRecipes() {
+      const stored = JSON.parse(localStorage.getItem("savedRecipes") || "[]");
+      const recipes = stored.length ? stored : defaultSavedRecipes;
+      const targetMeal = mealName.textContent.trim();
+      savedRecipeList.innerHTML = "";
+      recipes.forEach((recipe) => {
+        const items = getSavedRecipeItems(recipe, targetMeal);
+        const row = document.createElement("div");
+        row.className = "saved-recipe-item";
+        const name = document.createElement("div");
+        name.className = "saved-recipe-name";
+        name.textContent = recipe.name;
+        const meal = document.createElement("div");
+        meal.className = "saved-recipe-meal";
+        meal.textContent = recipe.mealType || targetMeal;
+        const dishes = document.createElement("div");
+        dishes.className = "saved-recipe-dishes";
+        dishes.textContent = items.map((item) => item[0]).join("、") || "暂无菜品";
+        const recall = document.createElement("button");
+        recall.className = "recall-btn";
+        recall.type = "button";
+        recall.textContent = "调用";
+        recall.disabled = !items.length;
+        recall.addEventListener("click", () => {
+          const dateKey = formatDate(parseMenuDate(dateSelect.value), "-");
+          mealPlans[dateKey] = {
+            ...mealPlans[dateKey],
+            [targetMeal]: items.map(([dish, tagClass, courseType]) => [
+              dish,
+              tagClass || courseTagClasses[courseType] || "tag-veg",
+              courseType || "veg"
+            ])
+          };
+          localStorage.setItem("mealPlans", JSON.stringify(mealPlans));
+          loadCurrentMealIntoEditor();
+          renderWeekView();
+          closeSavedRecipes();
+        });
+        row.append(name, meal, dishes, recall);
+        savedRecipeList.appendChild(row);
+      });
+      savedRecipeDialog.classList.add("open");
+      savedRecipeBackdrop.classList.add("open");
+      savedRecipeDialog.setAttribute("aria-hidden", "false");
+      savedRecipeBackdrop.setAttribute("aria-hidden", "false");
+    }
+
+    document.querySelector("#recallRecipe").addEventListener("click", openSavedRecipes);
+    document.querySelector("#savedRecipeClose").addEventListener("click", closeSavedRecipes);
+    savedRecipeBackdrop.addEventListener("click", closeSavedRecipes);
+
     document.querySelector("#resetMenu").addEventListener("click", () => {
       closeDishPicker();
       document.querySelectorAll(".dish-area").forEach(fillDefaultDishArea);
       updateIngredientStats();
       syncCurrentMealToWeekView();
+    });
+
+    document.querySelector("#saveRecipe").addEventListener("click", () => {
+      syncCurrentMealToWeekView();
+      const savedRecipes = JSON.parse(localStorage.getItem("savedRecipes") || "[]");
+      const startDate = parseMenuDate(weekStartValue);
+      const endDate = addDays(startDate, 6);
+      const recipe = {
+        id: `recipe-${Date.now()}`,
+        name: `${formatDate(startDate, ".")}—${formatDate(endDate, ".")} 周菜谱`,
+        startDate: formatDate(startDate, "-"),
+        endDate: formatDate(endDate, "-"),
+        diners: Number(document.querySelector('input[aria-label="就餐人数"]').value) || 1,
+        plans: Object.fromEntries(
+          Array.from({ length: 7 }, (_, index) => {
+            const dateKey = formatDate(addDays(startDate, index), "-");
+            return [dateKey, mealPlans[dateKey] || {}];
+          })
+        ),
+        updatedAt: new Date().toISOString()
+      };
+      savedRecipes.unshift(recipe);
+      localStorage.setItem("savedRecipes", JSON.stringify(savedRecipes));
+      const toast = document.querySelector("#saveToast");
+      toast.classList.add("show");
+      window.setTimeout(() => toast.classList.remove("show"), 2400);
     });
 
     pickerClose.addEventListener("click", closeDishPicker);
@@ -2187,6 +2572,10 @@
     });
 
     document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && savedRecipeDialog.classList.contains("open")) {
+        closeSavedRecipes();
+        return;
+      }
       if (event.key === "Escape" && dishPicker.classList.contains("open")) {
         closeDishPicker();
       }
